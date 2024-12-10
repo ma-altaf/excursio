@@ -11,6 +11,10 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        accent: "var(--accent)",
+      },
+      padding: {
+        button: "0.5rem 1rem",
       },
     },
   },
