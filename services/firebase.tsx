@@ -6,7 +6,12 @@ import {
   GoogleAuthProvider,
   signOut,
   signInWithPopup,
+  UserCredential,
+  sendSignInLinkToEmail,
+  isSignInWithEmailLink,
+  signInWithEmailLink,
 } from "firebase/auth";
+import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_API_KEY,
@@ -20,14 +25,27 @@ const firebaseConfig = {
 
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);
+export const db = getFirestore(app);
 // export const analytics = getAnalytics(app);
 
 export const auth = getAuth(app);
 
+async function createNewUser(userCred: UserCredential) {
+  const docRef = doc(db, `user/${userCred.user.uid}`);
+
+  if (!(await getDoc(docRef)).exists()) {
+    // create document
+    await setDoc(docRef, {
+      uid: userCred.user.uid,
+      username: userCred.user.displayName,
+    });
+  }
+}
+
 export async function signWithAnonymous() {
   try {
-    await signInAnonymously(auth);
-    console.log("signed in successfully");
+    const userCred = await signInAnonymously(auth);
+    await createNewUser(userCred);
   } catch (error) {
     console.log(error);
   }
@@ -36,10 +54,53 @@ export async function signWithAnonymous() {
 export async function signWithGoogle() {
   const provider = new GoogleAuthProvider();
   try {
-    await signInWithPopup(auth, provider);
+    const userCred = await signInWithPopup(auth, provider);
+    await createNewUser(userCred);
   } catch (error) {
     console.log(error);
   }
+}
+
+export async function sendEmailSignLink(email: string, redirectUrl: string) {
+  console.log(email);
+
+  const actionCodeSettings = {
+    url: `${process.env.NEXT_PUBLIC_URL}/signin/email/signup?redirectUrl=${redirectUrl}`,
+    handleCodeInApp: true,
+  };
+
+  try {
+    await sendSignInLinkToEmail(auth, email, actionCodeSettings);
+    window.localStorage.setItem("emailForSignIn", email);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function completeEmailSignUp(): Promise<boolean> {
+  if (isSignInWithEmailLink(auth, window.location.href)) {
+    let email = window.localStorage.getItem("emailForSignIn");
+
+    if (!email) {
+      email = window.prompt("Please provide your email for confirmation") || "";
+      return false;
+    }
+
+    try {
+      const userCred = await signInWithEmailLink(
+        auth,
+        email,
+        window.location.href
+      );
+      await createNewUser(userCred);
+      window.localStorage.removeItem("emailForSignIn");
+      return true;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  return false;
 }
 
 export async function logOut() {

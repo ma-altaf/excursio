@@ -9,7 +9,7 @@ export default function OwnerTag({ origin }: { origin: string }) {
 
   useEffect(() => {
     if (!user) {
-      redirect(`/logIn?origin=${origin}`);
+      redirect(`/signin?origin=${origin}`);
     }
   }, [user, origin]);
 
