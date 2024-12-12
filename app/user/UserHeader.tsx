@@ -4,7 +4,7 @@ import { db } from "@/services/firebase";
 import { doc, getDoc } from "firebase/firestore";
 
 export default async function UserHeader({ uid }: { uid: string }) {
-  const user = (await getDoc(doc(db, `user/${uid}`))).data();
+  const user = (await getDoc(doc(db, `users/${uid}`))).data();
 
   return (
     <section className="w-full">
@@ -22,7 +22,7 @@ export default async function UserHeader({ uid }: { uid: string }) {
           <AccountLink uid={uid} />
         </div>
       </div>
-      <hr className="border-gray-200 my-2" />
+      <hr className="border-gray-200 mt-2" />
     </section>
   );
 }

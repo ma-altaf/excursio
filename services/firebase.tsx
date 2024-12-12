@@ -31,13 +31,14 @@ export const db = getFirestore(app);
 export const auth = getAuth(app);
 
 async function createNewUser(userCred: UserCredential) {
-  const docRef = doc(db, `user/${userCred.user.uid}`);
+  const docRef = doc(db, `users/${userCred.user.uid}`);
 
   if (!(await getDoc(docRef)).exists()) {
     // create document
     await setDoc(docRef, {
       uid: userCred.user.uid,
-      username: userCred.user.displayName,
+      username: userCred.user.displayName || "Guest",
+      about: "Hey, I am on Excursio!",
     });
   }
 }
