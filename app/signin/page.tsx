@@ -22,7 +22,7 @@ export default function Signin() {
   return (
     <section className="w-full h-screen flex justify-center items-center">
       <div className="p-5 items-center flex flex-col max-w-[420px]">
-        <p className="text-lg mb-2">How would you like to sign in</p>
+        <p className="text-lg mb-2">How would you like to sign in?</p>
         <button
           className="p-button flex justify-center items-center m-2 w-full rounded-md shadow-md bg-white"
           onClick={() => signWithGoogle()}
@@ -39,18 +39,27 @@ export default function Signin() {
           <p>Sign in with Email Link</p>
         </Link>
 
-        <div className="h-[1px] my-2 w-full rounded-full bg-black"></div>
+        <div className="my-2 flex w-full items-center">
+          <hr className=" w-full border-black" />
+          <p className="mx-2">OR</p>
+          <hr className=" w-full border-black" />
+        </div>
         <button
           className="p-button flex justify-center items-center m-2 w-full rounded-md bg-gray-600 shadow-md text-white"
           onClick={() => signWithAnonymous()}
         >
           <FaUser className="mr-4 size-5" />
-          <p>Continue as guest</p>
+          <p>Continue as Guest</p>
         </button>
 
         <div className="mt-2 p-2 bg-gray-100 border-gray-200 border-[3px] rounded-lg">
-          NOTE: Guest account cannot be use on different devices and lost if
-          cache is cleared.
+          <p>
+            Guest account cannot be use on different devices and is lost if
+            browser cache is cleared.
+          </p>
+          <p>
+            Start with a guess account and link it to a sign in method later.
+          </p>
         </div>
       </div>
     </section>

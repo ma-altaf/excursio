@@ -11,7 +11,7 @@ export default function Email() {
 
   return (
     <section className="w-full h-screen flex justify-center items-center">
-      <div className="p-5 flex flex-col max-w-[420px]">
+      <div className="p-5 flex flex-col w-full max-w-[420px]">
         <label htmlFor="email">Enter your email:</label>
         <input
           type="email"
