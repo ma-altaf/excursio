@@ -3,7 +3,7 @@
 import { sendEmailSignLink } from "@/services/firebase";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
-import { LuSend } from "react-icons/lu";
+import { BiMailSend } from "react-icons/bi";
 
 export default function Email() {
   const [email, setEmail] = useState("");
@@ -25,7 +25,7 @@ export default function Email() {
           onClick={() => sendEmailSignLink(email, redirectUrl)}
           className="p-button rounded-md bg-blue-300 flex flex-row justify-center"
         >
-          <LuSend className="mr-4 size-5" />
+          <BiMailSend className="mr-4 size-5" />
           <p>Send Email</p>
         </button>
       </div>

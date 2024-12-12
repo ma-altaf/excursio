@@ -67,8 +67,6 @@ export default function EventList({ uid }: { uid: string }) {
   }, []);
 
   useEffect(() => {
-    console.log("useeffect called");
-
     fetchDocs();
   }, []);
 
