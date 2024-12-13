@@ -40,10 +40,22 @@ export default function EventList({ uid }: { uid: string }) {
   );
 
   useEffect(() => {
-    setEvents([]);
     lastDocRef.current = null;
-    fetchDocs(visibility, lastDocRef.current);
-  }, [visibility, fetchDocs]);
+    getEvents(uid, lastDocRef.current, visibility).then((querySnap) => {
+      const queryDocs = querySnap?.docs;
+
+      if (queryDocs == undefined) return;
+
+      setEvents(queryDocs);
+
+      if (queryDocs.length == 0) {
+        if (loadMoreRef.current) loadMoreRef.current.style.display = "none";
+      } else {
+        lastDocRef.current = queryDocs[queryDocs.length - 1];
+        if (loadMoreRef.current) loadMoreRef.current.style.display = "block";
+      }
+    });
+  }, [visibility]);
 
   return (
     <section className="w-full">
