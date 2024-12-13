@@ -1,11 +1,11 @@
 "use client";
 
-import { useAuthContext } from "@/app/authentication";
+import { useAuthContext } from "@/app/(services)/authProvider";
 import Link from "next/link";
 import { FaUserEdit } from "react-icons/fa";
 import { IoIosCreate } from "react-icons/io";
 
-export default function AccountLink({ uid }: { uid: string }) {
+export default function AccountPanel({ uid }: { uid: string }) {
   const { user } = useAuthContext();
 
   if (uid == user?.uid) {

@@ -1,6 +1,6 @@
 "use client";
 
-import { completeEmailSignUp } from "@/services/firebase";
+import { completeEmailSignUp } from "@/app/(services)/auth";
 import { redirect, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 

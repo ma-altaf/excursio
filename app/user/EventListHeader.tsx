@@ -1,27 +1,28 @@
 import { Dispatch, SetStateAction } from "react";
+import { visibilityType } from "../(services)/firestore";
 
 export default function EventListHeader({
-  hidden,
-  setHidden,
+  visibility,
+  setVisibility,
 }: {
-  hidden: boolean;
-  setHidden: Dispatch<SetStateAction<boolean>>;
+  visibility: visibilityType;
+  setVisibility: Dispatch<SetStateAction<visibilityType>>;
 }) {
   return (
     <div className="w-full flex flex-row justify-evenly">
       <button
-        onClick={() => setHidden(false)}
+        onClick={() => setVisibility("public")}
         className={`${
-          !hidden ? "border-black border-t-2" : ""
+          visibility == "public" ? "border-black border-t-2" : ""
         } w-full flex flex-row justify-center p-1 mx-6`}
       >
         <p>Public</p>
       </button>
       <div className="bg-gray-200 w-[1px]"></div>
       <button
-        onClick={() => setHidden(true)}
+        onClick={() => setVisibility("private")}
         className={`${
-          hidden ? "border-black border-t-2" : ""
+          visibility == "private" ? "border-black border-t-2" : ""
         } w-full flex flex-row justify-center p-1 mx-6`}
       >
         <p>Private</p>

@@ -1,10 +1,9 @@
 import Image from "next/image";
-import AccountLink from "./AccountLink";
-import { db } from "@/services/firebase";
-import { doc, getDoc } from "firebase/firestore";
+import AccountPanel from "./AccountPanel";
+import { getUser } from "../(services)/firestore";
 
 export default async function UserHeader({ uid }: { uid: string }) {
-  const user = (await getDoc(doc(db, `users/${uid}`))).data();
+  const user = await getUser(uid);
 
   return (
     <section className="w-full">
@@ -19,7 +18,7 @@ export default async function UserHeader({ uid }: { uid: string }) {
         <div className="p-2 md:ml-8">
           <p className="font-bold text-lg">{user?.username}</p>
           <p className="my-2 mb-6">{user?.about}</p>
-          <AccountLink uid={uid} />
+          <AccountPanel uid={uid} />
         </div>
       </div>
       <hr className="border-gray-200 mt-2" />

@@ -1,7 +1,7 @@
 "use client";
 
-import { logOut } from "@/services/firebase";
 import React from "react";
+import { logOut } from "../(services)/auth";
 
 export default function Account() {
   return (

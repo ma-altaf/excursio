@@ -1,13 +1,13 @@
 "use client";
 
-import { signWithAnonymous, signWithGoogle } from "@/services/firebase";
-import { useAuthContext } from "../authentication";
+import { useAuthContext } from "../(services)/authProvider";
 import { useEffect } from "react";
 import { redirect, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
 import { MdEmail } from "react-icons/md";
 import { FaUser } from "react-icons/fa";
+import { signWithAnonymous, signWithGoogle } from "../(services)/auth";
 
 export default function Signin() {
   const { user } = useAuthContext();
