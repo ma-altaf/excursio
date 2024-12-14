@@ -22,9 +22,11 @@ export default function Signin() {
   return (
     <section className="w-full h-screen flex justify-center items-center">
       <div className="p-5 items-center flex flex-col max-w-[420px]">
-        <p className="text-lg mb-2">How would you like to sign in?</p>
+        <h1 className="text-lg mb-2 font-bold">
+          How would you like to sign in?
+        </h1>
         <button
-          className="p-button flex justify-center items-center m-2 w-full rounded-md shadow-md bg-white"
+          className="p-button flex justify-center items-center m-2 w-full rounded-md bg-white border-gray-300 border-2"
           onClick={() => signWithGoogle()}
         >
           <FcGoogle className="mr-4 size-5" />
@@ -33,7 +35,7 @@ export default function Signin() {
 
         <Link
           href={`signin/email?redirectUrl=${origin}`}
-          className="p-button flex justify-center items-center m-2 w-full rounded-md shadow-md bg-red-400"
+          className="p-button flex justify-center items-center m-2 w-full rounded-md bg-blue-300 border-blue-300 border-2"
         >
           <MdEmail className="mr-4 size-5" />
           <p>Sign in with Email Link</p>
@@ -45,7 +47,7 @@ export default function Signin() {
           <hr className=" w-full border-black" />
         </div>
         <button
-          className="p-button flex justify-center items-center m-2 w-full rounded-md bg-gray-600 shadow-md text-white"
+          className="p-button flex justify-center items-center m-2 w-full rounded-md text-white bg-gray-600 border-gray-600 border-2"
           onClick={() => signWithAnonymous()}
         >
           <FaUser className="mr-4 size-5" />

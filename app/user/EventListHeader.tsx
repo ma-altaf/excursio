@@ -13,7 +13,7 @@ export default function EventListHeader({
       <button
         onClick={() => setVisibility("public")}
         className={`${
-          visibility == "public" ? "border-black border-t-2" : ""
+          visibility == "public" ? "border-black border-t-2 font-bold" : ""
         } w-full flex flex-row justify-center p-1 mx-6`}
       >
         <p>Public</p>
@@ -22,7 +22,7 @@ export default function EventListHeader({
       <button
         onClick={() => setVisibility("private")}
         className={`${
-          visibility == "private" ? "border-black border-t-2" : ""
+          visibility == "private" ? "border-black border-t-2 font-bold" : ""
         } w-full flex flex-row justify-center p-1 mx-6`}
       >
         <p>Private</p>

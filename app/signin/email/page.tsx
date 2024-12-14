@@ -7,6 +7,7 @@ import { BiMailSend } from "react-icons/bi";
 
 export default function Email() {
   const [email, setEmail] = useState("");
+  const [EmailStatus, setEmailStatus] = useState("");
   const redirectUrl = useSearchParams().get("redirectUrl") || "account";
 
   return (
@@ -21,13 +22,29 @@ export default function Email() {
           className="my-2 rounded-md px-2 py-1 border-2 border-black"
           onChange={(event) => setEmail(event.target.value)}
         />
-        <button
-          onClick={() => sendEmailSignLink(email, redirectUrl)}
-          className="p-button rounded-md bg-blue-300 flex flex-row justify-center"
-        >
-          <BiMailSend className="mr-4 size-5" />
-          <p>Send Email</p>
-        </button>
+        {EmailStatus ? (
+          <p className="p-button bg-gray-200 w-full rounded-md text-center">
+            {EmailStatus}
+          </p>
+        ) : (
+          <button
+            onClick={() => {
+              setEmailStatus("sending Email...");
+              sendEmailSignLink(email, redirectUrl)
+                .then(() => {
+                  setEmailStatus("Email sent, please check your email inbox.");
+                })
+                .catch((error) => {
+                  console.log(error);
+                  setEmailStatus("Failed to send email!");
+                });
+            }}
+            className="p-button rounded-md bg-blue-300 flex flex-row justify-center"
+          >
+            <BiMailSend className="mr-4 size-5" />
+            <p>Send Email</p>
+          </button>
+        )}
       </div>
     </section>
   );

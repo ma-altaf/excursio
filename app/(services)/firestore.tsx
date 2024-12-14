@@ -19,11 +19,17 @@ import { app } from "./firebase";
 import { UserCredential } from "firebase/auth";
 import { uploadProfilePic } from "./storage";
 
+const PAGE_COUNT = 1;
+
 export const db = getFirestore(app);
 
 export type visibilityType = "public" | "private";
+export type providerType = "anonymous" | "email" | "google";
 
-export async function createNewUser(userCred: UserCredential) {
+export async function createNewUser(
+  userCred: UserCredential,
+  provider: providerType
+) {
   const docRef = doc(db, `users/${userCred.user.uid}`);
 
   if (!(await getDoc(docRef)).exists()) {
@@ -32,7 +38,7 @@ export async function createNewUser(userCred: UserCredential) {
       uid: userCred.user.uid,
       username: userCred.user.uid,
       about: "Hey, I am on Excursio!",
-      provider: userCred.providerId,
+      provider: provider,
     });
   }
 }
@@ -93,7 +99,6 @@ export async function getEvents(
   lastDoc: QueryDocumentSnapshot<DocumentData, DocumentData> | null,
   visibility: visibilityType
 ) {
-  const PAGE_COUNT = 1;
   const eventCollection = collection(db, "events");
 
   try {

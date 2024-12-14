@@ -6,6 +6,7 @@ import EventCard from "./EventCard";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useAuthContext } from "../(services)/authProvider";
 import { getEvents, visibilityType } from "../(services)/firestore";
+import NoSSR from "../(services)/noSSR";
 
 export default function EventList({ uid }: { uid: string }) {
   const { user } = useAuthContext();
@@ -58,32 +59,34 @@ export default function EventList({ uid }: { uid: string }) {
   }, [visibility]);
 
   return (
-    <section className="w-full">
+    <section className="w-full flex flex-col">
       {uid == user?.uid && (
         <EventListHeader
           visibility={visibility}
           setVisibility={setVisibility}
         />
       )}
-      <div className="flex flex-col">
-        {events.length == 0 ? (
-          <div className="w-full flex justify-center items-center py-20">
-            <p>No excursions.</p>
-          </div>
-        ) : (
-          events.map((doc) => {
-            const data = doc.data();
-            return <EventCard key={data.eventId} data={data} />;
-          })
-        )}
-        <button
-          ref={loadMoreRef}
-          onClick={() => fetchDocs(visibility, lastDocRef.current)}
-          className="p-button rounded-md bg-gray-200 border-2 m-4 hidden"
-        >
-          Load more
-        </button>
-      </div>
+      <NoSSR>
+        <div className="flex flex-col">
+          {events.length == 0 ? (
+            <div className="w-full flex justify-center items-center py-20">
+              <p>No excursions.</p>
+            </div>
+          ) : (
+            events.map((doc) => {
+              const data = doc.data();
+              return <EventCard key={data.eventId} data={data} />;
+            })
+          )}
+        </div>
+      </NoSSR>
+      <button
+        ref={loadMoreRef}
+        onClick={() => fetchDocs(visibility, lastDocRef.current)}
+        className="p-button rounded-md bg-gray-200 border-2 m-3 hidden"
+      >
+        Load more
+      </button>
     </section>
   );
 }

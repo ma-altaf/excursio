@@ -16,7 +16,7 @@ export const auth = getAuth(app);
 export async function signWithAnonymous() {
   try {
     const userCred = await signInAnonymously(auth);
-    await createNewUser(userCred);
+    await createNewUser(userCred, "anonymous");
   } catch (error) {
     console.log(error);
   }
@@ -26,7 +26,7 @@ export async function signWithGoogle() {
   const provider = new GoogleAuthProvider();
   try {
     const userCred = await signInWithPopup(auth, provider);
-    await createNewUser(userCred);
+    await createNewUser(userCred, "google");
   } catch (error) {
     console.log(error);
   }
@@ -63,7 +63,7 @@ export async function completeEmailSignUp(): Promise<boolean> {
         email,
         window.location.href
       );
-      await createNewUser(userCred);
+      await createNewUser(userCred, "email");
       window.localStorage.removeItem("emailForSignIn");
       return true;
     } catch (error) {
