@@ -6,7 +6,7 @@ import EventCard from "./EventCard";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useAuthContext } from "../(services)/authProvider";
 import { getEvents, visibilityType } from "../(services)/firestore";
-import NoSSR from "../(services)/noSSR";
+import EventListSkeleton from "./EventListSkeleton";
 
 export default function EventList({ uid }: { uid: string }) {
   const { user } = useAuthContext();
@@ -18,16 +18,19 @@ export default function EventList({ uid }: { uid: string }) {
   const lastDocRef =
     useRef<QueryDocumentSnapshot<DocumentData, DocumentData>>(null);
   const loadMoreRef = useRef<HTMLButtonElement>(null);
+  const [loading, setLoading] = useState(true);
 
   const fetchDocs = useCallback(
     async (
       visibility: visibilityType,
       lastDoc: QueryDocumentSnapshot<DocumentData, DocumentData> | null
     ) => {
+      setLoading(true);
       const queryDocs = (await getEvents(uid, lastDoc, visibility))?.docs;
 
       if (queryDocs == undefined) return;
 
+      setLoading(false);
       setEvents((prev) => [...prev, ...queryDocs]);
 
       if (queryDocs.length == 0) {
@@ -42,11 +45,13 @@ export default function EventList({ uid }: { uid: string }) {
 
   useEffect(() => {
     lastDocRef.current = null;
+    setLoading(true);
     getEvents(uid, lastDocRef.current, visibility).then((querySnap) => {
       const queryDocs = querySnap?.docs;
 
       if (queryDocs == undefined) return;
 
+      setLoading(false);
       setEvents(queryDocs);
 
       if (queryDocs.length == 0) {
@@ -56,7 +61,7 @@ export default function EventList({ uid }: { uid: string }) {
         if (loadMoreRef.current) loadMoreRef.current.style.display = "block";
       }
     });
-  }, [visibility]);
+  }, [uid, visibility]);
 
   return (
     <section className="w-full flex flex-col">
@@ -66,20 +71,19 @@ export default function EventList({ uid }: { uid: string }) {
           setVisibility={setVisibility}
         />
       )}
-      <NoSSR>
-        <div className="flex flex-col">
-          {events.length == 0 ? (
-            <div className="w-full flex justify-center items-center py-20">
-              <p>No excursions.</p>
-            </div>
-          ) : (
-            events.map((doc) => {
-              const data = doc.data();
-              return <EventCard key={data.eventId} data={data} />;
-            })
-          )}
-        </div>
-      </NoSSR>
+      <div className="flex flex-col">
+        {!loading && events.length == 0 ? (
+          <div className="w-full flex justify-center items-center py-20">
+            <p>No excursions.</p>
+          </div>
+        ) : (
+          events.map((doc) => {
+            const data = doc.data();
+            return <EventCard key={data.eventId} data={data} />;
+          })
+        )}
+        {loading && <EventListSkeleton />}
+      </div>
       <button
         ref={loadMoreRef}
         onClick={() => fetchDocs(visibility, lastDocRef.current)}

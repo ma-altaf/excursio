@@ -19,7 +19,7 @@ import { app } from "./firebase";
 import { UserCredential } from "firebase/auth";
 import { uploadProfilePic } from "./storage";
 
-const PAGE_COUNT = 1;
+export const NUM_EXCURSIONS: number = 1;
 
 export const db = getFirestore(app);
 
@@ -109,7 +109,7 @@ export async function getEvents(
             where("owner", "==", uid),
             where("visibility", "==", visibility),
             orderBy("created_at", "desc"),
-            limit(PAGE_COUNT)
+            limit(NUM_EXCURSIONS)
           )
         )
       : await getDocs(
@@ -119,7 +119,7 @@ export async function getEvents(
             where("visibility", "==", visibility),
             orderBy("created_at", "desc"),
             startAfter(lastDoc),
-            limit(PAGE_COUNT)
+            limit(NUM_EXCURSIONS)
           )
         );
   } catch (error) {

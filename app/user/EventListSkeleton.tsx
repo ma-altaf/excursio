@@ -1,10 +1,16 @@
-import Spinner from "@/components/loading/Spinner";
+import { NUM_EXCURSIONS } from "../(services)/firestore";
 
-export default async function EventListSkeleton() {
+export default function EventListSkeleton() {
+  const empty_array = [...Array(NUM_EXCURSIONS).keys()];
+
   return (
-    <div className="w-full flex justify-center items-center py-20 flex-col">
-      <Spinner />
-      <p className="mt-4">Loading Excursions...</p>
+    <div className="w-full flex flex-col">
+      {empty_array.map((i) => (
+        <div
+          key={i}
+          className="rounded-lg bg-gray-200 animate-pulse h-24 m-2"
+        ></div>
+      ))}
     </div>
   );
 }
