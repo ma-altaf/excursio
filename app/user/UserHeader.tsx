@@ -1,6 +1,7 @@
 import Image from "next/image";
 import AccountPanel from "./AccountPanel";
 import { getUser } from "../(services)/firestore";
+// import Loading from "./loading";
 
 export default async function UserHeader({ uid }: { uid: string }) {
   const user = await getUser(uid);
@@ -16,12 +17,14 @@ export default async function UserHeader({ uid }: { uid: string }) {
           alt="Picture of the author"
           priority
         />
+
         <div className="p-2 md:ml-8 w-full">
           <p className="font-bold text-lg">{user?.username}</p>
           <p className="my-2 mb-6">{user?.about}</p>
           <AccountPanel uid={uid} />
         </div>
       </div>
+
       <hr className="border-gray-200 mt-2 w-full" />
     </section>
   );

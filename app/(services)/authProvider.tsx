@@ -2,7 +2,7 @@
 
 import { onAuthStateChanged, User } from "firebase/auth";
 
-import { createContext, useState, useEffect, useContext } from "react";
+import { createContext, useState, useEffect, use } from "react";
 import { auth } from "./auth";
 
 type authContext = {
@@ -19,10 +19,14 @@ export default function AuthContextProvider({
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    onAuthStateChanged(auth, (res) => {
+    const subscibe = onAuthStateChanged(auth, (res) => {
       setUser(res);
     });
-  }, [user]);
+
+    return () => {
+      subscibe();
+    };
+  }, []);
 
   return (
     <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>
@@ -30,7 +34,7 @@ export default function AuthContextProvider({
 }
 
 export function useAuthContext() {
-  const context = useContext(AuthContext);
+  const context = use(AuthContext);
   if (!context) {
     throw new Error("useAuthContect must be within a AuthContextProvider");
   }

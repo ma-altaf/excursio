@@ -13,7 +13,7 @@ export default function AccountPanel({ uid }: { uid: string }) {
       <div className="w-full flex flex-row justify-evenly">
         <Link
           href="/account"
-          className="p-button w-full mx-2 bg-gray-200 rounded-md flex flex-row items-center justify-center"
+          className="py-2 w-full mx-1 bg-gray-200 rounded-md flex flex-row items-center justify-center"
         >
           <FaUserEdit className="mr-4 size-5" />
           <p>Edit profile</p>
@@ -21,10 +21,10 @@ export default function AccountPanel({ uid }: { uid: string }) {
 
         <Link
           href="/create"
-          className="p-button w-full mx-2 bg-gray-200 rounded-md flex flex-row items-center justify-center"
+          className="py-2 w-full mx-1 bg-gray-200 rounded-md flex flex-row items-center justify-center"
         >
           <IoIosCreate className="mr-4 size-5" />
-          <p>Create Excursion</p>
+          <p>New Excursion</p>
         </Link>
       </div>
     );
