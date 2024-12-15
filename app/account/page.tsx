@@ -18,7 +18,7 @@ import { FaArrowRight } from "react-icons/fa";
 import AccountLoading from "./AccountLoading";
 
 export default function Account() {
-  const { user } = useAuthContext();
+  const { authLoading, user } = useAuthContext();
   const [loading, setLoading] = useState(true);
   const [username, setUsername] = useState("");
   const [about, setAbout] = useState("");
@@ -30,9 +30,15 @@ export default function Account() {
   const [usernameError, setUsernameError] = useState("");
 
   useEffect(() => {
+    if (authLoading) {
+      console.log("loading auth user state");
+      return;
+    }
+
     if (!user) {
       redirect("/signin");
     }
+
     getUser(user.uid)
       .then((userData) => {
         if (!userData) {
@@ -45,7 +51,7 @@ export default function Account() {
         setProfilePic(userData?.image || "");
       })
       .catch((e) => console.log(e));
-  }, [user]);
+  }, [user, authLoading]);
 
   if (loading) return <AccountLoading />;
 
@@ -68,9 +74,10 @@ export default function Account() {
             }
           }}
         />
-        <label
+        <button
           className="w-fit h-fit mx-auto cursor-pointer flex flex-col justify-center items-center"
-          htmlFor="image"
+          onClick={() => fileBtnRef.current?.click()}
+          title="click to change profile picture"
         >
           <Image
             className="rounded-full aspect-square w-48 object-cover pointer-events-none bg-gray-200"
@@ -81,7 +88,7 @@ export default function Account() {
             priority
           />
           <p>Click to change image</p>
-        </label>
+        </button>
         <span className="flex flex-col">
           <label className="" htmlFor="name">
             Name:

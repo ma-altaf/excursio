@@ -5,13 +5,13 @@ import { useAuthContext } from "../(services)/authProvider";
 import { useEffect } from "react";
 
 export default function OwnerTag({ origin }: { origin: string }) {
-  const { user } = useAuthContext();
+  const { authLoading, user } = useAuthContext();
 
   useEffect(() => {
-    if (!user) {
+    if (!authLoading && !user) {
       redirect(`/signin?origin=${origin}`);
     }
-  }, [user, origin]);
+  }, [user, authLoading, origin]);
 
   return <div>{user?.uid}</div>;
 }

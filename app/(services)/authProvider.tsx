@@ -6,6 +6,7 @@ import { createContext, useState, useEffect, use } from "react";
 import { auth } from "./auth";
 
 type authContext = {
+  authLoading: boolean;
   user: User | null;
 };
 
@@ -17,10 +18,12 @@ export default function AuthContextProvider({
   children: React.ReactNode;
 }>) {
   const [user, setUser] = useState<User | null>(null);
+  const [authLoading, setAuthLoading] = useState(true);
 
   useEffect(() => {
     const subscibe = onAuthStateChanged(auth, (res) => {
       setUser(res);
+      setAuthLoading(false);
     });
 
     return () => {
@@ -29,7 +32,9 @@ export default function AuthContextProvider({
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{ authLoading, user }}>
+      {children}
+    </AuthContext.Provider>
   );
 }
 
