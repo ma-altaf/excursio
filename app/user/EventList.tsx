@@ -17,13 +17,14 @@ export default function EventList({ uid }: { uid: string }) {
   const { user } = useAuthContext();
 
   const [visibility, setVisibility] = useState<visibilityType>("public");
+  const [loading, setLoading] = useState(true);
   const [events, setEvents] = useState<
     QueryDocumentSnapshot<DocumentData, DocumentData>[]
   >([]);
+
   const lastDocRef =
     useRef<QueryDocumentSnapshot<DocumentData, DocumentData>>(null);
   const loadMoreRef = useRef<HTMLButtonElement>(null);
-  const [loading, setLoading] = useState(true);
 
   const fetchDocs = useCallback(
     async (
