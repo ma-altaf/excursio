@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import AuthContextProvider from "./(services)/authProvider";
 import { Roboto } from "next/font/google";
+import AuthContextProvider from "@/features/users/components/authProvider";
 
 export const metadata: Metadata = {
   title: "Excursio",

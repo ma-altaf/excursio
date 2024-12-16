@@ -1,29 +1,18 @@
+import { db } from "@/shared/services/firestore";
+import { UserCredential } from "firebase/auth";
 import {
   collection,
   doc,
-  DocumentData,
   getDoc,
   getDocs,
-  getFirestore,
-  limit,
-  orderBy,
   query,
-  QueryDocumentSnapshot,
   runTransaction,
   setDoc,
-  startAfter,
   updateDoc,
   where,
 } from "firebase/firestore";
-import { app } from "./firebase";
-import { UserCredential } from "firebase/auth";
 import { uploadProfilePic } from "./storage";
 
-export const NUM_EXCURSIONS: number = 1;
-
-export const db = getFirestore(app);
-
-export type visibilityType = "public" | "private";
 export type providerType = "anonymous" | "email" | "google";
 
 export async function createNewUser(
@@ -89,39 +78,6 @@ export async function updateProfilePic(uid: string | undefined, file: File) {
   try {
     const ImageURL = await uploadProfilePic(uid, file);
     return await updateDoc(doc(db, `users/${uid}`), { imageURL: ImageURL });
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-export async function getEvents(
-  uid: string,
-  lastDoc: QueryDocumentSnapshot<DocumentData, DocumentData> | null,
-  visibility: visibilityType
-) {
-  const eventCollection = collection(db, "events");
-
-  try {
-    return !lastDoc
-      ? await getDocs(
-          query(
-            eventCollection,
-            where("owner", "==", uid),
-            where("visibility", "==", visibility),
-            orderBy("created_at", "desc"),
-            limit(NUM_EXCURSIONS)
-          )
-        )
-      : await getDocs(
-          query(
-            eventCollection,
-            where("owner", "==", uid),
-            where("visibility", "==", visibility),
-            orderBy("created_at", "desc"),
-            startAfter(lastDoc),
-            limit(NUM_EXCURSIONS)
-          )
-        );
   } catch (error) {
     console.log(error);
   }

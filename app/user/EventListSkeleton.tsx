@@ -1,7 +1,5 @@
-import { NUM_EXCURSIONS } from "../(services)/firestore";
-
-export default function EventListSkeleton() {
-  const empty_array = [...Array(NUM_EXCURSIONS).keys()];
+export default function EventListSkeleton({ count }: { count: number }) {
+  const empty_array = [...Array(count).keys()];
 
   return (
     <div className="w-full flex flex-col">

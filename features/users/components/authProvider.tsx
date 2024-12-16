@@ -3,7 +3,7 @@
 import { onAuthStateChanged, User } from "firebase/auth";
 
 import { createContext, useState, useEffect, use } from "react";
-import { auth } from "./auth";
+import { auth } from "../services/auth";
 
 type authContext = {
   authLoading: boolean;

@@ -1,14 +1,6 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { logOut } from "../(services)/auth";
-import {
-  getUser,
-  updateAbout,
-  updateProfilePic,
-  updateUsername,
-} from "../(services)/firestore";
-import { useAuthContext } from "../(services)/authProvider";
 import { redirect } from "next/navigation";
 import Image from "next/image";
 import { DocumentData } from "firebase/firestore";
@@ -16,6 +8,14 @@ import { PiSignOutBold } from "react-icons/pi";
 import Link from "next/link";
 import { FaArrowRight } from "react-icons/fa";
 import AccountLoading from "./AccountLoading";
+import { useAuthContext } from "@/features/users/components/authProvider";
+import { logOut } from "@/features/users/services/auth";
+import {
+  getUser,
+  updateAbout,
+  updateProfilePic,
+  updateUsername,
+} from "@/features/users/services/firestore";
 
 export default function Account() {
   const { authLoading, user } = useAuthContext();

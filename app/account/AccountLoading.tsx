@@ -1,4 +1,4 @@
-import Spinner from "@/components/loading/Spinner";
+import Spinner from "@/shared/components/loading/Spinner";
 import React from "react";
 
 export default function AccountLoading() {

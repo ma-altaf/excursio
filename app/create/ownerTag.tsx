@@ -1,7 +1,7 @@
 "use client";
 
 import { redirect } from "next/navigation";
-import { useAuthContext } from "../(services)/authProvider";
+import { useAuthContext } from "../../features/users/components/authProvider";
 import { useEffect } from "react";
 
 export default function OwnerTag({ origin }: { origin: string }) {

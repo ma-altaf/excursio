@@ -1,5 +1,5 @@
-import EventList from "../EventList";
-import UserHeader from "../UserHeader";
+import EventList from "@/app/user/EventList";
+import UserHeader from "@/app/user/UserHeader";
 
 export default async function Account({
   params,

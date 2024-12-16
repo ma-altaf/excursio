@@ -8,8 +8,8 @@ import {
   isSignInWithEmailLink,
   signInWithEmailLink,
 } from "firebase/auth";
-import { app } from "./firebase";
-import { createNewUser } from "./firestore";
+import { app } from "../../../shared/services/firebase";
+import { createNewUser } from "../../../shared/services/firestore";
 
 export const auth = getAuth(app);
 
@@ -36,7 +36,7 @@ export async function sendEmailSignLink(email: string, redirectUrl: string) {
   console.log(email);
 
   const actionCodeSettings = {
-    url: `${process.env.NEXT_PUBLIC_URL}/signin/email/signup?redirectUrl=${redirectUrl}`,
+    url: `${process.env.NEXT_PUBLIC_URL}/signin/email/completeSignUp?redirectUrl=${redirectUrl}`,
     handleCodeInApp: true,
   };
 

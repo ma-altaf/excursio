@@ -1,6 +1,6 @@
 "use client";
 
-import { sendEmailSignLink } from "@/app/(services)/auth";
+import { sendEmailSignLink } from "@/features/users/services/auth";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { BiMailSend } from "react-icons/bi";

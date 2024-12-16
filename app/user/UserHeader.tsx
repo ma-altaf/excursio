@@ -1,6 +1,6 @@
 import Image from "next/image";
+import { getUser } from "@/features/users/services/firestore";
 import AccountPanel from "./AccountPanel";
-import { getUser } from "../(services)/firestore";
 // import Loading from "./loading";
 
 export default async function UserHeader({ uid }: { uid: string }) {

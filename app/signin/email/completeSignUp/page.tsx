@@ -1,12 +1,12 @@
 "use client";
 
-import { completeEmailSignUp } from "@/app/(services)/auth";
+import { completeEmailSignUp } from "@/features/users/services/auth";
 import { redirect, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function EmailSignUp() {
   const [signUpStatus, setSignUpStatus] = useState(
-    "Atttempting to sign you up..."
+    "Signing up, please wait..."
   );
   const redirectUrl = useSearchParams().get("redirectUrl") || "account";
 
@@ -16,7 +16,7 @@ export default function EmailSignUp() {
       if (success) {
         redirect(`/${redirectUrl}`);
       } else {
-        setSignUpStatus("Failed to sign you up. This link might be expired.");
+        setSignUpStatus("Failed to sign up. This link might be expired.");
       }
     })();
   });

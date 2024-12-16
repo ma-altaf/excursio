@@ -1,6 +1,6 @@
 "use client";
 
-import { useAuthContext } from "@/app/(services)/authProvider";
+import { useAuthContext } from "@/features/users/components/authProvider";
 import Link from "next/link";
 import { FaUserEdit } from "react-icons/fa";
 import { IoIosCreate } from "react-icons/io";

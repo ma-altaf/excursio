@@ -1,11 +1,5 @@
-import {
-  getDownloadURL,
-  getStorage,
-  ref,
-  uploadBytesResumable,
-} from "firebase/storage";
-
-export const storage = getStorage();
+import { storage } from "@/shared/services/storage";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 
 export function uploadProfilePic(uid: string, file: File) {
   const userProfilePicRef = ref(storage, `images/profilePic/user-${uid}.jpg`);
