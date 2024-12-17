@@ -1,12 +1,12 @@
 import { Dispatch, SetStateAction } from "react";
-import { visibilityType } from "@/features/events/services/firestore";
+import { VisibilityType } from "@/features/events/services/firestore";
 
 export default function EventListHeader({
   visibility,
   setVisibility,
 }: {
-  visibility: visibilityType;
-  setVisibility: Dispatch<SetStateAction<visibilityType>>;
+  visibility: VisibilityType;
+  setVisibility: Dispatch<SetStateAction<VisibilityType>>;
 }) {
   return (
     <div className="w-full flex flex-row justify-evenly">

@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description: "View user details and events",
 };
 
-export default async function Layout({
+export default async function Page({
   params,
 }: {
   params: Promise<{ uid: string }>;

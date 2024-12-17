@@ -6,6 +6,6 @@ export const metadata: Metadata = {
   description: "Complete sign up from email authentication link",
 };
 
-export default function Layout() {
+export default function Page() {
   return <CompleteSignUp />;
 }

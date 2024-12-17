@@ -3,7 +3,7 @@
 import { DocumentData, QueryDocumentSnapshot } from "firebase/firestore";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useAuthContext } from "@/features/users/components/authProvider";
-import { getEvents, visibilityType } from "../services/firestore";
+import { getEvents, VisibilityType } from "../services/firestore";
 import EventListHeader from "@/app/user/EventListHeader";
 import EventCard from "@/app/user/EventCard";
 import EventListSkeleton from "@/app/user/EventListSkeleton";
@@ -13,7 +13,7 @@ export default function EventList({ uid }: { uid: string }) {
 
   const { user } = useAuthContext();
 
-  const [visibility, setVisibility] = useState<visibilityType>("public");
+  const [visibility, setVisibility] = useState<VisibilityType>("public");
   const [events, setEvents] = useState<
     QueryDocumentSnapshot<DocumentData, DocumentData>[]
   >([]);
@@ -24,7 +24,7 @@ export default function EventList({ uid }: { uid: string }) {
 
   const fetchDocs = useCallback(
     async (
-      visibility: visibilityType,
+      visibility: VisibilityType,
       lastDoc: QueryDocumentSnapshot<DocumentData, DocumentData> | null
     ) => {
       setLoading(true);

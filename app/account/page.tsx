@@ -6,6 +6,6 @@ export const metadata: Metadata = {
   description: "Change account deatils.",
 };
 
-export default function Layout() {
+export default function Page() {
   return <Account />;
 }

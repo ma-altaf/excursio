@@ -6,6 +6,6 @@ export const metadata: Metadata = {
   description: "Create a new excursion.",
 };
 
-export default function Layout() {
+export default function Page() {
   return <Create />;
 }
