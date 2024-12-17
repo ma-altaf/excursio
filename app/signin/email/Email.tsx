@@ -22,29 +22,31 @@ export default function Email() {
           name="email"
           placeholder="example@email.com"
           className="my-2 rounded-md px-2 py-1 border-2 border-black outline-accent"
-          onChange={(event) => setEmail(event.target.value)}
+          onChange={(event) => {
+            setEmailStatus("");
+            setEmail(event.target.value);
+          }}
         />
-        {EmailStatus ? (
-          <p className="p-button bg-gray-200 w-full rounded-md text-center">
-            {EmailStatus}
-          </p>
-        ) : (
-          <span className="flex flex-row">
-            <Link
-              href={`/signin?origin=${redirectUrl}`}
-              className="p-button rounded-md bg-gray-200 flex flex-row justify-center items-center mr-1 w-fit"
-            >
-              <FaArrowLeft className="mr-1 size-3" />
-              Back
-            </Link>
+
+        <span className="flex flex-row">
+          <Link
+            href={`/signin?origin=${redirectUrl}`}
+            className="p-button rounded-md bg-gray-200 flex flex-row justify-center items-center mr-1 w-fit"
+          >
+            <FaArrowLeft className="mr-1 size-3" />
+            Back
+          </Link>
+          {EmailStatus ? (
+            <p className="p-button bg-gray-200 w-full rounded-md text-center">
+              {EmailStatus}
+            </p>
+          ) : (
             <button
               onClick={() => {
                 setEmailStatus("sending Email...");
                 sendEmailSignLink(email, redirectUrl)
                   .then(() => {
-                    setEmailStatus(
-                      "Email sent, please check your email inbox."
-                    );
+                    setEmailStatus("Email sent, please check your inbox.");
                   })
                   .catch((error) => {
                     console.log(error);
@@ -56,8 +58,8 @@ export default function Email() {
               <BiMailSend className="mr-4 size-5" />
               <p>Send Email</p>
             </button>
-          </span>
-        )}
+          )}
+        </span>
       </div>
     </section>
   );

@@ -40,12 +40,8 @@ export async function sendEmailSignLink(email: string, redirectUrl: string) {
     handleCodeInApp: true,
   };
 
-  try {
-    await sendSignInLinkToEmail(auth, email, actionCodeSettings);
-    window.localStorage.setItem("emailForSignIn", email);
-  } catch (error) {
-    console.log(error);
-  }
+  await sendSignInLinkToEmail(auth, email, actionCodeSettings);
+  window.localStorage.setItem("emailForSignIn", email);
 }
 
 export async function completeEmailSignUp(): Promise<boolean> {

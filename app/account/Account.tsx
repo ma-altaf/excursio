@@ -192,7 +192,7 @@ export default function Account() {
           <FaArrowRight className="ml-4 size-5" />
         </Link>
         <button
-          className="p-button rounded-md bg-gray-200 flex flex-row justify-center items-center mt-6"
+          className="p-button rounded-md bg-gray-200 flex flex-row justify-center items-center mt-3"
           onClick={() => logOut()}
         >
           <PiSignOutBold className="mr-4 size-5 rotate-180" />
