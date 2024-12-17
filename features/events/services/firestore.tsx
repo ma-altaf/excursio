@@ -16,12 +16,14 @@ import {
 
 export type visibilityType = "public" | "private";
 
-export async function createExcusion(
+export async function createExcursion(
   uid: string,
   title: string,
   description: string
 ) {
   try {
+    if (!title) throw new Error("Title is required.");
+
     if (
       !(
         await getDocs(

@@ -1,6 +1,6 @@
 "use client";
 
-import { createExcusion } from "@/features/events/services/firestore";
+import { createExcursion } from "@/features/events/services/firestore";
 import { useAuthContext } from "@/features/users/components/authProvider";
 import Link from "next/link";
 import { redirect, useSearchParams } from "next/navigation";
@@ -18,7 +18,7 @@ export default function Create() {
   }, [authLoading, user]);
 
   function create(uid: string, title: string, description: string) {
-    createExcusion(uid, title, description)
+    createExcursion(uid, title, description)
       .then(() => {
         // TODO: more to next step
       })
@@ -51,10 +51,10 @@ export default function Create() {
         id="description"
         name="description"
         value={description}
+        rows={10}
         onChange={(e) => setDescription(e.currentTarget.value)}
         className="border-2 border-black rounded-md py-1 px-2 outline-accent"
-        placeholder="What is this excusion about."
-        rows={4}
+        placeholder="What is this excursion about."
       />
       {eventStatus && (
         <p className="p-button bg-gray-200 w-full rounded-md mt-4">
@@ -72,7 +72,7 @@ export default function Create() {
           onClick={() => create(user!.uid, title, description)}
           className="p-button rounded-md bg-accent"
         >
-          Create Excusion
+          Create Excursion
         </button>
       </span>
     </section>

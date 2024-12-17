@@ -12,7 +12,7 @@ export default function Home() {
         porro. Distinctio, recusandae mollitia.
       </p>
       <Link href="/create" className="rounded-md mt-10 p-button bg-accent">
-        Create Excusion
+        Create Excursion
       </Link>
     </section>
   );
