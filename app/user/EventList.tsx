@@ -4,12 +4,13 @@ import { DocumentData, QueryDocumentSnapshot } from "firebase/firestore";
 import EventCard from "./EventCard";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useAuthContext } from "@/features/users/components/authProvider";
+
+import EventListHeader from "./EventListHeader";
+import EventListSkeleton from "./EventListSkeleton";
 import {
   getEvents,
   visibilityType,
-} from "../../features/events/services/firestore";
-import EventListHeader from "./EventListHeader";
-import EventListSkeleton from "./EventListSkeleton";
+} from "@/features/events/services/firestore";
 
 export default function EventList({ uid }: { uid: string }) {
   const NUM_EXCURSIONS: number = 1;

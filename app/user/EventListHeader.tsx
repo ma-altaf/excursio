@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
-import { visibilityType } from "../../features/events/services/firestore";
+import { visibilityType } from "@/features/events/services/firestore";
 
 export default function EventListHeader({
   visibility,

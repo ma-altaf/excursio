@@ -1,12 +1,12 @@
 "use client";
 
 import { DocumentData, QueryDocumentSnapshot } from "firebase/firestore";
-import EventListHeader from "./EventListHeader";
-import EventCard from "../../../app/user/EventCard";
 import { useCallback, useEffect, useRef, useState } from "react";
-import EventListSkeleton from "./EventListSkeleton";
 import { useAuthContext } from "@/features/users/components/authProvider";
 import { getEvents, visibilityType } from "../services/firestore";
+import EventListHeader from "@/app/user/EventListHeader";
+import EventCard from "@/app/user/EventCard";
+import EventListSkeleton from "@/app/user/EventListSkeleton";
 
 export default function EventList({ uid }: { uid: string }) {
   const NUM_EXCURSIONS: number = 1;

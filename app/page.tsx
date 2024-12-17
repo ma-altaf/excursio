@@ -11,8 +11,8 @@ export default function Home() {
         laboriosam nemo dolorem, accusamus commodi nesciunt. Nostrum, officia
         porro. Distinctio, recusandae mollitia.
       </p>
-      <Link href="/signin" className="rounded-md mt-10 p-button bg-accent">
-        Get Started
+      <Link href="/create" className="rounded-md mt-10 p-button bg-accent">
+        Create Excusion
       </Link>
     </section>
   );

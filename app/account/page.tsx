@@ -96,7 +96,7 @@ export default function Account() {
           <span className="flex flex-row">
             <span className="flex w-full flex-col justify-end">
               <input
-                className="border-2 border-black rounded-md p-2 w-full"
+                className="border-2 border-black rounded-md p-2 w-full outline-accent"
                 type="text"
                 id="name"
                 name="name"
@@ -114,6 +114,7 @@ export default function Account() {
                   }
                 }}
                 placeholder="Steve"
+                required
               />
               <span className="flex flex-row justify-between">
                 <p className="text-red-600 pl-2">{usernameError}</p>
@@ -143,10 +144,10 @@ export default function Account() {
         </span>
         <span className="flex flex-col">
           <label className="" htmlFor="about">
-            About:
+            About: (Optional)
           </label>
           <textarea
-            className="border-2 border-black rounded-md py-1 px-2"
+            className="border-2 border-black rounded-md py-1 px-2 outline-accent"
             rows={4}
             id="about"
             name="about"

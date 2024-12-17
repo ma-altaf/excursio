@@ -20,7 +20,7 @@ export default function AccountPanel({ uid }: { uid: string }) {
         </Link>
 
         <Link
-          href="/create"
+          href={`/create?origin=user/${user.uid}`}
           className="py-2 w-full mx-1 bg-gray-200 rounded-md flex flex-row items-center justify-center"
         >
           <IoIosCreate className="mr-4 size-5" />

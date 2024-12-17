@@ -8,8 +8,8 @@ import {
   isSignInWithEmailLink,
   signInWithEmailLink,
 } from "firebase/auth";
-import { app } from "../../../shared/services/firebase";
-import { createNewUser } from "../../../shared/services/firestore";
+import { createNewUser } from "./firestore";
+import { app } from "@/shared/services/firebase";
 
 export const auth = getAuth(app);
 
