@@ -1,23 +1,34 @@
 "use client";
 
-import {
-  EventType,
-  updateDescription,
-} from "@/features/events/services/firestore";
-import { useState } from "react";
+import { updateDescription } from "@/features/events/services/firestore";
+import { useEffect, useState } from "react";
+import { useEventContext } from "../eventProvider";
+import EventLoading from "@/app/event/eventLoading";
+import { redirect } from "next/navigation";
 
-export default function Description({ eventData }: { eventData: EventType }) {
-  const [description, setDescription] = useState(eventData.description || "");
+export default function Description() {
+  const { eventLoading, eventData, setEventData } = useEventContext();
+  const [description, setDescription] = useState("");
 
-  const { eventId, inProgress } = eventData;
-  const inProgressSet = new Set(inProgress);
+  useEffect(() => {
+    if (!eventData) redirect("/event/error");
+
+    setDescription(eventData.description);
+  }, [eventLoading, eventData]);
+
+  if (eventLoading) return <EventLoading />;
+
+  const inProgressSet = new Set(eventData?.inProgress);
 
   function update(newDescription: string) {
-    updateDescription(eventId, newDescription, inProgressSet)
+    updateDescription(eventData!.eventId, newDescription, inProgressSet)
       .then(() => {
         inProgressSet.delete("description");
-        eventData.description = description;
-        eventData.inProgress = inProgressSet;
+        setEventData((prev) => {
+          if (!prev) throw new Error("No event.");
+
+          return { ...prev, description, inProgress: inProgressSet };
+        });
       })
       .catch((error) => console.log(error));
   }

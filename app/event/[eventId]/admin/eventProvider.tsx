@@ -12,6 +12,7 @@ import {
 } from "react";
 
 type EventContext = {
+  eventLoading: boolean;
   eventData: EventType | null;
   setEventData: Dispatch<SetStateAction<EventType | null>>;
 };
@@ -24,6 +25,7 @@ export default function EventContextProvider({
   children: React.ReactNode;
 }>) {
   const [eventData, setEventData] = useState<EventType | null>(null);
+  const [eventLoading, setEventLoading] = useState(true);
   const { eventId }: { eventId: string } = useParams();
 
   useEffect(() => {
@@ -31,12 +33,13 @@ export default function EventContextProvider({
       .then((res) => {
         if (!res) throw new Error("Could not get event.");
         setEventData(res);
+        setEventLoading(false);
       })
       .catch((e) => console.log(e));
   }, [eventId]);
 
   return (
-    <EventContext.Provider value={{ eventData, setEventData }}>
+    <EventContext.Provider value={{ eventLoading, eventData, setEventData }}>
       {children}
     </EventContext.Provider>
   );
@@ -47,5 +50,6 @@ export function useEventContext() {
   if (!context) {
     throw new Error("useEventContext must be within a EventContextProvider");
   }
+
   return context;
 }
