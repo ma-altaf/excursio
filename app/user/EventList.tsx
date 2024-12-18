@@ -2,15 +2,16 @@
 
 import { DocumentData, QueryDocumentSnapshot } from "firebase/firestore";
 import EventCard from "./EventCard";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { lazy, useCallback, useEffect, useRef, useState } from "react";
 import { useAuthContext } from "@/features/users/components/authProvider";
 
-import EventListHeader from "./EventListHeader";
 import EventListSkeleton from "./EventListSkeleton";
 import {
   getEvents,
   VisibilityType,
 } from "@/features/events/services/firestore";
+
+const EventListHeader = lazy(() => import("./EventListHeader"));
 
 export default function EventList({ uid }: { uid: string }) {
   const NUM_EXCURSIONS: number = 1;

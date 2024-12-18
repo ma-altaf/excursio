@@ -1,7 +1,8 @@
 import Image from "next/image";
 import { getUser } from "@/features/users/services/firestore";
-import AccountPanel from "./AccountPanel";
-// import Loading from "./loading";
+import { lazy } from "react";
+
+const AccountPanel = lazy(() => import("./AccountPanel"));
 
 export default async function UserHeader({ uid }: { uid: string }) {
   const user = await getUser(uid);

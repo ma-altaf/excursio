@@ -17,13 +17,18 @@ import {
 } from "firebase/firestore";
 
 export type VisibilityType = "public" | "private";
+export type EventStepsType = "description" | "invites";
 export type EventType = {
+  ownerId: string;
   eventId: string;
-  created_at: Date;
-  description: string;
   title: string;
+  description: string;
+  inProgress: Set<EventStepsType>;
+  created_at: Date;
   visibility: VisibilityType;
 };
+
+const EXCURSION_STEPS = new Set<EventStepsType>(["description", "invites"]);
 
 export async function createExcursion(uid: string, title: string) {
   if (!title) throw new Error("Title is required.");
@@ -33,7 +38,7 @@ export async function createExcursion(uid: string, title: string) {
       await getDocs(
         query(
           collection(db, "events"),
-          where("owner", "==", uid),
+          where("ownerId", "==", uid),
           where("title", "==", title)
         )
       )
@@ -43,11 +48,12 @@ export async function createExcursion(uid: string, title: string) {
   }
 
   const eventRef = await addDoc(collection(db, "events"), {
-    owner: uid,
+    ownerId: uid,
     title,
     description: "",
     visibility: "private",
     created_at: serverTimestamp(),
+    inProgress: EXCURSION_STEPS,
   });
   await updateDoc(eventRef, { eventId: eventRef.id });
 
@@ -67,7 +73,7 @@ export async function getEvents(
       ? await getDocs(
           query(
             eventCollection,
-            where("owner", "==", uid),
+            where("ownerId", "==", uid),
             where("visibility", "==", visibility),
             orderBy("created_at", "desc"),
             limit(count)
@@ -76,7 +82,7 @@ export async function getEvents(
       : await getDocs(
           query(
             eventCollection,
-            where("owner", "==", uid),
+            where("ownerId", "==", uid),
             where("visibility", "==", visibility),
             orderBy("created_at", "desc"),
             startAfter(lastDoc),
@@ -94,6 +100,20 @@ export async function getEvent(eventId: string) {
     | undefined;
 }
 
-export async function updateDescription(eventId: string, description: string) {
-  await updateDoc(doc(db, `events/${eventId}`), { description });
+export async function updateDescription(
+  eventId: string,
+  description: string,
+  inProgress?: Set<EventStepsType>
+) {
+  description = description.trim();
+  let newData: { description: string; inProgress?: Array<EventStepsType> } = {
+    description,
+  };
+
+  if (inProgress) {
+    inProgress.delete("description");
+    newData = { ...newData, inProgress: Array.from(inProgress) };
+  }
+
+  await updateDoc(doc(db, `events/${eventId}`), newData);
 }

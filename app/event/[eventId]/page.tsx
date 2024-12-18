@@ -1,11 +1,5 @@
-import type { Metadata } from "next";
-import Event from "./Event";
 import { getEvent } from "@/features/events/services/firestore";
-
-export const metadata: Metadata = {
-  title: "Event",
-  description: "Manage event.",
-};
+import EditBtn from "./EditBtn";
 
 export default async function Page({
   params,
@@ -15,7 +9,22 @@ export default async function Page({
   const { eventId } = await params;
   const eventData = await getEvent(eventId);
 
-  if (!eventData) return <p>Event Does not exists.</p>;
+  if (!eventData)
+    return (
+      <section className="flex flex-col w-full min-h-screen">
+        <h1>Could not found event</h1>
+      </section>
+    );
 
-  return <Event eventData={JSON.parse(JSON.stringify(eventData))} />;
+  const { ownerId, title, description } = eventData;
+
+  return (
+    <section className="w-full min-h-screen flex flex-col md:px-[10%] lg:px-[20%]">
+      <div className="flex flex-row justify-center items-center w-full relative mb-4">
+        <h1 className="text-3xl p-4">{title}</h1>
+        <EditBtn ownerId={ownerId} eventId={eventId} />
+      </div>
+      <p>{description}</p>
+    </section>
+  );
 }

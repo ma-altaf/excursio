@@ -7,12 +7,18 @@ import {
 import { useState } from "react";
 
 export default function Description({ eventData }: { eventData: EventType }) {
-  const { eventId } = eventData;
   const [description, setDescription] = useState(eventData.description || "");
 
+  const { eventId, inProgress } = eventData;
+  const inProgressSet = new Set(inProgress);
+
   function update(newDescription: string) {
-    updateDescription(eventId, newDescription)
-      .then(() => (eventData.description = newDescription))
+    updateDescription(eventId, newDescription, inProgressSet)
+      .then(() => {
+        inProgressSet.delete("description");
+        eventData.description = description;
+        eventData.inProgress = inProgressSet;
+      })
       .catch((error) => console.log(error));
   }
 
