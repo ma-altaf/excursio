@@ -1,21 +1,25 @@
-import type { Metadata } from "next";
-import Event from "./Event";
-import { getEvent } from "@/features/events/services/firestore";
+"use client";
 
-export const metadata: Metadata = {
-  title: "Event",
-  description: "Manage event.",
-};
+import { lazy } from "react";
+import { useEventContext } from "./eventProvider";
+import NoEvent from "../NoEvent";
+import Expandable from "./Expandable";
 
-export default async function Page({
-  params,
-}: {
-  params: Promise<{ eventId: string }>;
-}) {
-  const { eventId } = await params;
-  const eventData = await getEvent(eventId);
+const Description = lazy(() => import("./(steps)/Description"));
 
-  if (!eventData) return <p>Event Does not exists.</p>;
+export default function Event() {
+  const { eventData } = useEventContext();
 
-  return <Event eventData={JSON.parse(JSON.stringify(eventData))} />;
+  if (!eventData) return <NoEvent />;
+
+  const { title } = eventData;
+
+  return (
+    <main className="w-full min-h-screen flex flex-col items-center md:px-[10%] lg:px-[20%]">
+      <h1 className="text-3xl p-4">{title}</h1>
+      <Expandable title="Change the description">
+        <Description eventData={eventData} />
+      </Expandable>
+    </main>
+  );
 }

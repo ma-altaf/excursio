@@ -41,7 +41,7 @@ export default function AuthContextProvider({
 export function useAuthContext() {
   const context = use(AuthContext);
   if (!context) {
-    throw new Error("useAuthContect must be within a AuthContextProvider");
+    throw new Error("useAuthContext must be within a AuthContextProvider");
   }
   return context;
 }
