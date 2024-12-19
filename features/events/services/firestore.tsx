@@ -17,7 +17,12 @@ import {
 } from "firebase/firestore";
 
 export type VisibilityType = "public" | "private";
-export type EventStepsType = "description" | "invitation";
+export type EventStepsType =
+  | "description"
+  | "invitation"
+  | "time"
+  | "location"
+  | "items";
 export type InProgressType = { description: boolean; invitation: boolean };
 export type EventType = {
   ownerId: string;
@@ -30,8 +35,10 @@ export type EventType = {
 };
 
 const EXCURSION_STEPS = {
-  description: true,
   invitation: true,
+  time: true,
+  location: true,
+  items: true,
 };
 
 export async function createExcursion(uid: string, title: string) {

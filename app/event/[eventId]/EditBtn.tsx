@@ -18,10 +18,10 @@ export default function EditBtn({
     return (
       <Link
         href={`/event/${eventId}/admin`}
-        className="flex flex-row items-center p-button rounded-md bg-gray-200 h-fit absolute right-0"
+        className="flex flex-row items-center p-button rounded-md bg-gray-200 h-fit"
       >
-        <p>Edit</p>
-        <IoMdCreate className="ml-2 size-5" />
+        <IoMdCreate className="mr-4 size-5" />
+        <p>Edit Event</p>
       </Link>
     );
 

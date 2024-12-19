@@ -20,7 +20,7 @@ export default async function Page({
 
   return (
     <section className="w-full min-h-screen flex flex-col md:px-[10%] lg:px-[20%]">
-      <div className="flex flex-row justify-center items-center w-full relative mb-4">
+      <div className="flex flex-col justify-center items-center w-full mb-4">
         <h1 className="text-3xl p-4">{title}</h1>
         <EditBtn ownerId={ownerId} eventId={eventId} />
       </div>

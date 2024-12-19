@@ -1,6 +1,10 @@
 "use client";
 
-import { EventType, getEvent } from "@/features/events/services/firestore";
+import {
+  EventStepsType,
+  EventType,
+  getEvent,
+} from "@/features/events/services/firestore";
 import { useParams } from "next/navigation";
 import {
   createContext,
@@ -13,6 +17,8 @@ import {
 
 type EventContext = {
   eventLoading: boolean;
+  activeSection: EventStepsType;
+  setActiveSection: Dispatch<SetStateAction<EventStepsType>>;
   eventData: EventType | null;
   setEventData: Dispatch<SetStateAction<EventType | null>>;
 };
@@ -27,6 +33,8 @@ export default function EventContextProvider({
   const [eventData, setEventData] = useState<EventType | null>(null);
   const [eventLoading, setEventLoading] = useState(true);
   const { eventId }: { eventId: string } = useParams();
+  const [activeSection, setActiveSection] =
+    useState<EventStepsType>("description");
 
   useEffect(() => {
     getEvent(eventId)
@@ -41,7 +49,15 @@ export default function EventContextProvider({
   }, [eventId]);
 
   return (
-    <EventContext.Provider value={{ eventLoading, eventData, setEventData }}>
+    <EventContext.Provider
+      value={{
+        activeSection,
+        setActiveSection,
+        eventLoading,
+        eventData,
+        setEventData,
+      }}
+    >
       {children}
     </EventContext.Provider>
   );

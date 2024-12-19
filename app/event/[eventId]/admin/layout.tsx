@@ -14,9 +14,9 @@ export default async function Layout({
 }) {
   return (
     <EventContextProvider>
-      <main className="w-full min-h-screen">
-        <EventPanel />
+      <main className="w-full min-h-screen flex flex-row relative">
         {children}
+        <EventPanel />
       </main>
     </EventContextProvider>
   );

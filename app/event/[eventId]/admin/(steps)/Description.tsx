@@ -5,12 +5,12 @@ import { useEffect, useState } from "react";
 import { useEventContext } from "../eventProvider";
 
 export default function Description() {
-  const { eventLoading, eventData, setEventData } = useEventContext();
+  const { eventData, setEventData } = useEventContext();
   const [description, setDescription] = useState("");
 
   useEffect(() => {
     setDescription(eventData!.description);
-  }, [eventLoading, eventData]);
+  }, []);
 
   function update(newDescription: string) {
     updateDescription(eventData!.eventId, newDescription, eventData!.inProgress)
