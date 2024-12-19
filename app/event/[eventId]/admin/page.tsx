@@ -39,8 +39,12 @@ export default function Event() {
 
   return (
     <main className="w-full min-h-screen flex flex-col items-center md:px-[10%] lg:px-[20%]">
-      <h1 className="text-3xl p-4">{title}</h1>
-      {renderEventSection(activeSection)}
+      <div className="h-[10vh] items-center justify-center flex">
+        <h1 className="text-3xl p-4">{title}</h1>
+      </div>
+      <div className="h-[90vh] w-full pl-2 pr-1 overflow-y-auto">
+        {renderEventSection(activeSection)}
+      </div>
     </main>
   );
 }

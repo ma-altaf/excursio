@@ -26,7 +26,7 @@ export default function Description() {
   }
 
   return (
-    <div className="w-full flex flex-col px-4">
+    <section className="w-full h-full flex flex-col justify-center">
       {eventData?.inProgress.description && <p>In progress</p>}
       <label htmlFor="description">Description: (Optional)</label>
       <textarea
@@ -44,6 +44,6 @@ export default function Description() {
       >
         Next
       </button>
-    </div>
+    </section>
   );
 }

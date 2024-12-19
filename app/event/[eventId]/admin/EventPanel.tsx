@@ -12,7 +12,7 @@ import { FaRegClock, FaRegListAlt } from "react-icons/fa";
 
 export default function EventPanel() {
   const { activeSection, setActiveSection } = useEventContext();
-  const [toggle, setToggle] = useState(true);
+  const [toggle, setToggle] = useState(false);
 
   function ToggleItem({
     value,
