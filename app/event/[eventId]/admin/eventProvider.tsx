@@ -33,9 +33,11 @@ export default function EventContextProvider({
       .then((res) => {
         if (!res) throw new Error("Could not get event.");
         setEventData(res);
-        setEventLoading(false);
       })
-      .catch((e) => console.log(e));
+      .catch((e) => {
+        console.log(e);
+      })
+      .finally(() => setEventLoading(false));
   }, [eventId]);
 
   return (

@@ -17,18 +17,22 @@ import {
 } from "firebase/firestore";
 
 export type VisibilityType = "public" | "private";
-export type EventStepsType = "description" | "invites";
+export type EventStepsType = "description" | "invitation";
+export type InProgressType = { description: boolean; invitation: boolean };
 export type EventType = {
   ownerId: string;
   eventId: string;
   title: string;
   description: string;
-  inProgress: Set<EventStepsType>;
+  inProgress: InProgressType;
   created_at: Date;
   visibility: VisibilityType;
 };
 
-const EXCURSION_STEPS = new Set<EventStepsType>(["description", "invites"]);
+const EXCURSION_STEPS = {
+  description: true,
+  invitation: true,
+};
 
 export async function createExcursion(uid: string, title: string) {
   if (!title) throw new Error("Title is required.");
@@ -103,16 +107,16 @@ export async function getEvent(eventId: string) {
 export async function updateDescription(
   eventId: string,
   description: string,
-  inProgress?: Set<EventStepsType>
+  inProgress: InProgressType
 ) {
   description = description.trim();
-  let newData: { description: string; inProgress?: Array<EventStepsType> } = {
+  let newData: { description: string; inProgress?: InProgressType } = {
     description,
   };
 
   if (inProgress) {
-    inProgress.delete("description");
-    newData = { ...newData, inProgress: Array.from(inProgress) };
+    inProgress.description = false;
+    newData = { ...newData, inProgress };
   }
 
   await updateDoc(doc(db, `events/${eventId}`), newData);

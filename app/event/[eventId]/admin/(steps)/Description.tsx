@@ -3,31 +3,23 @@
 import { updateDescription } from "@/features/events/services/firestore";
 import { useEffect, useState } from "react";
 import { useEventContext } from "../eventProvider";
-import EventLoading from "@/app/event/eventLoading";
-import { redirect } from "next/navigation";
 
 export default function Description() {
   const { eventLoading, eventData, setEventData } = useEventContext();
   const [description, setDescription] = useState("");
 
   useEffect(() => {
-    if (!eventData) redirect("/event/error");
-
-    setDescription(eventData.description);
+    setDescription(eventData!.description);
   }, [eventLoading, eventData]);
 
-  if (eventLoading) return <EventLoading />;
-
-  const inProgressSet = new Set(eventData?.inProgress);
-
   function update(newDescription: string) {
-    updateDescription(eventData!.eventId, newDescription, inProgressSet)
+    updateDescription(eventData!.eventId, newDescription, eventData!.inProgress)
       .then(() => {
-        inProgressSet.delete("description");
         setEventData((prev) => {
           if (!prev) throw new Error("No event.");
+          const inProgress = { ...eventData!.inProgress, description: false };
 
-          return { ...prev, description, inProgress: inProgressSet };
+          return { ...prev, description, inProgress };
         });
       })
       .catch((error) => console.log(error));
@@ -35,6 +27,7 @@ export default function Description() {
 
   return (
     <div className="w-full flex flex-col px-4">
+      {eventData?.inProgress.description && <p>In progress</p>}
       <label htmlFor="description">Description: (Optional)</label>
       <textarea
         id="description"

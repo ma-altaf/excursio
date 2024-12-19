@@ -1,3 +1,3 @@
 export default function EventPanel() {
-  return <div>EventPanel</div>;
+  return <div className="bg-red-200">EventPanel</div>;
 }
