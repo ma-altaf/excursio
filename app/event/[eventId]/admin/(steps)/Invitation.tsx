@@ -101,7 +101,9 @@ export default function Invitation() {
         </>
       )}
 
-      <span className="my-2">
+      <hr className="w-full border-1 my-2" />
+
+      <span>
         <input
           type="checkbox"
           name="needApproval"
@@ -121,6 +123,8 @@ export default function Invitation() {
           <p className="ml-4">Need approval from organizer</p>
         </label>
       </span>
+
+      <hr className="w-full border-1 my-2" />
 
       <label htmlFor="secret">
         Enter secret phrase to join: (leave empty for no secret phrase)
