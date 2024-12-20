@@ -151,9 +151,12 @@ export async function updateDescription(eventId: string, description: string) {
 
 export async function updateInvitation(
   eventId: string,
-  newInvitationOpt: InvitationOptType
+  newInvitationOpt: InvitationOptType,
+  inProgress: InProgressType
 ) {
+  inProgress.invitation = false;
   await updateDoc(doc(db, `events/${eventId}`), {
     inviteOpt: newInvitationOpt,
+    inProgress,
   });
 }
