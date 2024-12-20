@@ -1,11 +1,14 @@
 "use client";
 
-import { updateDescription } from "@/features/events/services/firestore";
+import {
+  orderedEventSteps,
+  updateDescription,
+} from "@/features/events/services/firestore";
 import { useEffect, useState } from "react";
 import { useEventContext } from "../eventProvider";
 
 export default function Description() {
-  const { eventData, setEventData } = useEventContext();
+  const { eventData, setEventData, setActiveSection } = useEventContext();
   const [description, setDescription] = useState("");
 
   useEffect(() => {
@@ -13,14 +16,19 @@ export default function Description() {
   }, []);
 
   function update(newDescription: string) {
-    updateDescription(eventData!.eventId, newDescription, eventData!.inProgress)
+    if (description == eventData?.description) {
+      setActiveSection(orderedEventSteps[1]);
+      return;
+    }
+
+    updateDescription(eventData!.eventId, newDescription)
       .then(() => {
         setEventData((prev) => {
           if (!prev) throw new Error("No event.");
-          const inProgress = { ...eventData!.inProgress, description: false };
 
-          return { ...prev, description, inProgress };
+          return { ...prev, description };
         });
+        setActiveSection(orderedEventSteps[1]);
       })
       .catch((error) => console.log(error));
   }

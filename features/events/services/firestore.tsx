@@ -23,7 +23,13 @@ export type EventStepsType =
   | "time"
   | "location"
   | "items";
-export type InProgressType = { description: boolean; invitation: boolean };
+export type InProgressType = {
+  description: boolean;
+  invitation: boolean;
+  time: boolean;
+  location: boolean;
+  items: boolean;
+};
 export type EventType = {
   ownerId: string;
   eventId: string;
@@ -32,7 +38,34 @@ export type EventType = {
   inProgress: InProgressType;
   created_at: Date;
   visibility: VisibilityType;
+  inviteOpt?: InvitationOptType;
+  availabilityOpt?: AvailabilityOptType;
+  locationOpt?: LocationOptType;
+  ItemsOptType?: LocationOptType;
 };
+
+export type InvitationOptType = {
+  limit: number;
+  needApproval: boolean;
+  secret: string;
+};
+
+export type AvailabilityOptType = {
+  start: Date;
+  end: Date;
+};
+
+export type LocationOptType = {};
+
+export type ItemsOptType = {};
+
+export const orderedEventSteps: EventStepsType[] = [
+  "description",
+  "invitation",
+  "time",
+  "location",
+  "items",
+];
 
 const EXCURSION_STEPS = {
   invitation: true,
@@ -111,20 +144,16 @@ export async function getEvent(eventId: string) {
     | undefined;
 }
 
-export async function updateDescription(
-  eventId: string,
-  description: string,
-  inProgress: InProgressType
-) {
+export async function updateDescription(eventId: string, description: string) {
   description = description.trim();
-  let newData: { description: string; inProgress?: InProgressType } = {
-    description,
-  };
+  await updateDoc(doc(db, `events/${eventId}`), { description });
+}
 
-  if (inProgress) {
-    inProgress.description = false;
-    newData = { ...newData, inProgress };
-  }
-
-  await updateDoc(doc(db, `events/${eventId}`), newData);
+export async function updateInvitation(
+  eventId: string,
+  newInvitationOpt: InvitationOptType
+) {
+  await updateDoc(doc(db, `events/${eventId}`), {
+    inviteOpt: newInvitationOpt,
+  });
 }
