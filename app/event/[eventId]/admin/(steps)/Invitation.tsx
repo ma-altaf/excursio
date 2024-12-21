@@ -29,7 +29,6 @@ export default function Invitation() {
   }, []);
 
   function updateInvitationOpt(newInvitationOpt: InvitationOptType) {
-    console.log(newInvitationOpt);
     updateInvitation(
       eventData!.eventId,
       newInvitationOpt,
