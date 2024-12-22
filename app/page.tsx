@@ -1,8 +1,13 @@
+import UserBtn from "@/features/users/components/UserBtn";
 import Link from "next/link";
 
 export default function Home() {
   return (
-    <section className="flex flex-col justify-center items-center w-full h-screen p-2">
+    <section className="flex flex-col justify-center items-center w-full h-screen p-2 relative">
+      <nav className="absolute top-0 w-full flex flex-row items-center justify-between p-1">
+        <p>Excursio</p>
+        <UserBtn />
+      </nav>
       <h1 className="font-bold text-5xl mb-10">Excursio</h1>
       <p className="font-bold mb-1">Excursion planning and management</p>
       <p className="max-w-full md:max-w-[80%] lg:max-w-[50%]">

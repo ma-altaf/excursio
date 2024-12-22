@@ -15,6 +15,14 @@ import { uploadProfilePic } from "./storage";
 
 export type providerType = "anonymous" | "email" | "google";
 
+export type UserDetails = {
+  username: string;
+  imageURL: string;
+  about: string;
+  provider: providerType;
+  uid: string;
+};
+
 export async function createNewUser(
   userCred: UserCredential,
   provider: providerType
@@ -33,7 +41,9 @@ export async function createNewUser(
 }
 
 export async function getUser(uid: string) {
-  return (await getDoc(doc(db, `users/${uid}`))).data();
+  return (await getDoc(doc(db, `users/${uid}`))).data() as
+    | UserDetails
+    | undefined;
 }
 
 export async function updateUsername(
