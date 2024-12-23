@@ -43,7 +43,7 @@ export default function EventPanel() {
   return (
     <nav
       onClick={() => setToggle((prev) => !prev)}
-      className="flex flex-col bg-white border-2 rounded-md m-1 px-2 relative"
+      className="flex flex-col bg-white border-2 rounded-md px-2 h-[99vh] fixed top-[0.5vh] right-1"
     >
       <p className="p-2 uppercase font-bold text-xl text-gray-300 absolute rotate-90 top-0 right-1/2 translate-x-1/2 translate-y-1/2 pointer-events-none">
         {toggle ? "Close" : "Open"}

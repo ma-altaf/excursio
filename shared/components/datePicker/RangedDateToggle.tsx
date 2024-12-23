@@ -40,8 +40,8 @@ export default function RangedDateToggle({
   }
 
   return (
-    <div className="flex flex-col p-2 rounded-md border-2 border-black my-2 items-center">
-      <span className="flex flex-row items-center justify-between mb-1 max-w-[320px]">
+    <div className="flex flex-col p-2 rounded-md border-2 border-black my-2 items-center max-w-[360px]">
+      <span className="flex flex-row items-center justify-between mb-1">
         <span className="flex flex-col items-start">
           <label htmlFor="startTime">
             <b>Start:</b>

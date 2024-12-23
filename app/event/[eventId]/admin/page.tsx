@@ -42,7 +42,7 @@ export default function Event() {
       <div className="h-[10vh] items-center justify-center flex">
         <h1 className="text-3xl p-4">{title}</h1>
       </div>
-      <div className="h-[90vh] w-full pl-2 pr-1 overflow-y-auto">
+      <div className="min-h-[90vh] w-full pb-2 overflow-y-auto">
         {renderEventSection(activeSection)}
       </div>
     </main>
