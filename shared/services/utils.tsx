@@ -1,6 +1,18 @@
-export function getDateFormat(date: Date) {
-  return date.toISOString().split("T")[0];
-}
+export const today = new Date();
+
+export const fullDay = new Array<boolean>(24).fill(true);
+
+export const formatDate = (date: Date) =>
+  new Intl.DateTimeFormat("en-CA", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  }).format(date);
+
+export const formatTime = (date: Date) =>
+  new Intl.DateTimeFormat("en-CA", {
+    timeStyle: "long",
+  }).format(date);
 
 export const namedDays = [
   "Sunday",

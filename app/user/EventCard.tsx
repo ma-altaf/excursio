@@ -1,3 +1,4 @@
+import { formatDate, formatTime } from "@/shared/services/utils";
 import { DocumentData } from "firebase/firestore";
 import Link from "next/link";
 
@@ -11,7 +12,10 @@ export default function EventCard({ data }: { data: DocumentData }) {
     >
       <p className="font-bold">{title}</p>
       <p>{description}</p>
-      <p>{new Date(created_at.toMillis()).toLocaleString()}</p>
+      <p>
+        {formatDate(new Date(created_at.toMillis()))}{" "}
+        {formatTime(new Date(created_at.toMillis()))}
+      </p>
     </Link>
   );
 }

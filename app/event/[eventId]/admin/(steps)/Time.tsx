@@ -2,13 +2,14 @@
 
 import { useState } from "react";
 import { useEventContext } from "../eventProvider";
-import { getDateFormat } from "@/shared/services/utils";
+import { formatDate } from "@/shared/services/utils";
 import DatePicker from "@/shared/components/datePicker/DatePicker";
 
 export default function Time() {
   const { eventData, setEventData, setActiveSection } = useEventContext();
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [endDate, setEndDate] = useState<Date | null>(null);
+  const dateUseState = useState<Map<string, boolean[]>>(new Map());
 
   return (
     <section className="w-full min-h-full h-fit flex flex-col justify-center">
@@ -20,9 +21,9 @@ export default function Time() {
             type="date"
             name="startTime"
             id="startTime"
-            value={getDateFormat(startDate)}
-            min={getDateFormat(new Date())}
-            max={`${endDate && getDateFormat(endDate)}`}
+            value={formatDate(startDate)}
+            min={formatDate(new Date())}
+            max={`${endDate && formatDate(endDate)}`}
             onChange={(e) => {
               setStartDate(() => {
                 const newDate = new Date(e.target.value);
@@ -40,10 +41,8 @@ export default function Time() {
             type="date"
             name="endTime"
             id="endTime"
-            min={`${getDateFormat(startDate)}`}
-            value={
-              (endDate && getDateFormat(endDate)) || getDateFormat(startDate)
-            }
+            min={`${formatDate(startDate)}`}
+            value={(endDate && formatDate(endDate)) || formatDate(startDate)}
             onChange={(e) => {
               setEndDate(() => {
                 const newDate = new Date(e.target.value);
@@ -57,7 +56,7 @@ export default function Time() {
         </span>
       </span>
       <div className="w-full flex items-center justify-center">
-        <DatePicker />
+        <DatePicker dateUseState={dateUseState} />
       </div>
     </section>
   );

@@ -20,7 +20,6 @@ export default function Create() {
   function create(uid: string, title: string) {
     createExcursion(uid, title)
       .then((eventRef) => {
-        console.log(eventRef);
         eventNavigate(eventRef.id);
       })
       .catch((error) => {
