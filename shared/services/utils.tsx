@@ -14,6 +14,11 @@ export const formatTime = (date: Date) =>
     timeStyle: "long",
   }).format(date);
 
+export const resetTime = (date: Date) => {
+  date.setHours(0, 0, 0, 0);
+  return date;
+};
+
 export const namedDays = [
   "Sunday",
   "Monday",
