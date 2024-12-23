@@ -56,8 +56,7 @@ export default function RangedDateToggle({
             onChange={(e) => {
               setStartDate(() => {
                 const newDate = new Date(e.target.value);
-                newDate.setHours(24, 0, 0, 0);
-                console.log(`start: ${newDate}`);
+                newDate.setHours(24, 0, 0, 0); // date from string behave differently
 
                 if (endDate && newDate > endDate) {
                   return endDate;
@@ -82,8 +81,7 @@ export default function RangedDateToggle({
             onChange={(e) => {
               setEndDate(() => {
                 const newDate = new Date(e.target.value);
-                newDate.setHours(24, 0, 0, 0);
-                console.log(`end: ${newDate}`);
+                newDate.setHours(24, 0, 0, 0); // date from string behave differently
 
                 if (newDate < startDate) {
                   return startDate;
