@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useEventContext } from "../eventProvider";
 import { getDateFormat } from "@/shared/services/utils";
-import DatePicker from "@/shared/components/DatePicker";
+import DatePicker from "@/shared/components/datePicker/DatePicker";
 
 export default function Time() {
   const { eventData, setEventData, setActiveSection } = useEventContext();
@@ -56,7 +56,9 @@ export default function Time() {
           />
         </span>
       </span>
-      <DatePicker />
+      <div className="w-full flex items-center justify-center">
+        <DatePicker />
+      </div>
     </section>
   );
 }
