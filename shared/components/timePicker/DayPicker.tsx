@@ -1,4 +1,3 @@
-import { fullDay } from "@/shared/services/utils";
 import React, { Dispatch, SetStateAction } from "react";
 
 export default function DayPicker({
@@ -15,19 +14,22 @@ export default function DayPicker({
   const fullDate = dates.find((d) => Number(d.split("-")[2]) == date);
   const [datesTime, setDates] = dateUseState;
 
-  function toggleTime(i: number, fullDate: string | undefined) {
+  if (!fullDate) throw new Error("date not found");
+
+  const dateTime = datesTime.get(fullDate);
+
+  if (!dateTime) throw new Error("date times not found");
+
+  function toggleTime(i: number, currStatus: boolean) {
     console.log(`${fullDate}: ${datesTime.get(fullDate || "")}`);
-    // TODO: fix ERROR
-    if (!fullDate) {
-      throw new Error("date not found");
-    }
+
     setDates((prev) => {
-      const prevTime = prev.get(fullDate);
-      if (!prevTime) {
-        throw new Error("cannot toggle date");
+      if (!dateTime || !fullDate) {
+        throw new Error("failed to update time");
       }
-      prevTime[i] = !prevTime[i];
-      return prev.set(fullDate, prevTime);
+      dateTime[i] = !currStatus;
+      prev.set(fullDate, dateTime);
+      return new Map(prev);
     });
   }
 
@@ -36,13 +38,13 @@ export default function DayPicker({
       <p className="h-8 px-1 border-black border-b-2 flex justify-center items-center">
         {date}
       </p>
-      {fullDay.map((_, i) => {
+      {dateTime.map((v, i) => {
         return (
           <button
-            onClick={() => toggleTime(i, fullDate)}
+            onClick={() => toggleTime(i, v)}
             key={i}
-            className={`border-b-2 border-black h-8 w-12 bg-${
-              datesTime.get(fullDate || "")![i] ? "accent" : "foreground"
+            className={`border-b-2 border-black h-8 w-12 ${
+              v ? "bg-accent" : "bg-foreground"
             }`}
           ></button>
         );

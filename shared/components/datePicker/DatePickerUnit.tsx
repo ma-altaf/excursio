@@ -19,7 +19,7 @@ export default function DateUnit({
       if (isActive) {
         prev.delete(dateStr);
       } else {
-        prev.set(dateStr, fullDay);
+        prev.set(dateStr, [...fullDay]);
       }
       return new Map(prev);
     });

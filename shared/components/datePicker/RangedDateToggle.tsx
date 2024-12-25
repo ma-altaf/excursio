@@ -31,7 +31,7 @@ export default function RangedDateToggle({
         if (prev.has(date)) {
           prev.delete(date);
         } else {
-          prev.set(date, fullDay);
+          prev.set(date, [...fullDay]);
         }
         dateIter = new Date(dateIter.setDate(dateIter.getDate() + 1));
       }
