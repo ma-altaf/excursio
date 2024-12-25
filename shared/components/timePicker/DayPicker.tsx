@@ -44,7 +44,7 @@ export default function DayPicker({
             onClick={() => toggleTime(i, v)}
             key={i}
             className={`border-b-2 border-black h-8 w-12 ${
-              v ? "bg-accent" : "bg-foreground"
+              v ? "bg-accent" : "bg-background"
             }`}
           ></button>
         );
