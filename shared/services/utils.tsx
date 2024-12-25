@@ -48,46 +48,60 @@ export const namedMonths = [
   "December",
 ];
 
-export function datesToDateMap(dates: Map<string, boolean[]>) {
-  const res: DateMap = new Map(new Map(new Map()));
-
-  dates.forEach((value, key) => {
-    const d = key.split("-");
-
-    const year = Number(d[0]);
-    const month = Number(d[1]) - 1;
-    const date = Number(d[2]);
-
-    if (!res.get(year)) {
-      res.set(year, new Map());
-    }
-
-    if (!res.get(year)?.get(month)) {
-      res.get(year)?.set(month, new Map());
-    }
-
-    res.get(year)?.get(month)?.set(date, value);
+export function sortedGroups(
+  dateKeys: string[],
+  collector: (item: string) => number
+) {
+  const res = new Map<number, string[]>();
+  dateKeys.forEach((date) => {
+    const key = collector(date);
+    if (!res.get(key)) res.set(key, []);
+    res.get(key)?.push(date);
   });
 
-  return res;
+  return [...res.entries()].sort((a, b) => a[0] - b[0]);
 }
 
-export function dateMapToDates(dateMap: DateMap) {
-  const res = new Map();
+// export function datesToDateMap(dates: Map<string, boolean[]>) {
+//   const res: DateMap = new Map(new Map(new Map()));
 
-  dateMap.keys().forEach((year) => {
-    dateMap
-      .get(year)
-      ?.keys()
-      .forEach((month) => {
-        dateMap
-          .get(year)
-          ?.get(month)
-          ?.forEach((value, date) => {
-            res.set(`${year}-${month}-${date}`, value);
-          });
-      });
-  });
+//   dates.forEach((value, key) => {
+//     const d = key.split("-");
 
-  return res;
-}
+//     const year = Number(d[0]);
+//     const month = Number(d[1]) - 1;
+//     const date = Number(d[2]);
+
+//     if (!res.get(year)) {
+//       res.set(year, new Map());
+//     }
+
+//     if (!res.get(year)?.get(month)) {
+//       res.get(year)?.set(month, new Map());
+//     }
+
+//     res.get(year)?.get(month)?.set(date, value);
+//   });
+
+//   return res;
+// }
+
+// export function dateMapToDates(dateMap: DateMap) {
+//   const res = new Map();
+
+//   dateMap.keys().forEach((year) => {
+//     dateMap
+//       .get(year)
+//       ?.keys()
+//       .forEach((month) => {
+//         dateMap
+//           .get(year)
+//           ?.get(month)
+//           ?.forEach((value, date) => {
+//             res.set(`${year}-${month}-${date}`, value);
+//           });
+//       });
+//   });
+
+//   return res;
+// }
