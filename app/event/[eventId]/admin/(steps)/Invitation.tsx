@@ -17,6 +17,7 @@ export default function Invitation() {
     secret: "",
   });
   const [limit, setLimit] = useState(10);
+  const [changed, setChanged] = useState(false);
 
   useEffect(() => {
     if (eventData!.inviteOpt) {
@@ -27,6 +28,14 @@ export default function Invitation() {
       }
     }
   }, []);
+
+  useEffect(() => {
+    setChanged(
+      eventData?.inviteOpt?.needApproval != invitation.needApproval ||
+        eventData?.inviteOpt?.secret != invitation.secret ||
+        eventData?.inviteOpt?.limit != invitation.limit
+    );
+  }, [eventData, invitation]);
 
   function updateInvitationOpt(newInvitationOpt: InvitationOptType) {
     updateInvitation(
@@ -147,8 +156,13 @@ export default function Invitation() {
         className="p-button rounded-md bg-accent mt-2"
         onClick={() => updateInvitationOpt(invitation)}
       >
-        Next
+        {changed ? "Submit" : "Next"}
       </button>
+      {changed && (
+        <p className="mt-2 py-1 px-2 bg-gray-100 rounded-md border-2 border-gray-200">
+          *Unsubmitted Changes, please submit your changes to save them.
+        </p>
+      )}
     </section>
   );
 }

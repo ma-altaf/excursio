@@ -64,7 +64,7 @@ export default function Time() {
   return (
     <section className="w-full min-h-full h-fit flex flex-col justify-center items-center">
       {eventData?.inProgress.time && <p>In progress</p>}
-      <div className="w-full flex items-center justify-center">
+      <div className="w-full flex flex-col items-center justify-center">
         <span className="w-fit flex flex-col items-center">
           {showDatePicker ? (
             <>
@@ -98,10 +98,12 @@ export default function Time() {
               </span>
             </>
           )}
-          {changed && (
-            <p>Unsubmitted Changes, please submit your changes to save them</p>
-          )}
         </span>
+        {changed && (
+          <p className="mt-2 py-1 px-2 bg-gray-100 rounded-md border-2 border-gray-200">
+            *Unsubmitted Changes, please submit your changes to save them.
+          </p>
+        )}
       </div>
     </section>
   );

@@ -1,8 +1,8 @@
 import { namedMonths, sortedGroups } from "@/shared/services/utils";
 import React, { Dispatch, SetStateAction } from "react";
-import DayPicker from "./DayPicker";
+import Day from "./Day";
 
-export default function MonthPicker({
+export default function Month({
   dateUseState,
   monthDates,
   setChange,
@@ -24,7 +24,7 @@ export default function MonthPicker({
       <div className="flex flex-row h-full">
         {sortedGroups(dates, (date) => Number(date.split("-")[2])).map(
           (v: [number, string[]]) => (
-            <DayPicker
+            <Day
               key={v[0]}
               dateUseState={dateUseState}
               DateDates={v}

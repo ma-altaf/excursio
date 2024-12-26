@@ -1,6 +1,7 @@
+import { namedDays } from "@/shared/services/utils";
 import React, { Dispatch, SetStateAction } from "react";
 
-export default function DayPicker({
+export default function Day({
   dateUseState,
   DateDates,
   setChange,
@@ -19,6 +20,7 @@ export default function DayPicker({
   if (!fullDate) throw new Error("date not found");
 
   const dateTime = datesTime.get(fullDate);
+  const day = new Date(fullDate).getDay();
 
   if (!dateTime) throw new Error("date times not found");
 
@@ -36,7 +38,8 @@ export default function DayPicker({
 
   return (
     <div className="flex flex-col border-r-2 border-black h-full">
-      <p className="h-8 px-1 border-black border-b-2 flex justify-center items-center">
+      <p className="h-12 px-1 border-black border-b-2 flex flex-col justify-center items-center">
+        <b>{namedDays[day].substring(0, 3)}</b>
         {date}
       </p>
       {dateTime.map((v, i) => {

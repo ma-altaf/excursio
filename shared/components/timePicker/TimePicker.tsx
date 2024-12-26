@@ -1,6 +1,6 @@
 import { fullDay } from "@/shared/services/utils";
 import { Dispatch, SetStateAction } from "react";
-import TimePanel from "./TimePanel";
+import Time from "./Time";
 
 export default function TimePicker({
   dateUseState,
@@ -16,8 +16,8 @@ export default function TimePicker({
     <div className="rounded-md border-2 border-black flex flex-row max-h-[75vh] max-w-screen-sm overflow-auto">
       <div className="h-full">
         <div
-          className="bg-blue-300 border-b-2 border-r-2 border-black"
-          style={{ height: "6rem" }}
+          className=" border-b-2 border-r-2 border-black"
+          style={{ height: "7rem" }}
         >
           {/* spacer */}
         </div>
@@ -34,7 +34,7 @@ export default function TimePicker({
           })}
         </span>
       </div>
-      <TimePanel dateUseState={dateUseState} setChange={setChange} />
+      <Time dateUseState={dateUseState} setChange={setChange} />
     </div>
   );
 }

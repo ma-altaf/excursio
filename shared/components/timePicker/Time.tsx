@@ -1,8 +1,8 @@
 import { sortedGroups } from "@/shared/services/utils";
 import { Dispatch, SetStateAction } from "react";
-import YearPicker from "./YearPicker";
+import Year from "./Year";
 
-export default function TimePanel({
+export default function Time({
   dateUseState,
   setChange,
 }: {
@@ -19,7 +19,7 @@ export default function TimePanel({
       {sortedGroups([...dates.keys()], (date) =>
         Number(date.split("-")[0])
       ).map((v: [number, string[]]) => (
-        <YearPicker
+        <Year
           key={v[0]}
           dateUseState={dateUseState}
           yearDates={v}
