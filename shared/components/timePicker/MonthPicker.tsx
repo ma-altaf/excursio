@@ -5,12 +5,14 @@ import DayPicker from "./DayPicker";
 export default function MonthPicker({
   dateUseState,
   monthDates,
+  setChange,
 }: {
   dateUseState: [
     Map<string, boolean[]>,
     Dispatch<SetStateAction<Map<string, boolean[]>>>
   ];
   monthDates: [number, string[]];
+  setChange: Dispatch<SetStateAction<boolean>>;
 }) {
   const [month, dates] = monthDates;
 
@@ -22,7 +24,12 @@ export default function MonthPicker({
       <div className="flex flex-row h-full">
         {sortedGroups(dates, (date) => Number(date.split("-")[2])).map(
           (v: [number, string[]]) => (
-            <DayPicker key={v[0]} dateUseState={dateUseState} DateDates={v} />
+            <DayPicker
+              key={v[0]}
+              dateUseState={dateUseState}
+              DateDates={v}
+              setChange={setChange}
+            />
           )
         )}
       </div>

@@ -6,11 +6,13 @@ export default function DateUnit({
   isActive,
   disabled,
   setDates,
+  setChange,
 }: {
   date: Date;
   isActive: boolean;
   disabled: boolean;
   setDates: Dispatch<SetStateAction<Map<string, boolean[]>>>;
+  setChange: Dispatch<SetStateAction<boolean>>;
 }) {
   function updateDates(date: Date) {
     const dateStr = formatDate(date);
@@ -21,6 +23,7 @@ export default function DateUnit({
       } else {
         prev.set(dateStr, [...fullDay]);
       }
+      setChange(true);
       return new Map(prev);
     });
   }

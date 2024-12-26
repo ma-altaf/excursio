@@ -3,12 +3,14 @@ import React, { Dispatch, SetStateAction } from "react";
 export default function DayPicker({
   dateUseState,
   DateDates,
+  setChange,
 }: {
   dateUseState: [
     Map<string, boolean[]>,
     Dispatch<SetStateAction<Map<string, boolean[]>>>
   ];
   DateDates: [number, string[]];
+  setChange: Dispatch<SetStateAction<boolean>>;
 }) {
   const [date, dates] = DateDates;
   const fullDate = dates.find((d) => Number(d.split("-")[2]) == date);
@@ -21,14 +23,13 @@ export default function DayPicker({
   if (!dateTime) throw new Error("date times not found");
 
   function toggleTime(i: number, currStatus: boolean) {
-    console.log(`${fullDate}: ${datesTime.get(fullDate || "")}`);
-
     setDates((prev) => {
       if (!dateTime || !fullDate) {
         throw new Error("failed to update time");
       }
       dateTime[i] = !currStatus;
       prev.set(fullDate, dateTime);
+      setChange(true);
       return new Map(prev);
     });
   }

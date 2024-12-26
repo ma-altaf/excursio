@@ -1,22 +1,20 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import DateHeader from "./DatePickerHeader";
 import DateUnit from "./DatePickerUnit";
 import { formatDate, namedDays, today } from "@/shared/services/utils";
 
 export default function DatePicker({
   dateUseState,
+  setChange,
 }: {
   dateUseState: [
     Map<string, boolean[]>,
     Dispatch<SetStateAction<Map<string, boolean[]>>>
   ];
+  setChange: Dispatch<SetStateAction<boolean>>;
 }) {
   const [currDate, setCurrDate] = useState(new Date(new Date().setDate(1)));
   const [dates, setDates] = dateUseState;
-
-  useEffect(() => {
-    console.log(dates);
-  }, [dates]);
 
   function renderUnits(month: Date) {
     const firstDayIndex = month.getDay();
@@ -36,6 +34,7 @@ export default function DatePicker({
           date={date}
           isActive={dates.has(dateStr)}
           setDates={setDates}
+          setChange={setChange}
           key={`${index}`}
         />
       );

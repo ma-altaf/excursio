@@ -11,6 +11,7 @@ import {
   query,
   QueryDocumentSnapshot,
   serverTimestamp,
+  setDoc,
   startAfter,
   updateDoc,
   where,
@@ -39,20 +40,15 @@ export type EventType = {
   created_at: Date;
   visibility: VisibilityType;
   inviteOpt?: InvitationOptType;
-  availabilityOpt?: AvailabilityOptType;
   locationOpt?: LocationOptType;
   ItemsOptType?: LocationOptType;
+  time: Map<string, boolean[]>;
 };
 
 export type InvitationOptType = {
   limit: number;
   needApproval: boolean;
   secret: string;
-};
-
-export type AvailabilityOptType = {
-  start: Date;
-  end: Date;
 };
 
 export type LocationOptType = {};
@@ -159,4 +155,25 @@ export async function updateInvitation(
     inviteOpt: newInvitationOpt,
     inProgress,
   });
+}
+
+export async function setDateTimes(
+  eventId: string,
+  dateMaps: Map<string, boolean[]>,
+  inProgress: InProgressType
+) {
+  inProgress.time = false;
+  const data = Object.fromEntries(dateMaps);
+
+  await setDoc(doc(db, `events/${eventId}/times/setup`), data);
+  await updateDoc(doc(db, `events/${eventId}`), {
+    inProgress,
+  });
+}
+
+export async function getDateTimes(eventId: string) {
+  const dateTime = (
+    await getDoc(doc(db, `events/${eventId}/times/setup`))
+  ).data() as { [key: string]: boolean[] };
+  return new Map(Object.entries(dateTime));
 }

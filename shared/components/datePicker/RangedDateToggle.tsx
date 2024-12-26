@@ -44,7 +44,7 @@ export default function RangedDateToggle({
       <span className="flex flex-row items-center justify-between mb-1">
         <span className="flex flex-col items-start">
           <label htmlFor="startTime">
-            <b>Start:</b>
+            <b>From:</b>
           </label>
           <input
             type="date"
@@ -69,7 +69,7 @@ export default function RangedDateToggle({
         <FaArrowRightLong className="size-5 mx-4" />
         <span className="flex flex-col items-start">
           <label htmlFor="endTime">
-            <b>End:</b>
+            <b>To:</b>
           </label>
           <input
             type="date"

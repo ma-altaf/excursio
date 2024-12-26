@@ -5,12 +5,14 @@ import MonthPicker from "./MonthPicker";
 export default function YearPicker({
   dateUseState,
   yearDates,
+  setChange,
 }: {
   dateUseState: [
     Map<string, boolean[]>,
     Dispatch<SetStateAction<Map<string, boolean[]>>>
   ];
   yearDates: [number, string[]];
+  setChange: Dispatch<SetStateAction<boolean>>;
 }) {
   const [year, dates] = yearDates;
 
@@ -26,6 +28,7 @@ export default function YearPicker({
               key={v[0]}
               dateUseState={dateUseState}
               monthDates={v}
+              setChange={setChange}
             />
           )
         )}

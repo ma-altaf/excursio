@@ -4,11 +4,13 @@ import TimePanel from "./TimePanel";
 
 export default function TimePicker({
   dateUseState,
+  setChange,
 }: {
   dateUseState: [
     Map<string, boolean[]>,
     Dispatch<SetStateAction<Map<string, boolean[]>>>
   ];
+  setChange: Dispatch<SetStateAction<boolean>>;
 }) {
   return (
     <div className="rounded-md border-2 border-black flex flex-row max-h-[75vh] max-w-screen-sm overflow-auto">
@@ -32,7 +34,7 @@ export default function TimePicker({
           })}
         </span>
       </div>
-      <TimePanel dateUseState={dateUseState} />
+      <TimePanel dateUseState={dateUseState} setChange={setChange} />
     </div>
   );
 }
