@@ -78,13 +78,10 @@ export default function Invitation() {
   return (
     <section className="w-full min-h-full h-fit flex flex-col justify-center">
       {eventData?.inProgress.invitation && <p>In progress</p>}
-      <span className="flex flex-row">
-        <input
-          type="checkbox"
-          name="unlimitedChk"
-          id="unlimitedChk"
+      <label htmlFor="unlimitedChk" className="flex flex-row items-center">
+        <Toggle
           checked={invitation.limit == Number.MAX_VALUE}
-          className="hidden"
+          id="unlimitedChk"
           onChange={(e) => {
             setInvitation((prev) => ({
               ...prev,
@@ -92,11 +89,8 @@ export default function Invitation() {
             }));
           }}
         />
-        <label htmlFor="unlimitedChk" className="flex flex-row items-center">
-          <Toggle active={invitation.limit == Number.MAX_VALUE} />
-          <p className="ml-4">Unlimited number of members.</p>
-        </label>
-      </span>
+        <p className="ml-4">Unlimited number of members.</p>
+      </label>
 
       {invitation.limit != Number.MAX_VALUE && (
         <>
@@ -116,13 +110,10 @@ export default function Invitation() {
 
       <hr className="w-full border-1 my-2" />
 
-      <span>
-        <input
-          type="checkbox"
-          name="needApproval"
-          id="needApproval"
+      <label htmlFor="needApproval" className="flex flex-row items-center">
+        <Toggle
           checked={invitation.needApproval}
-          className="hidden"
+          id="needApproval"
           onChange={() => {
             setInvitation((prev) => ({
               ...prev,
@@ -130,12 +121,8 @@ export default function Invitation() {
             }));
           }}
         />
-
-        <label htmlFor="needApproval" className="flex flex-row items-center">
-          <Toggle active={invitation.needApproval} />
-          <p className="ml-4">Need approval from organizer</p>
-        </label>
-      </span>
+        <p className="ml-4">Need approval from organizer</p>
+      </label>
 
       <hr className="w-full border-1 my-2" />
 

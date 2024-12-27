@@ -51,7 +51,9 @@ export type InvitationOptType = {
   secret: string;
 };
 
-export type LocationOptType = {};
+export type LocationOptType = {
+  num_suggestions: number;
+};
 
 export type ItemsOptType = {};
 
@@ -176,4 +178,16 @@ export async function getDateTimes(eventId: string) {
     await getDoc(doc(db, `events/${eventId}/times/setup`))
   ).data() as { [key: string]: boolean[] };
   return new Map(Object.entries(dateTime));
+}
+
+export async function updateLocation(
+  eventId: string,
+  newLocationOpt: LocationOptType,
+  inProgress: InProgressType
+) {
+  inProgress.location = false;
+  await updateDoc(doc(db, `events/${eventId}`), {
+    locationOpt: newLocationOpt,
+    inProgress,
+  });
 }

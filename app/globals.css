@@ -48,6 +48,6 @@ body,
 }
 
 .toggleActive {
-  clip-path: circle(75% at 50% 51%);
+  clip-path: circle(75% at 50% 50%);
   padding: 2px;
 }
