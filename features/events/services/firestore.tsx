@@ -27,7 +27,7 @@ export type EventStepsType =
 export type InProgressType = {
   description: boolean;
   invitation: boolean;
-  time: boolean;
+  times: boolean;
   location: boolean;
   items: boolean;
 };
@@ -42,7 +42,8 @@ export type EventType = {
   inviteOpt?: InvitationOptType;
   locationOpt?: LocationOptType;
   ItemsOptType?: LocationOptType;
-  time: Map<string, boolean[]>;
+  times: Map<string, boolean[]>;
+  locations: LocationType[] | null;
 };
 
 export type InvitationOptType = {
@@ -53,6 +54,12 @@ export type InvitationOptType = {
 
 export type LocationOptType = {
   num_suggestions: number;
+};
+
+export type LocationType = {
+  title: string;
+  isOnline: boolean;
+  link: string;
 };
 
 export type ItemsOptType = {};
@@ -67,7 +74,7 @@ export const orderedEventSteps: EventStepsType[] = [
 
 const EXCURSION_STEPS = {
   invitation: true,
-  time: true,
+  times: true,
   location: true,
   items: true,
 };
@@ -142,10 +149,14 @@ export async function getEvent(eventId: string) {
     | undefined;
 }
 
+// Edit description
+
 export async function updateDescription(eventId: string, description: string) {
   description = description.trim();
   await updateDoc(doc(db, `events/${eventId}`), { description });
 }
+
+// Edit invitation
 
 export async function updateInvitation(
   eventId: string,
@@ -159,15 +170,17 @@ export async function updateInvitation(
   });
 }
 
+// Edit times
+
 export async function setDateTimes(
   eventId: string,
   dateMaps: Map<string, boolean[]>,
   inProgress: InProgressType
 ) {
-  inProgress.time = false;
+  inProgress.times = false;
   const data = Object.fromEntries(dateMaps);
 
-  await setDoc(doc(db, `events/${eventId}/times/setup`), data);
+  await setDoc(doc(db, `events/${eventId}/lists/times`), data);
   await updateDoc(doc(db, `events/${eventId}`), {
     inProgress,
   });
@@ -175,12 +188,14 @@ export async function setDateTimes(
 
 export async function getDateTimes(eventId: string) {
   const dateTime = (
-    await getDoc(doc(db, `events/${eventId}/times/setup`))
+    await getDoc(doc(db, `events/${eventId}/lists/times`))
   ).data() as { [key: string]: boolean[] };
   return new Map(Object.entries(dateTime));
 }
 
-export async function updateLocation(
+// Edit locations
+
+export async function uploadLocationOpt(
   eventId: string,
   newLocationOpt: LocationOptType,
   inProgress: InProgressType
@@ -190,4 +205,20 @@ export async function updateLocation(
     locationOpt: newLocationOpt,
     inProgress,
   });
+}
+
+export async function setLocations(eventId: string, locations: LocationType[]) {
+  return await setDoc(doc(db, `events/${eventId}/lists/locations`), {
+    locations,
+  });
+}
+
+export async function getLocations(eventId: string) {
+  const res = (
+    await getDoc(doc(db, `events/${eventId}/lists/locations`))
+  ).data();
+
+  if (!res) return [];
+
+  return res.locations as LocationType[];
 }

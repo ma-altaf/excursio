@@ -8,19 +8,17 @@ import { getUser, UserDetails } from "../services/firestore";
 
 export default function UserBtn() {
   const { authLoading, user } = useAuthContext();
-  const [userPresent, setUserPresent] = useState(false);
   const [userDetails, setUserDetails] = useState<UserDetails | undefined>(
     undefined
   );
 
   useEffect(() => {
     if (!authLoading && user) {
-      setUserPresent(true);
       getUser(user.uid).then((res) => setUserDetails(res));
     }
-  }, [authLoading, user]);
+  }, [authLoading, user, userDetails]);
 
-  return userPresent ? (
+  return userDetails ? (
     <Link
       href={`/user/${user?.uid}`}
       className="flex flex-row items-center px-2 py-1 w-fit rounded-md bg-gray-200"

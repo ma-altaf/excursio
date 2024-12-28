@@ -20,23 +20,23 @@ export default function Time() {
   const [dates, setDates] = dateUseState;
 
   useEffect(() => {
-    if (!eventData?.time) {
+    if (!eventData?.times) {
       getDateTimes(eventData!.eventId)
         .then((data) => {
           setEventData((prev) => {
             if (!prev) throw new Error("No event.");
 
-            return { ...prev, time: data };
+            return { ...prev, times: data };
           });
           setDates(structuredClone(data));
         })
         .catch((e) => console.log(e));
     }
 
-    if (eventData?.time) {
-      setDates(structuredClone(eventData?.time));
+    if (eventData?.times) {
+      setDates(structuredClone(eventData?.times));
     }
-  }, []);
+  }, [eventData]);
 
   function uploadDateTime() {
     const eventId = eventData?.eventId;
@@ -50,9 +50,9 @@ export default function Time() {
       .then(() => {
         setEventData((prev) => {
           if (!prev) throw new Error("No event.");
-          const inProgress = { ...eventData!.inProgress, time: false };
+          const inProgress = { ...eventData!.inProgress, times: false };
 
-          return { ...prev, time: dates, inProgress };
+          return { ...prev, times: dates, inProgress };
         });
         setActiveSection(orderedEventSteps[3]);
       })
@@ -63,7 +63,7 @@ export default function Time() {
 
   return (
     <section className="w-full min-h-full h-fit flex flex-col justify-center items-center">
-      {eventData?.inProgress.time && <p>In progress</p>}
+      {eventData?.inProgress.times && <p>In progress</p>}
       <div className="w-full flex flex-col items-center justify-center">
         <span className="w-fit flex flex-col items-center">
           {showDatePicker ? (

@@ -2,35 +2,79 @@ import Toggle from "@/shared/components/Toggle";
 import { useEventContext } from "../eventProvider";
 import { ChangeEvent, useEffect, useState } from "react";
 import {
+  getLocations,
   LocationOptType,
+  LocationType,
   orderedEventSteps,
-  updateLocation,
+  setLocations,
+  uploadLocationOpt,
 } from "@/features/events/services/firestore";
 import LocationSuggestions from "@/shared/components/locationSuggestions/LocationSuggestions";
 
 export default function Location() {
   const { eventData, setEventData, setActiveSection } = useEventContext();
-  const [location, setLocation] = useState<LocationOptType>({
+  const [locationOpt, setLocationOpt] = useState<LocationOptType>({
     num_suggestions: 0,
   });
   const [limit, setLimit] = useState(1);
+  const locationsListState = useState<LocationType[]>([]);
   const [changed, setChanged] = useState(false);
 
+  const [locationsList, setLocationsList] = locationsListState;
+
   useEffect(() => {
+    if (!eventData) {
+      throw new Error("No event data");
+
+      return;
+    }
+
     if (eventData!.locationOpt) {
-      setLocation(eventData!.locationOpt);
+      setLocationOpt(eventData!.locationOpt);
 
       if (eventData!.locationOpt.num_suggestions != 0) {
         setLimit(eventData!.locationOpt.num_suggestions);
       }
     }
-  }, []);
+
+    if (eventData?.locations) {
+      setLocationsList(eventData?.locations);
+    } else {
+      getLocations(eventData?.eventId).then((res) => {
+        setEventData((prev) => {
+          if (!prev) throw new Error("No event.");
+
+          return { ...prev, locations: res };
+        });
+      });
+    }
+  }, [eventData]);
 
   useEffect(() => {
-    setChanged(
-      eventData?.locationOpt?.num_suggestions != location.num_suggestions
-    );
-  }, [eventData, location]);
+    setChanged(() => {
+      if (
+        eventData?.locationOpt?.num_suggestions !=
+          locationOpt.num_suggestions ||
+        !eventData.locations ||
+        eventData.locations.length != locationsList.length
+      )
+        return true;
+
+      for (let index = 0; index < eventData.locations.length; index++) {
+        const loc = eventData.locations[index];
+
+        if (
+          !locationsList.map((l) => l.title).includes(loc.title) ||
+          !locationsList.map((l) => l.isOnline).includes(loc.isOnline) ||
+          !locationsList.map((l) => l.link).includes(loc.link)
+        ) {
+          return true;
+        }
+      }
+
+      return false;
+    });
+  }, [eventData, locationOpt, locationsList]);
 
   function limitNumChange(e: ChangeEvent<HTMLInputElement>) {
     let newLimit = Number(e.target.value);
@@ -41,14 +85,24 @@ export default function Location() {
     }
 
     setLimit(newLimit);
-    setLocation((prev) => ({
+    setLocationOpt((prev) => ({
       ...prev,
       num_suggestions: newLimit,
     }));
   }
 
-  function updateLocationtionOpt(newLocationOpt: LocationOptType) {
-    updateLocation(eventData!.eventId, newLocationOpt, eventData!.inProgress)
+  function updateLocation(newLocationOpt: LocationOptType) {
+    if (!changed) {
+      setActiveSection(orderedEventSteps[4]);
+      return;
+    }
+
+    if (!eventData?.eventId) {
+      throw new Error("no event ID");
+      return;
+    }
+
+    uploadLocationOpt(eventData!.eventId, newLocationOpt, eventData!.inProgress)
       .then(() => {
         setEventData((prev) => {
           if (!prev) throw new Error("No event.");
@@ -56,39 +110,44 @@ export default function Location() {
 
           return { ...prev, locationOpt: newLocationOpt, inProgress };
         });
-        setActiveSection(orderedEventSteps[3]);
       })
-      .catch((e) => {
-        console.log(e);
-        if (eventData?.locationOpt) {
-          setLocation(eventData.locationOpt);
-        }
-      });
+      .catch((e) => console.log(e));
+
+    setLocations(eventData.eventId, locationsList)
+      .then(() => {
+        setEventData((prev) => {
+          if (!prev) throw new Error("No event.");
+
+          return { ...prev, locations: locationsList };
+        });
+        setActiveSection(orderedEventSteps[4]);
+      })
+      .catch((e) => console.log(e));
   }
 
   return (
     <section className="w-full min-h-full h-fit flex flex-col justify-center items-center">
-      {eventData?.inProgress.time && <p>In progress</p>}
+      {eventData?.inProgress.times && <p>In progress</p>}
       <div className="w-full flex flex-col justify-center">
-        <LocationSuggestions />
+        <LocationSuggestions locationsListState={locationsListState} />
 
         <hr className="w-full border-1 my-2" />
 
         <label htmlFor="suggestionChk" className="flex flex-row items-center">
           <Toggle
-            checked={location.num_suggestions == 0}
+            checked={locationOpt.num_suggestions == 0}
             id="suggestionChk"
             onChange={(e) => {
-              setLocation((prev) => ({
+              setLocationOpt((prev) => ({
                 ...prev,
                 num_suggestions: e.target.checked ? 0 : limit,
               }));
             }}
           />
-          <p className="ml-4">No suggestion.</p>
+          <p className="ml-4">No suggestion from members.</p>
         </label>
 
-        {location.num_suggestions != 0 && (
+        {locationOpt.num_suggestions != 0 && (
           <>
             <label htmlFor="limit">
               Maximum number of suggestion per member:
@@ -108,7 +167,7 @@ export default function Location() {
 
         <button
           className="p-button rounded-md bg-accent mt-2"
-          onClick={() => updateLocationtionOpt(location)}
+          onClick={() => updateLocation(locationOpt)}
         >
           {changed ? "Submit" : "Next"}
         </button>
