@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEventHandler } from "react";
+import { ChangeEventHandler, useRef } from "react";
 import { FaCheck } from "react-icons/fa";
 
 export default function Toggle({
@@ -12,6 +12,7 @@ export default function Toggle({
   id: string;
   onChange: ChangeEventHandler<HTMLInputElement>;
 }) {
+  const chkBtn = useRef<HTMLInputElement>(null);
   return (
     <>
       <input
@@ -21,8 +22,13 @@ export default function Toggle({
         className="hidden"
         checked={checked}
         onChange={onChange}
+        ref={chkBtn}
       />
-      <div className="toggleBackground">
+      <div
+        className="toggleBackground"
+        tabIndex={0}
+        onKeyDown={(e) => e.key === " " && chkBtn.current?.click()}
+      >
         <div
           className={`toggleForeground flex justify-center items-center ${
             checked ? "toggleActive" : ""
