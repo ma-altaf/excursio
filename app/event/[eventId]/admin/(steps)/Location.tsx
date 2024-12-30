@@ -126,7 +126,7 @@ export default function Location() {
   }
 
   return (
-    <section className="w-full min-h-full h-fit flex flex-col justify-center items-center">
+    <section className="w-full min-h-full h-fit flex flex-col justify-center items-center p-1">
       {eventData?.inProgress.times && <p>In progress</p>}
       <div className="w-full flex flex-col justify-center">
         <LocationSuggestions locationsListState={locationsListState} />

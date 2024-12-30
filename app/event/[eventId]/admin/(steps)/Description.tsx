@@ -39,7 +39,7 @@ export default function Description() {
   }
 
   return (
-    <section className="w-full h-full flex flex-col justify-center">
+    <section className="w-full h-full flex flex-col justify-center p-1">
       <label htmlFor="description">Description: (Optional)</label>
       <textarea
         id="description"

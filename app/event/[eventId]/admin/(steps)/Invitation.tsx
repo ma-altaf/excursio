@@ -76,7 +76,7 @@ export default function Invitation() {
   }
 
   return (
-    <section className="w-full min-h-full h-fit flex flex-col justify-center">
+    <section className="w-full min-h-full h-fit flex flex-col justify-center p-1">
       {eventData?.inProgress.invitation && <p>In progress</p>}
       <label htmlFor="unlimitedChk" className="flex flex-row items-center">
         <Toggle
