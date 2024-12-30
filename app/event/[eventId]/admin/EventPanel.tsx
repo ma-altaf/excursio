@@ -8,7 +8,8 @@ import {
   MdOutlineContactMail,
   MdOutlineLocationOn,
 } from "react-icons/md";
-import { FaRegClock, FaRegListAlt } from "react-icons/fa";
+import { FaRegClock } from "react-icons/fa";
+import { BiSolidDonateHeart } from "react-icons/bi";
 
 export default function EventPanel() {
   const { activeSection, setActiveSection } = useEventContext();
@@ -73,8 +74,12 @@ export default function EventPanel() {
             <MdOutlineLocationOn className="size-5 m-auto" />
           )}
         </ToggleItem>
-        <ToggleItem value="items" active={activeSection}>
-          {toggle ? <p>Items</p> : <FaRegListAlt className="size-5 m-auto" />}
+        <ToggleItem value="contributions" active={activeSection}>
+          {toggle ? (
+            <p>Contributions</p>
+          ) : (
+            <BiSolidDonateHeart className="size-5 m-auto" />
+          )}
         </ToggleItem>
       </ul>
     </nav>

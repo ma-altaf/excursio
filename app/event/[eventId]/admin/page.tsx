@@ -4,12 +4,13 @@ import { lazy } from "react";
 import { useEventContext } from "./eventProvider";
 import { redirect } from "next/navigation";
 import EventLoading from "../../EventLoading";
+import { EventStepsType } from "@/features/events/services/firestore";
 
 const Description = lazy(() => import("./(steps)/Description"));
 const Invitation = lazy(() => import("./(steps)/Invitation"));
 const Time = lazy(() => import("./(steps)/Time"));
 const Location = lazy(() => import("./(steps)/Location"));
-const Items = lazy(() => import("./(steps)/Items"));
+const Contributions = lazy(() => import("./(steps)/Contributions"));
 
 export default function Event() {
   const { activeSection, eventLoading, eventData } = useEventContext();
@@ -20,7 +21,7 @@ export default function Event() {
 
   const { title } = eventData;
 
-  function renderEventSection(activeSection: string) {
+  function renderEventSection(activeSection: EventStepsType) {
     switch (activeSection) {
       case "description":
         return <Description />;
@@ -30,8 +31,8 @@ export default function Event() {
         return <Time />;
       case "location":
         return <Location />;
-      case "items":
-        return <Items />;
+      case "contributions":
+        return <Contributions />;
       default:
         return <p>Unknown section selected</p>;
     }

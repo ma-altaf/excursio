@@ -23,13 +23,13 @@ export type EventStepsType =
   | "invitation"
   | "time"
   | "location"
-  | "items";
+  | "contributions";
 export type InProgressType = {
   description: boolean;
   invitation: boolean;
   times: boolean;
   location: boolean;
-  items: boolean;
+  contributions: boolean;
 };
 export type EventType = {
   ownerId: string;
@@ -41,7 +41,7 @@ export type EventType = {
   visibility: VisibilityType;
   inviteOpt?: InvitationOptType;
   locationOpt?: LocationOptType;
-  ItemsOptType?: LocationOptType;
+  contributionsOptType?: LocationOptType;
   times: Map<string, boolean[]>;
   locations: LocationType[] | null;
 };
@@ -62,21 +62,21 @@ export type LocationType = {
   link: string;
 };
 
-export type ItemsOptType = {};
+export type ContributionsOptType = {};
 
 export const orderedEventSteps: EventStepsType[] = [
   "description",
   "invitation",
   "time",
   "location",
-  "items",
+  "contributions",
 ];
 
 const EXCURSION_STEPS = {
   invitation: true,
   times: true,
   location: true,
-  items: true,
+  contributions: true,
 };
 
 export async function createExcursion(uid: string, title: string) {

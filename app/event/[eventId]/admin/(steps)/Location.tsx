@@ -25,8 +25,6 @@ export default function Location() {
   useEffect(() => {
     if (!eventData) {
       throw new Error("No event data");
-
-      return;
     }
 
     if (eventData!.locationOpt) {
