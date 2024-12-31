@@ -64,6 +64,16 @@ export type LocationType = {
 
 export type ContributionsOptType = {};
 
+export type RequiredItemsType = {
+  title: string;
+};
+
+export type CollectiveItemsType = {
+  title: string;
+  amount: number;
+  unit: string;
+};
+
 export const orderedEventSteps: EventStepsType[] = [
   "description",
   "invitation",

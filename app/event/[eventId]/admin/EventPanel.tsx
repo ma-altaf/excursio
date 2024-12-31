@@ -9,7 +9,7 @@ import {
   MdOutlineLocationOn,
 } from "react-icons/md";
 import { FaRegClock } from "react-icons/fa";
-import { BiSolidDonateHeart } from "react-icons/bi";
+import { BiDonateHeart } from "react-icons/bi";
 
 export default function EventPanel() {
   const { activeSection, setActiveSection } = useEventContext();
@@ -78,7 +78,7 @@ export default function EventPanel() {
           {toggle ? (
             <p>Contributions</p>
           ) : (
-            <BiSolidDonateHeart className="size-5 m-auto" />
+            <BiDonateHeart className="size-5 m-auto" />
           )}
         </ToggleItem>
       </ul>

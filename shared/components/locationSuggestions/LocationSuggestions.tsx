@@ -23,12 +23,12 @@ export default function LocationSuggestions({
       error.push("Title is required.");
     }
 
-    if (locationsList.map((el) => el.title).includes(locationData.title)) {
+    if (locationsList.map((el) => el.title).includes(title)) {
       error.push("location already exists.");
     }
 
     if (error.length != 0) {
-      return error.join(" ");
+      return error.join(" | ");
     }
 
     setLocationsList((prev) => [...prev, locationData]);
@@ -48,7 +48,7 @@ export default function LocationSuggestions({
       <NewSuggestion onSubmit={locationSubmit} />
       <div className="flex flex-col overflow-auto p-2 rounded-md border-2 border-black mt-2">
         {locationsList.length == 0 ? (
-          <p>You have no suggestions.</p>
+          <p className="text-center">You have no suggestions.</p>
         ) : (
           <p>Suggestions:</p>
         )}
