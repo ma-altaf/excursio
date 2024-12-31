@@ -1,20 +1,149 @@
 import {
   CollectiveItemsType,
+  ContributionsOptType,
+  getColItems,
+  getReqItems,
   RequiredItemsType,
+  setColItems,
+  setReqItems,
+  uploadContributionOpt,
 } from "@/features/events/services/firestore";
 import RequiredItems from "@/shared/components/requiredItems/RequiredItems";
 import CollectiveItems from "@/shared/components/collectiveItems/CollectiveItems";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useEventContext } from "../eventProvider";
+import Toggle from "@/shared/components/Toggle";
+import { redirect } from "next/navigation";
 
 export default function Contributions() {
-  const { eventData, setEventData, setActiveSection } = useEventContext();
+  const { eventData, setEventData } = useEventContext();
   const requiredItemsState = useState<RequiredItemsType[]>([]);
   const collectiveItemsState = useState<CollectiveItemsType[]>([]);
+  const [contributionsOpt, setContributionsOpt] =
+    useState<ContributionsOptType>({
+      requireTransport: false,
+    });
   const [changed, setChanged] = useState(false);
 
-  function updateContributions() {
-    // TODO: upload 1.required items and 2.contribution items to db
+  const { requireTransport } = contributionsOpt;
+  const [requiredItemsList, setRequiredItemsList] = requiredItemsState;
+  const [collectiveItemsList, setCollectiveItemsList] = collectiveItemsState;
+
+  useEffect(() => {
+    if (!eventData) {
+      throw new Error("No event data");
+    }
+
+    if (eventData!.contributionsOpt) {
+      setContributionsOpt(eventData!.contributionsOpt);
+    }
+
+    if (eventData?.reqItems) {
+      setRequiredItemsList(structuredClone(eventData?.reqItems));
+    } else {
+      getReqItems(eventData?.eventId).then((res) => {
+        setEventData((prev) => {
+          if (!prev) throw new Error("No event.");
+
+          return { ...prev, reqItems: res };
+        });
+      });
+    }
+
+    if (eventData?.colItems) {
+      setCollectiveItemsList(structuredClone(eventData?.colItems));
+    } else {
+      getColItems(eventData?.eventId).then((res) => {
+        setEventData((prev) => {
+          if (!prev) throw new Error("No event.");
+
+          return { ...prev, colItems: res };
+        });
+      });
+    }
+  }, [eventData]);
+
+  useEffect(() => {
+    setChanged(() => {
+      if (
+        eventData?.contributionsOpt?.requireTransport !=
+          contributionsOpt.requireTransport ||
+        !eventData.reqItems ||
+        eventData.reqItems.length != requiredItemsList.length ||
+        !eventData.colItems ||
+        eventData.colItems.length != collectiveItemsList.length
+      ) {
+        return true;
+      }
+
+      for (let index = 0; index < eventData.reqItems.length; index++) {
+        const reqItem = eventData.reqItems[index];
+
+        if (
+          !requiredItemsList.map((item) => item.title).includes(reqItem.title)
+        ) {
+          return true;
+        }
+      }
+
+      for (let index = 0; index < eventData.colItems.length; index++) {
+        const colItem = eventData.colItems[index];
+
+        if (
+          !collectiveItemsList
+            .map((item) => item.title)
+            .includes(colItem.title) ||
+          !collectiveItemsList
+            .map((item) => item.amount)
+            .includes(colItem.amount) ||
+          !collectiveItemsList.map((item) => item.unit).includes(colItem.unit)
+        ) {
+          return true;
+        }
+      }
+
+      return false;
+    });
+  }, [eventData, contributionsOpt, requiredItemsList, collectiveItemsList]);
+
+  function updateContributions(
+    newContributionOpt: ContributionsOptType,
+    reqItems: RequiredItemsType[],
+    colItems: CollectiveItemsType[]
+  ) {
+    if (!eventData?.eventId) {
+      throw new Error("no event ID");
+    }
+
+    if (!changed) {
+      redirect(`/event/${eventData.eventId}`);
+      return;
+    }
+
+    Promise.all([
+      uploadContributionOpt(
+        eventData!.eventId,
+        newContributionOpt,
+        eventData!.inProgress
+      ),
+      setReqItems(eventData.eventId, reqItems),
+      setColItems(eventData.eventId, colItems),
+    ])
+      .then(() => {
+        setEventData((prev) => {
+          if (!prev) throw new Error("No event.");
+          const inProgress = { ...eventData!.inProgress, Contributions: false };
+
+          return {
+            ...prev,
+            contributionsOpt: newContributionOpt,
+            inProgress,
+            reqItems,
+            colItems,
+          };
+        });
+      })
+      .catch((e) => console.log(e));
   }
 
   return (
@@ -24,12 +153,32 @@ export default function Contributions() {
         <RequiredItems requiredItemsState={requiredItemsState} />
         <hr className="w-full border-1 my-2" />
         <CollectiveItems collectiveItemsState={collectiveItemsState} />
+        <hr className="w-full border-1 my-2" />
+        <label htmlFor="transport" className="flex flex-row items-center">
+          <Toggle
+            checked={requireTransport}
+            id="transport"
+            onChange={(e) => {
+              setContributionsOpt((prev) => ({
+                ...prev,
+                requireTransport: e.target.checked,
+              }));
+            }}
+          />
+          <p className="ml-4">Require transport contributions.</p>
+        </label>
 
         <button
           className="p-button rounded-md bg-accent mt-2"
-          onClick={() => updateContributions()}
+          onClick={() =>
+            updateContributions(
+              contributionsOpt,
+              requiredItemsList,
+              collectiveItemsList
+            )
+          }
         >
-          {changed ? "Submit" : "Next"}
+          {changed ? "Submit" : "Exit"}
         </button>
 
         {changed && (

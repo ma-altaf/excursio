@@ -41,9 +41,11 @@ export type EventType = {
   visibility: VisibilityType;
   inviteOpt?: InvitationOptType;
   locationOpt?: LocationOptType;
-  contributionsOptType?: LocationOptType;
+  contributionsOpt?: ContributionsOptType;
   times: Map<string, boolean[]>;
   locations: LocationType[] | null;
+  reqItems: RequiredItemsType[] | null;
+  colItems: CollectiveItemsType[] | null;
 };
 
 export type InvitationOptType = {
@@ -62,7 +64,9 @@ export type LocationType = {
   link: string;
 };
 
-export type ContributionsOptType = {};
+export type ContributionsOptType = {
+  requireTransport: boolean;
+};
 
 export type RequiredItemsType = {
   title: string;
@@ -231,4 +235,54 @@ export async function getLocations(eventId: string) {
   if (!res) return [];
 
   return res.locations as LocationType[];
+}
+
+export async function uploadContributionOpt(
+  eventId: string,
+  newContributionOpt: ContributionsOptType,
+  inProgress: InProgressType
+) {
+  inProgress.contributions = false;
+  await updateDoc(doc(db, `events/${eventId}`), {
+    contributionsOpt: newContributionOpt,
+    inProgress,
+  });
+}
+
+export async function setReqItems(
+  eventId: string,
+  reqItems: RequiredItemsType[]
+) {
+  return await setDoc(doc(db, `events/${eventId}/lists/reqItems`), {
+    reqItems,
+  });
+}
+
+export async function setColItems(
+  eventId: string,
+  colItems: CollectiveItemsType[]
+) {
+  return await setDoc(doc(db, `events/${eventId}/lists/colItems`), {
+    colItems,
+  });
+}
+
+export async function getReqItems(eventId: string) {
+  const res = (
+    await getDoc(doc(db, `events/${eventId}/lists/reqItems`))
+  ).data();
+
+  if (!res) return [];
+
+  return res.reqItems as RequiredItemsType[];
+}
+
+export async function getColItems(eventId: string) {
+  const res = (
+    await getDoc(doc(db, `events/${eventId}/lists/colItems`))
+  ).data();
+
+  if (!res) return [];
+
+  return res.colItems as CollectiveItemsType[];
 }

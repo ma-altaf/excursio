@@ -36,7 +36,7 @@ export default function Location() {
     }
 
     if (eventData?.locations) {
-      setLocationsList(eventData?.locations);
+      setLocationsList(structuredClone(eventData?.locations));
     } else {
       getLocations(eventData?.eventId).then((res) => {
         setEventData((prev) => {
@@ -97,26 +97,27 @@ export default function Location() {
 
     if (!eventData?.eventId) {
       throw new Error("no event ID");
-      return;
     }
 
-    uploadLocationOpt(eventData!.eventId, newLocationOpt, eventData!.inProgress)
+    Promise.all([
+      uploadLocationOpt(
+        eventData!.eventId,
+        newLocationOpt,
+        eventData!.inProgress
+      ),
+      setLocations(eventData.eventId, locationsList),
+    ])
       .then(() => {
         setEventData((prev) => {
           if (!prev) throw new Error("No event.");
           const inProgress = { ...eventData!.inProgress, location: false };
 
-          return { ...prev, locationOpt: newLocationOpt, inProgress };
-        });
-      })
-      .catch((e) => console.log(e));
-
-    setLocations(eventData.eventId, locationsList)
-      .then(() => {
-        setEventData((prev) => {
-          if (!prev) throw new Error("No event.");
-
-          return { ...prev, locations: locationsList };
+          return {
+            ...prev,
+            locationOpt: newLocationOpt,
+            inProgress,
+            locations: locationsList,
+          };
         });
         setActiveSection(orderedEventSteps[4]);
       })
