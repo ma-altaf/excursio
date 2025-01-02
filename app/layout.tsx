@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description: "Excursion planning and management",
 };
 
-const roboto = Roboto({ weight: ["400", "700"], subsets: ["latin"] });
+export const roboto = Roboto({ weight: ["400", "700"], subsets: ["latin"] });
 
 export default function RootLayout({
   children,

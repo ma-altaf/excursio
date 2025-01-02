@@ -12,6 +12,7 @@ export default function NewCollectiveItem({
     title: "",
     amount: 1,
     unit: "",
+    current: 0,
   });
 
   const [error, setError] = useState("");

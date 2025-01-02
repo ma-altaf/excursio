@@ -18,12 +18,14 @@ import {
 } from "firebase/firestore";
 
 export type VisibilityType = "public" | "private";
+
 export type EventStepsType =
   | "description"
   | "invitation"
   | "time"
   | "location"
   | "contributions";
+
 export type InProgressType = {
   description: boolean;
   invitation: boolean;
@@ -31,6 +33,7 @@ export type InProgressType = {
   location: boolean;
   contributions: boolean;
 };
+
 export type EventType = {
   ownerId: string;
   eventId: string;
@@ -76,6 +79,12 @@ export type CollectiveItemsType = {
   title: string;
   amount: number;
   unit: string;
+  current: number;
+};
+
+export type colItemProgress = {
+  userId: string;
+  contribution: number;
 };
 
 export const orderedEventSteps: EventStepsType[] = [
