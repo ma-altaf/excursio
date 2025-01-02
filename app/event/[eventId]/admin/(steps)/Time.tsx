@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { useEventContext } from "../eventProvider";
-import DatePicker from "@/shared/components/datePicker/DatePicker";
-import RangedDateToggle from "@/shared/components/datePicker/RangedDateToggle";
-import TimePicker from "@/shared/components/timePicker/TimePicker";
+import DatePicker from "@/features/events/components/datePicker/DatePicker";
+import RangedDateToggle from "@/features/events/components/datePicker/RangedDateToggle";
+import TimePicker from "@/features/events/components/timePicker/TimePicker";
 import {
   getDateTimes,
   orderedEventSteps,

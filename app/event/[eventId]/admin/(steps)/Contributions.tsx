@@ -8,8 +8,8 @@ import {
   setReqItems,
   uploadContributionOpt,
 } from "@/features/events/services/firestore";
-import RequiredItems from "@/shared/components/requiredItems/RequiredItems";
-import CollectiveItems from "@/shared/components/collectiveItems/CollectiveItems";
+import RequiredItems from "@/features/events/components/requiredItems/RequiredItems";
+import CollectiveItems from "@/features/events/components/collectiveItems/CollectiveItems";
 import { useEffect, useState } from "react";
 import { useEventContext } from "../eventProvider";
 import Toggle from "@/shared/components/Toggle";

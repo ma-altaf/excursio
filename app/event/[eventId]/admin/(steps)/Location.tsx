@@ -9,7 +9,7 @@ import {
   setLocations,
   uploadLocationOpt,
 } from "@/features/events/services/firestore";
-import LocationSuggestions from "@/shared/components/locationSuggestions/LocationSuggestions";
+import LocationSuggestions from "@/features/events/components/locationSuggestions/LocationSuggestions";
 
 export default function Location() {
   const { eventData, setEventData, setActiveSection } = useEventContext();

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Toggle from "../Toggle";
+import Toggle from "../../../../shared/components/Toggle";
 import Link from "next/link";
 import { LocationType } from "@/features/events/services/firestore";
 
