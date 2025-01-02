@@ -58,7 +58,7 @@ export default async function Page({
         <>
           <hr className="w-full border-b-1 my-1" />
 
-          <h2 className="font-bold">Required items to bring</h2>
+          <h2 className="font-bold">Items to contribute</h2>
           <ul className="flex flex-col px-1">
             {eventColItems.map((colItemData, i) => (
               <li key={i} className="my-1">
