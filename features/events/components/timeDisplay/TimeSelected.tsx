@@ -1,9 +1,20 @@
-import { SelectedTimes } from "../../services/firestore";
+import { SelectedTimeMap } from "../../services/firestore";
+import SelectedTimeItems from "./SelectedTimeItems";
 
 export default function TimeSelected({
   selectedTimes,
 }: {
-  selectedTimes: SelectedTimes[];
+  selectedTimes: SelectedTimeMap;
 }) {
-  return <div>SelectedTimes</div>;
+  return (
+    <div className="flex flex-col">
+      {selectedTimes.entries().map(([date, selectedTimes]) => (
+        <SelectedTimeItems
+          key={date}
+          date={date}
+          selectedTimes={selectedTimes}
+        />
+      ))}
+    </div>
+  );
 }

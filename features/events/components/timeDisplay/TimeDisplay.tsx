@@ -15,7 +15,7 @@ export default async function TimeDisplay({ eventId }: { eventId: string }) {
       {selectedTimes ? (
         <TimeSelected selectedTimes={selectedTimes} />
       ) : times ? (
-        <TimeInProgress times={times} />
+        <TimeInProgress eventId={eventId} />
       ) : (
         <p>
           Not Setup, wait for orginizer to setup time participation or set the

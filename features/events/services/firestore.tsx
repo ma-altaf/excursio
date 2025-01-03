@@ -87,11 +87,12 @@ export type ColItemProgress = {
   contribution: number;
 };
 
-export type SelectedTimes = {
-  start: Date;
-  end: Date;
+export type SelectedTime = {
+  startTime: Date;
   comment: string;
 };
+
+export type SelectedTimeMap = Map<string, SelectedTime[]>;
 
 export const orderedEventSteps: EventStepsType[] = [
   "description",
@@ -309,5 +310,5 @@ export async function getSetectedTimes(eventId: string) {
 
   if (!res) return undefined;
 
-  return res.times as SelectedTimes[];
+  return new Map(Object.entries(res)) as SelectedTimeMap;
 }
