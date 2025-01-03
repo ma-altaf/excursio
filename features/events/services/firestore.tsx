@@ -82,9 +82,15 @@ export type CollectiveItemsType = {
   current: number;
 };
 
-export type colItemProgress = {
+export type ColItemProgress = {
   userId: string;
   contribution: number;
+};
+
+export type SelectedTimes = {
+  start: Date;
+  end: Date;
+  comment: string;
 };
 
 export const orderedEventSteps: EventStepsType[] = [
@@ -294,4 +300,14 @@ export async function getColItems(eventId: string) {
   if (!res) return [];
 
   return res.colItems as CollectiveItemsType[];
+}
+
+export async function getSetectedTimes(eventId: string) {
+  const res = (
+    await getDoc(doc(db, `events/${eventId}/lists/selectTimes`))
+  ).data();
+
+  if (!res) return undefined;
+
+  return res.times as SelectedTimes[];
 }

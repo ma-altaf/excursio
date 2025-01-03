@@ -5,6 +5,7 @@ import {
 } from "@/features/events/services/firestore";
 import EditBtn from "./EditBtn";
 import ColItemProgress from "@/features/events/components/collectiveItems/ColItemProgress";
+import TimeDisplay from "@/features/events/components/timeDisplay/TimeDisplay";
 
 export default async function Page({
   params,
@@ -50,6 +51,7 @@ export default async function Page({
 
       <hr className="w-full border-b-1 my-1" />
       <h2 className="font-bold">Time</h2>
+      <TimeDisplay eventId={eventId} />
 
       <hr className="w-full border-b-1 my-1" />
       <h2 className="font-bold">Location</h2>
