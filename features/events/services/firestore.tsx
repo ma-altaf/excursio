@@ -219,7 +219,9 @@ export async function setDateTimes(
 export async function getDateTimes(eventId: string) {
   const dateTime = (
     await getDoc(doc(db, `events/${eventId}/lists/times`))
-  ).data() as { [key: string]: boolean[] };
+  ).data();
+  if (!dateTime) return undefined;
+
   return new Map(Object.entries(dateTime));
 }
 
@@ -311,4 +313,14 @@ export async function getSetectedTimes(eventId: string) {
   if (!res) return undefined;
 
   return new Map(Object.entries(res)) as SelectedTimeMap;
+}
+
+export async function getSetectedLocations(eventId: string) {
+  const res = (
+    await getDoc(doc(db, `events/${eventId}/lists/selectLocations`))
+  ).data();
+
+  if (!res) return undefined;
+
+  return res as LocationType[];
 }

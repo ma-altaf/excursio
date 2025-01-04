@@ -23,6 +23,7 @@ export default function Time() {
     if (!eventData?.times) {
       getDateTimes(eventData!.eventId)
         .then((data) => {
+          if (!data) throw new Error("Counld not get dates.");
           setEventData((prev) => {
             if (!prev) throw new Error("No event.");
 

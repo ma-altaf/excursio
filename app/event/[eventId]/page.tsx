@@ -6,6 +6,7 @@ import {
 import EditBtn from "./EditBtn";
 import ColItemProgress from "@/features/events/components/collectiveItems/ColItemProgress";
 import TimeDisplay from "@/features/events/components/timeDisplay/TimeDisplay";
+import LocationDisplay from "@/features/events/components/locationDisplay/LocationDisplay";
 
 export default async function Page({
   params,
@@ -55,6 +56,7 @@ export default async function Page({
 
       <hr className="w-full border-b-1 my-1" />
       <h2 className="font-bold">Location</h2>
+      <LocationDisplay eventId={eventId} />
 
       {eventColItems.length != 0 && (
         <>
