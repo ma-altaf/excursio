@@ -1,4 +1,4 @@
-import { SelectedTimeMap } from "../../services/firestore";
+import { SelectedTimeMap } from "@/features/events/services/firestore";
 import SelectedTimeItems from "./SelectedTimeItems";
 
 export default function TimeSelected({

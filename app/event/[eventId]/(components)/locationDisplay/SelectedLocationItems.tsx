@@ -1,7 +1,7 @@
 import { IoGlobeOutline } from "react-icons/io5";
-import { LocationType } from "../../services/firestore";
 import { MdOutlineLocationOn } from "react-icons/md";
 import Link from "next/link";
+import { LocationType } from "@/features/events/services/firestore";
 
 export default function SelectedLocationItems({
   location,

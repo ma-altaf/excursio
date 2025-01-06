@@ -1,4 +1,4 @@
-import { SelectedTime } from "../../services/firestore";
+import { SelectedTime } from "@/features/events/services/firestore";
 
 export default function SelectedTimeItems({
   date,

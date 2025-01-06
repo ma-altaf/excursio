@@ -2,14 +2,14 @@
 
 import { useEffect, useState } from "react";
 import { useEventContext } from "../eventProvider";
-import DatePicker from "@/features/events/components/datePicker/DatePicker";
-import RangedDateToggle from "@/features/events/components/datePicker/RangedDateToggle";
-import TimePicker from "@/features/events/components/timePicker/TimePicker";
 import {
   getDateTimes,
   orderedEventSteps,
   setDateTimes,
 } from "@/features/events/services/firestore";
+import RangedDateToggle from "./(components)/datePicker/RangedDateToggle";
+import DatePicker from "./(components)/datePicker/DatePicker";
+import TimePicker from "./(components)/timePicker/TimePicker";
 
 export default function Time() {
   const { eventData, setEventData, setActiveSection } = useEventContext();

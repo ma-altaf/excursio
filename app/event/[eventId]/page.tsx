@@ -4,9 +4,9 @@ import {
   getReqItems,
 } from "@/features/events/services/firestore";
 import EditBtn from "./EditBtn";
-import ColItemProgress from "@/features/events/components/collectiveItems/ColItemProgress";
-import TimeDisplay from "@/features/events/components/timeDisplay/TimeDisplay";
-import LocationDisplay from "@/features/events/components/locationDisplay/LocationDisplay";
+import TimeDisplay from "./(components)/timeDisplay/TimeDisplay";
+import LocationDisplay from "./(components)/locationDisplay/LocationDisplay";
+import ColItemProgress from "./(components)/collectiveItemsDisplay/ColItemProgress";
 
 export default async function Page({
   params,

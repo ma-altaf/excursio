@@ -1,4 +1,4 @@
-import { LocationType } from "../../services/firestore";
+import { LocationType } from "@/features/events/services/firestore";
 import SelectedLocationItems from "./SelectedLocationItems";
 
 export default function LocationSelected({

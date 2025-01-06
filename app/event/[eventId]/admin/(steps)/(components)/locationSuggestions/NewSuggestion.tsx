@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Toggle from "../../../../shared/components/Toggle";
 import Link from "next/link";
 import { LocationType } from "@/features/events/services/firestore";
+import Toggle from "@/shared/components/Toggle";
 
 export default function NewSuggestion({
   onSubmit,

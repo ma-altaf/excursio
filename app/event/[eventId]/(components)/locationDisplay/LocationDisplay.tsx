@@ -2,7 +2,7 @@ import {
   EventType,
   getEvent,
   getSetectedLocations,
-} from "../../services/firestore";
+} from "@/features/events/services/firestore";
 import LocationInProgress from "./LocationInProgress";
 import LocationSelected from "./LocationSelected";
 

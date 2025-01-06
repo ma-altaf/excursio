@@ -1,6 +1,9 @@
-import { getDateTimes, getSetectedTimes } from "../../services/firestore";
 import TimeSelected from "./TimeSelected";
 import TimeInProgress from "./TimeInProgress";
+import {
+  getDateTimes,
+  getSetectedTimes,
+} from "@/features/events/services/firestore";
 
 export default async function TimeDisplay({ eventId }: { eventId: string }) {
   const selectedTimes = await getSetectedTimes(eventId);

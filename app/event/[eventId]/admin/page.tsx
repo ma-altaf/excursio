@@ -3,8 +3,8 @@
 import { lazy } from "react";
 import { useEventContext } from "./eventProvider";
 import { redirect } from "next/navigation";
-import EventLoading from "../../EventLoading";
 import { EventStepsType } from "@/features/events/services/firestore";
+import EventLoading from "../../EventLoading";
 
 const Description = lazy(() => import("./(steps)/Description"));
 const Invitation = lazy(() => import("./(steps)/Invitation"));

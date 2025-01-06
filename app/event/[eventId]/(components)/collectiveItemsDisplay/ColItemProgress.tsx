@@ -1,7 +1,7 @@
 import React from "react";
-import { CollectiveItemsType } from "../../services/firestore";
 import ProgressBar from "@/shared/components/ProgressBar";
 import { roboto } from "@/app/layout";
+import { CollectiveItemsType } from "@/features/events/services/firestore";
 
 export default function ColItemProgress({
   colItemData,
