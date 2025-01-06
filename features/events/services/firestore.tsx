@@ -94,6 +94,11 @@ export type SelectedTime = {
 
 export type SelectedTimeMap = Map<string, SelectedTime[]>;
 
+export type MemberType = {
+  uid: string;
+  name: string;
+};
+
 export const orderedEventSteps: EventStepsType[] = [
   "description",
   "invitation",
@@ -323,4 +328,10 @@ export async function getSetectedLocations(eventId: string) {
   if (!res) return undefined;
 
   return res as LocationType[];
+}
+
+export async function getMember(eventId: string, uid: string) {
+  return (await getDoc(doc(db, `events/${eventId}/members/${uid}`))).data() as
+    | MemberType
+    | undefined;
 }
