@@ -9,7 +9,13 @@ import Link from "next/link";
 
 const RenderDetails = lazy(() => import("./RenderDetails"));
 
-export default function EventDetails({ eventId }: { eventId: string }) {
+export default function EventDetails({
+  ownerId,
+  eventId,
+}: {
+  ownerId: string;
+  eventId: string;
+}) {
   const { authLoading, user } = useAuthContext();
   const [memberDetails, setMemberDetails] = useState<MemberType | undefined>(
     undefined
@@ -48,7 +54,7 @@ export default function EventDetails({ eventId }: { eventId: string }) {
 
   return (
     <Suspense fallback={<Spinner text="Loading Event details..." />}>
-      <RenderDetails eventId={eventId} />
+      <RenderDetails eventId={eventId} isOwner={ownerId === user?.uid} />
     </Suspense>
   );
 }

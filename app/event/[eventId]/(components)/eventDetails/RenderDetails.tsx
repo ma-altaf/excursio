@@ -5,13 +5,23 @@ import LocationDisplay from "../locationDisplay/LocationDisplay";
 import ColItemProgress from "../collectiveItemsDisplay/ColItemProgress";
 import { use } from "react";
 import { getColItems, getReqItems } from "@/features/events/services/firestore";
+import MemberDisplay from "../memberDisplay/MemberDisplay";
 
-export default function RenderDetails({ eventId }: { eventId: string }) {
+export default function RenderDetails({
+  isOwner,
+  eventId,
+}: {
+  isOwner: boolean;
+  eventId: string;
+}) {
   const eventReqItems = use(getReqItems(eventId));
   const eventColItems = use(getColItems(eventId));
 
   return (
     <>
+      <hr className="w-full border-b-1 my-1" />
+      <MemberDisplay eventId={eventId} isOwner={isOwner} />
+
       {eventReqItems.length != 0 && (
         <>
           <hr className="w-full border-b-1 my-1" />

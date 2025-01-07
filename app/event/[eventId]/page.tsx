@@ -31,7 +31,7 @@ export default async function Page({
       </div>
       <p>{description}</p>
 
-      <EventDetails eventId={eventId} />
+      <EventDetails ownerId={ownerId} eventId={eventId} />
     </section>
   );
 }

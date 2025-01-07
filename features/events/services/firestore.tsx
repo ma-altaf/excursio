@@ -14,8 +14,10 @@ import {
   serverTimestamp,
   setDoc,
   startAfter,
+  Timestamp,
   updateDoc,
   where,
+  writeBatch,
 } from "firebase/firestore";
 
 export type VisibilityType = "public" | "private";
@@ -41,7 +43,7 @@ export type EventType = {
   title: string;
   description: string;
   inProgress: InProgressType;
-  created_at: Date;
+  created_at: Timestamp;
   visibility: VisibilityType;
   inviteOpt?: InvitationOptType;
   locationOpt?: LocationOptType;
@@ -132,6 +134,9 @@ export async function createExcursion(uid: string, title: string) {
   ) {
     throw new Error("Title must be unique.");
   }
+  const owner = await getUser(uid);
+
+  if (!owner) throw new Error("organizer does not exist.");
 
   const eventRef = await addDoc(collection(db, "events"), {
     ownerId: uid,
@@ -141,18 +146,24 @@ export async function createExcursion(uid: string, title: string) {
     created_at: serverTimestamp(),
     inProgress: EXCURSION_STEPS,
   });
-  await updateDoc(eventRef, { eventId: eventRef.id });
+
+  const batch = writeBatch(db);
+
+  batch.update(eventRef, { eventId: eventRef.id });
 
   const ownerMemberData: MemberType = {
     active: true,
-    displayName: (await getUser(uid))?.username || "organizer",
+    displayName: owner.username,
     uid: uid,
   };
 
-  await setDoc(
-    doc(db, `events/${eventRef.id}/members/${uid}`),
-    ownerMemberData
-  );
+  batch.set(doc(db, `events/${eventRef.id}/members/${uid}`), ownerMemberData);
+
+  batch.set(doc(db, `events/${eventRef.id}/members/properties`), {
+    members: [owner.username],
+  });
+
+  await batch.commit();
 
   return eventRef;
 }
@@ -347,4 +358,12 @@ export async function getMember(eventId: string, uid: string) {
   return (await getDoc(doc(db, `events/${eventId}/members/${uid}`))).data() as
     | MemberType
     | undefined;
+}
+
+export async function getMembers(eventId: string) {
+  const res = (
+    await getDoc(doc(db, `events/${eventId}/members/properties`))
+  ).data();
+  if (!res) throw new Error("Failed to retrieve members properties");
+  return res.members as string[];
 }
