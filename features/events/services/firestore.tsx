@@ -1,3 +1,4 @@
+import { getUser } from "@/features/users/services/firestore";
 import { db } from "@/shared/services/firestore";
 import {
   addDoc,
@@ -141,6 +142,17 @@ export async function createExcursion(uid: string, title: string) {
     inProgress: EXCURSION_STEPS,
   });
   await updateDoc(eventRef, { eventId: eventRef.id });
+
+  const ownerMemberData: MemberType = {
+    active: true,
+    displayName: (await getUser(uid))?.username || "organizer",
+    uid: uid,
+  };
+
+  await setDoc(
+    doc(db, `events/${eventRef.id}/members/${uid}`),
+    ownerMemberData
+  );
 
   return eventRef;
 }
