@@ -2,8 +2,9 @@
 
 import { joinEvent } from "@/features/events/services/server";
 import { useAuthContext } from "@/features/users/components/authProvider";
-import { useEffect, useState } from "react";
-import JoinSuccess from "./JoinSuccess";
+import { lazy, useEffect, useState } from "react";
+
+const JoinSuccess = lazy(() => import("./JoinSuccess"));
 
 export type JoinForm = {
   eventId: string;
