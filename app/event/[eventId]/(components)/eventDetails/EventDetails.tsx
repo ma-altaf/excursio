@@ -37,6 +37,15 @@ export default function EventDetails({ eventId }: { eventId: string }) {
       </div>
     );
 
+  if (!memberDetails.active)
+    return (
+      <div className="flex w-full py-4 justify-center items-center">
+        <p className="px-2 py-1 rounded-md bg-gray-100 border-2 border-gray-200">
+          Please wait for organizer to approve you.
+        </p>
+      </div>
+    );
+
   return (
     <Suspense fallback={<Spinner text="Loading Event details..." />}>
       <RenderDetails eventId={eventId} />

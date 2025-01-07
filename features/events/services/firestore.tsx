@@ -96,7 +96,8 @@ export type SelectedTimeMap = Map<string, SelectedTime[]>;
 
 export type MemberType = {
   uid: string;
-  name: string;
+  displayName: string;
+  active: boolean;
 };
 
 export const orderedEventSteps: EventStepsType[] = [

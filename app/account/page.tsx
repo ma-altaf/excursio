@@ -48,7 +48,7 @@ export default function Account() {
         originalUserDataRef.current = userData;
         setUsername(userData?.username || "");
         setAbout(userData?.about || "");
-        setProfilePic(userData?.image || "");
+        setProfilePic(userData?.imageURL || "");
       })
       .catch((e) => console.log(e));
   }, [user, authLoading]);
