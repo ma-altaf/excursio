@@ -2,6 +2,8 @@ import { formatDate, formatTime } from "@/shared/services/utils";
 import { DocumentData } from "firebase/firestore";
 import Link from "next/link";
 
+const MAX_TEXT_LENGTH = 128;
+
 export default function EventCard({ data }: { data: DocumentData }) {
   const { eventId, title, description, created_at } = data;
   return (
@@ -11,7 +13,10 @@ export default function EventCard({ data }: { data: DocumentData }) {
       className="rounded-lg bg-background border-gray-200 border-2 px-3 py-2 m-2 min-h-24"
     >
       <p className="font-bold">{title}</p>
-      <p>{description}</p>
+      <p>
+        {description.substring(0, MAX_TEXT_LENGTH)}
+        {description.length > MAX_TEXT_LENGTH && "..."}
+      </p>
       <p>
         {formatDate(new Date(created_at.toMillis()))}{" "}
         {formatTime(new Date(created_at.toMillis()))}
