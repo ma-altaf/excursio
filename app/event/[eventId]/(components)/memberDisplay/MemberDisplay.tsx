@@ -1,6 +1,8 @@
-import { getMembers } from "@/features/events/services/firestore";
+"use client";
+
+import { getMembersList } from "@/features/events/services/firestore";
 import Link from "next/link";
-import { use } from "react";
+import { useEffect, useState } from "react";
 
 export default function MemberDisplay({
   isOwner,
@@ -9,7 +11,11 @@ export default function MemberDisplay({
   isOwner: boolean;
   eventId: string;
 }) {
-  const members = use(getMembers(eventId));
+  const [members, setMembers] = useState<string[]>([]);
+
+  useEffect(() => {
+    getMembersList(eventId).then((res) => setMembers(res));
+  }, [eventId]);
 
   return (
     <div className="flex flex-col">

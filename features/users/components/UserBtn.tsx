@@ -26,10 +26,10 @@ export default function UserBtn() {
       <p className="m-1">{userDetails?.username}</p>
       <Image
         src={`${userDetails?.imageURL || "/images/profile.jpg"}`}
-        width="36"
-        height="36"
+        width={64}
+        height={64}
         alt="user profile"
-        className="rounded-full aspect-square object-cover object-center"
+        className="rounded-full size-8 aspect-square object-cover object-center"
       />
     </Link>
   ) : (

@@ -3,11 +3,13 @@ import { db } from "@/shared/services/firestore";
 import {
   addDoc,
   collection,
+  deleteDoc,
   doc,
   DocumentData,
   getDoc,
   getDocs,
   limit,
+  onSnapshot,
   orderBy,
   query,
   QueryDocumentSnapshot,
@@ -360,10 +362,47 @@ export async function getMember(eventId: string, uid: string) {
     | undefined;
 }
 
-export async function getMembers(eventId: string) {
+export async function getMembersList(eventId: string) {
   const res = (
     await getDoc(doc(db, `events/${eventId}/members/properties`))
   ).data();
-  if (!res) throw new Error("Failed to retrieve members properties");
+  if (!res) throw new Error("Failed to retrieve members properties.");
   return res.members as string[];
+}
+
+export async function getMembers(eventId: string, active = false) {
+  const res = await getDocs(
+    query(
+      collection(db, `events/${eventId}/members/`),
+      where("active", "==", active)
+    )
+  );
+
+  return res.docs.map((doc) => doc.data()) as MemberType[];
+}
+
+export async function membersSnapShot(
+  eventId: string,
+  active = false,
+  callback: (members: MemberType[]) => void
+) {
+  return onSnapshot(
+    query(
+      collection(db, `events/${eventId}/members/`),
+      where("active", "==", active)
+    ),
+    (res) => {
+      callback(res.docs.map((doc) => doc.data()) as MemberType[]);
+    }
+  );
+}
+
+export async function deleteMember(eventId: string, uid: string) {
+  await deleteDoc(doc(db, `events/${eventId}/members/${uid}`));
+}
+
+export async function acceptMember(eventId: string, uid: string) {
+  await updateDoc(doc(db, `events/${eventId}/members/${uid}`), {
+    active: true,
+  });
 }

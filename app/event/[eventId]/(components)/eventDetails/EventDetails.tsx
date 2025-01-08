@@ -52,6 +52,8 @@ export default function EventDetails({
       </div>
     );
 
+  // return <RenderDetails eventId={eventId} isOwner={ownerId === user?.uid} />;
+
   return (
     <Suspense fallback={<Spinner text="Loading Event details..." />}>
       <RenderDetails eventId={eventId} isOwner={ownerId === user?.uid} />

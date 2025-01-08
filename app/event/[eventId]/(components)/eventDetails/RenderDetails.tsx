@@ -3,8 +3,13 @@
 import TimeDisplay from "../timeDisplay/TimeDisplay";
 import LocationDisplay from "../locationDisplay/LocationDisplay";
 import ColItemProgress from "../collectiveItemsDisplay/ColItemProgress";
-import { use } from "react";
-import { getColItems, getReqItems } from "@/features/events/services/firestore";
+import { useEffect, useState } from "react";
+import {
+  CollectiveItemsType,
+  getColItems,
+  getReqItems,
+  RequiredItemsType,
+} from "@/features/events/services/firestore";
 import MemberDisplay from "../memberDisplay/MemberDisplay";
 
 export default function RenderDetails({
@@ -14,8 +19,13 @@ export default function RenderDetails({
   isOwner: boolean;
   eventId: string;
 }) {
-  const eventReqItems = use(getReqItems(eventId));
-  const eventColItems = use(getColItems(eventId));
+  const [eventReqItems, setEventReqItems] = useState<RequiredItemsType[]>([]);
+  const [eventColItems, setEventColItems] = useState<CollectiveItemsType[]>([]);
+
+  useEffect(() => {
+    getReqItems(eventId).then((res) => setEventReqItems(res));
+    getColItems(eventId).then((res) => setEventColItems(res));
+  }, [eventId]);
 
   return (
     <>

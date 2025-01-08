@@ -3,15 +3,27 @@ import TimeInProgress from "./TimeInProgress";
 import {
   getDateTimes,
   getSetectedTimes,
+  SelectedTimeMap,
 } from "@/features/events/services/firestore";
+import { useEffect, useState } from "react";
 
-export default async function TimeDisplay({ eventId }: { eventId: string }) {
-  const selectedTimes = await getSetectedTimes(eventId);
-  let times: Map<string, boolean[]> | undefined;
+export default function TimeDisplay({ eventId }: { eventId: string }) {
+  const [selectedTimes, setSelectedTimes] = useState<
+    SelectedTimeMap | undefined
+  >(undefined);
+  const [times, setTimes] = useState<Map<string, boolean[]> | undefined>(
+    undefined
+  );
 
-  if (!selectedTimes) {
-    times = await getDateTimes(eventId);
-  }
+  useEffect(() => {
+    getSetectedTimes(eventId).then((res) => setSelectedTimes(res));
+  }, [eventId]);
+
+  useEffect(() => {
+    if (!selectedTimes) {
+      getDateTimes(eventId).then((res) => setTimes(res));
+    }
+  }, [eventId, selectedTimes]);
 
   return (
     <div className="flex w-full p-1">
