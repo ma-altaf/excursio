@@ -54,7 +54,7 @@ function ActiveMembersItem({
         <button
           className="p-2 rounded-md bg-gray-100 hover:bg-red-100 transition-all"
           title="Remove"
-          onClick={() => deleteMember(eventId, uid)}
+          onClick={() => deleteMember(eventId, uid, displayName)}
         >
           <p>Remove</p>
         </button>

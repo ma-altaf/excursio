@@ -50,7 +50,7 @@ function WaitlistItem({
         <button
           className="p-2 rounded-md bg-gray-100 hover:bg-green-100 transition-all"
           title="Approve"
-          onClick={() => acceptMember(eventId, uid)}
+          onClick={() => acceptMember(eventId, uid, displayName)}
         >
           <IoCheckmark className="size-5" />
         </button>
@@ -58,7 +58,7 @@ function WaitlistItem({
         <button
           className="p-2 rounded-md bg-gray-100 hover:bg-red-100 transition-all"
           title="Reject"
-          onClick={() => deleteMember(eventId, uid)}
+          onClick={() => deleteMember(eventId, uid, displayName)}
         >
           <IoClose className="size-5" />
         </button>

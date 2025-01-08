@@ -13,6 +13,7 @@ import {
   orderBy,
   query,
   QueryDocumentSnapshot,
+  runTransaction,
   serverTimestamp,
   setDoc,
   startAfter,
@@ -397,12 +398,47 @@ export async function membersSnapShot(
   );
 }
 
-export async function deleteMember(eventId: string, uid: string) {
+export async function deleteMember(
+  eventId: string,
+  uid: string,
+  displayName: string
+) {
   await deleteDoc(doc(db, `events/${eventId}/members/${uid}`));
+  await runTransaction(db, async (transaction) => {
+    const properties = (
+      await transaction.get(doc(db, `events/${eventId}/members/properties`))
+    ).data() as { members: string[] } | undefined;
+
+    if (!properties) throw Error("Could not get properties");
+
+    transaction.delete(doc(db, `events/${eventId}/members/${uid}`));
+
+    transaction.update(doc(db, `events/${eventId}/members/properties`), {
+      members: properties.members.filter((el) => el !== displayName),
+    });
+  });
 }
 
-export async function acceptMember(eventId: string, uid: string) {
-  await updateDoc(doc(db, `events/${eventId}/members/${uid}`), {
-    active: true,
+export async function acceptMember(
+  eventId: string,
+  uid: string,
+  displayName: string
+) {
+  await runTransaction(db, async (transaction) => {
+    const properties = (
+      await transaction.get(doc(db, `events/${eventId}/members/properties`))
+    ).data() as { members: string[] } | undefined;
+
+    if (!properties) throw Error("Could not get properties");
+
+    transaction.update(doc(db, `events/${eventId}/members/${uid}`), {
+      active: true,
+    });
+
+    properties.members.push(displayName);
+
+    transaction.update(doc(db, `events/${eventId}/members/properties`), {
+      members: properties.members,
+    });
   });
 }

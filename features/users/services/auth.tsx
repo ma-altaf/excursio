@@ -14,22 +14,17 @@ import { app } from "@/shared/services/firebase";
 export const auth = getAuth(app);
 
 export async function signWithAnonymous() {
-  try {
-    const userCred = await signInAnonymously(auth);
-    await createNewUser(userCred, "anonymous");
-  } catch (error) {
-    console.log(error);
-  }
+  const userCred = await signInAnonymously(auth);
+  await createNewUser(userCred, "anonymous");
+  return userCred;
 }
 
 export async function signWithGoogle() {
   const provider = new GoogleAuthProvider();
-  try {
-    const userCred = await signInWithPopup(auth, provider);
-    await createNewUser(userCred, "google");
-  } catch (error) {
-    console.log(error);
-  }
+
+  const userCred = await signInWithPopup(auth, provider);
+  await createNewUser(userCred, "google");
+  return userCred;
 }
 
 export async function sendEmailSignLink(email: string, redirectUrl: string) {

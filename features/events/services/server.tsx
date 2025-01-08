@@ -6,7 +6,7 @@ import {
   getDoc,
   getDocs,
   query,
-  setDoc,
+  runTransaction,
   where,
 } from "firebase/firestore";
 import { getEvent, MemberType } from "./firestore";
@@ -47,5 +47,19 @@ export async function joinEvent(joinForm: JoinForm) {
     active: !needApproval,
   };
 
-  return setDoc(doc(db, `events/${eventId}/members/${uid}`), memberData);
+  await runTransaction(db, async (transaction) => {
+    const properties = (
+      await transaction.get(doc(db, `events/${eventId}/members/properties`))
+    ).data() as { members: string[] } | undefined;
+
+    if (!properties) throw Error("Could not get properties");
+
+    transaction.set(doc(db, `events/${eventId}/members/${uid}`), memberData);
+
+    properties.members.push(displayName);
+
+    transaction.update(doc(db, `events/${eventId}/members/properties`), {
+      members: properties.members,
+    });
+  });
 }

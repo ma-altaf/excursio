@@ -2,6 +2,9 @@
 
 import { joinEvent } from "@/features/events/services/server";
 import { useAuthContext } from "@/features/users/components/authProvider";
+import { signWithAnonymous } from "@/features/users/services/auth";
+import Spinner from "@/shared/components/loading/Spinner";
+import Link from "next/link";
 import { lazy, useEffect, useState } from "react";
 
 const JoinSuccess = lazy(() => import("./JoinSuccess"));
@@ -48,14 +51,35 @@ export default function JoinForm({
       return;
     }
 
-    joinEvent(formData)
-      .then(() => {
-        setSuccess(true);
-      })
-      .catch((e) => {
-        setError(e.message);
+    if (formData.uid !== "") {
+      joinEvent(formData)
+        .then(() => {
+          setSuccess(true);
+        })
+        .catch((e) => {
+          setError(e.message);
+        });
+    } else {
+      signWithAnonymous().then((userCred) => {
+        const { uid } = userCred.user;
+        formData.uid = uid;
+        joinEvent(formData)
+          .then(() => {
+            setSuccess(true);
+          })
+          .catch((e) => {
+            setError(e.message);
+          });
       });
+    }
   }
+
+  if (authLoading)
+    return (
+      <section className="flex justify-center items-center w-full min-h-screen">
+        <Spinner text="Loading user..." />
+      </section>
+    );
 
   if (success) return <JoinSuccess eventId={eventId} />;
 
@@ -105,6 +129,19 @@ export default function JoinForm({
       {error && (
         <p className="px-2 py-1 mt-4 rounded-md bg-gray-100 border-2 border-gray-200">
           {error}
+        </p>
+      )}
+
+      {!user && (
+        <p className="w-fit px-2 py-1 mt-4 mx-auto rounded-md bg-gray-100 border-2 border-gray-200">
+          Continue with Guest account. (
+          <Link
+            className="text-blue-500 underline"
+            href={`/signin?origin=event/${eventId}/join`}
+          >
+            Create Account
+          </Link>
+          )
         </p>
       )}
     </form>
