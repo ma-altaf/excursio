@@ -47,7 +47,7 @@ export default function Day({
           <button
             onClick={() => toggleTime(i, v)}
             key={i}
-            className={`border-b-2 border-black h-8 w-12 ${
+            className={`border-b-2 border-black h-8 w-12 transition-all ${
               v ? "bg-accent" : "bg-background"
             }`}
           ></button>
