@@ -1,5 +1,5 @@
 import { getEvent } from "@/features/events/services/firestore";
-import AdminProtected from "@/shared/components/AdminProtected";
+import UidProtected from "@/shared/components/UidProtected";
 import { redirect } from "next/navigation";
 
 export default async function layout({
@@ -16,5 +16,5 @@ export default async function layout({
 
   const { ownerId } = eventData;
 
-  return <AdminProtected ownerId={ownerId}>{children}</AdminProtected>;
+  return <UidProtected uid={ownerId}>{children}</UidProtected>;
 }

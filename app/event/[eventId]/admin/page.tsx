@@ -5,7 +5,7 @@ import { useEventContext } from "./eventProvider";
 import { redirect } from "next/navigation";
 import { EventStepsType } from "@/features/events/services/firestore";
 import EventLoading from "../../EventLoading";
-import AdminProtected from "@/shared/components/AdminProtected";
+import UidProtected from "@/shared/components/UidProtected";
 
 const Description = lazy(() => import("./(steps)/Description"));
 const Invitation = lazy(() => import("./(steps)/Invitation"));
@@ -40,7 +40,7 @@ export default function Event() {
   }
 
   return (
-    <AdminProtected ownerId={ownerId} origin={`/event/${eventId}`}>
+    <UidProtected uid={ownerId} redirectUrl={`/event/${eventId}`}>
       <main className="w-full min-h-screen flex flex-col items-center md:px-[10%] lg:px-[20%]">
         <div className="h-[10vh] items-center justify-center flex">
           <h1 className="text-3xl p-4">{title}</h1>
@@ -49,6 +49,6 @@ export default function Event() {
           {renderEventSection(activeSection)}
         </div>
       </main>
-    </AdminProtected>
+    </UidProtected>
   );
 }

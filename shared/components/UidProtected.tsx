@@ -4,13 +4,13 @@ import { useAuthContext } from "@/features/users/components/authProvider";
 import Spinner from "./loading/Spinner";
 import { redirect } from "next/navigation";
 
-export default function AdminProtected({
-  ownerId,
-  origin = "/error",
+export default function UidProtected({
+  uid,
+  redirectUrl = "/error",
   children,
 }: {
-  ownerId: string;
-  origin?: string;
+  uid: string;
+  redirectUrl?: string;
   children: React.ReactNode;
 }) {
   const { authLoading, user } = useAuthContext();
@@ -22,7 +22,7 @@ export default function AdminProtected({
       </section>
     );
 
-  if (user && user.uid === ownerId) return <>{children}</>;
+  if (user && user.uid === uid) return <>{children}</>;
 
-  redirect(origin);
+  redirect(redirectUrl);
 }
