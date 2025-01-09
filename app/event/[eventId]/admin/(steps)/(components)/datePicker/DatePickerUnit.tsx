@@ -38,8 +38,8 @@ export default function DateUnit({
         <button
           onClick={() => updateDates(date)}
           disabled={disabled}
-          className={`flex justify-center items-center ${
-            isActive ? "bg-blue-500" : "bg-gray-200"
+          className={`flex justify-center items-center transition-colors ${
+            isActive ? "bg-accent" : "bg-gray-200"
           } rounded-md size-14 border-black hover:border-2`}
         >
           {date.getDate()}

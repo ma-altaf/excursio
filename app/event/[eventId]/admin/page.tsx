@@ -5,6 +5,7 @@ import { useEventContext } from "./eventProvider";
 import { redirect } from "next/navigation";
 import { EventStepsType } from "@/features/events/services/firestore";
 import EventLoading from "../../EventLoading";
+import AdminProtected from "@/shared/components/AdminProtected";
 
 const Description = lazy(() => import("./(steps)/Description"));
 const Invitation = lazy(() => import("./(steps)/Invitation"));
@@ -19,7 +20,7 @@ export default function Event() {
 
   if (!eventData) redirect("/event/error");
 
-  const { title } = eventData;
+  const { eventId, title, ownerId } = eventData;
 
   function renderEventSection(activeSection: EventStepsType) {
     switch (activeSection) {
@@ -39,13 +40,15 @@ export default function Event() {
   }
 
   return (
-    <main className="w-full min-h-screen flex flex-col items-center md:px-[10%] lg:px-[20%]">
-      <div className="h-[10vh] items-center justify-center flex">
-        <h1 className="text-3xl p-4">{title}</h1>
-      </div>
-      <div className="min-h-[90vh] w-full pb-2 overflow-y-auto">
-        {renderEventSection(activeSection)}
-      </div>
-    </main>
+    <AdminProtected ownerId={ownerId} origin={`/event/${eventId}`}>
+      <main className="w-full min-h-screen flex flex-col items-center md:px-[10%] lg:px-[20%]">
+        <div className="h-[10vh] items-center justify-center flex">
+          <h1 className="text-3xl p-4">{title}</h1>
+        </div>
+        <div className="min-h-[90vh] w-full pb-2 overflow-y-auto">
+          {renderEventSection(activeSection)}
+        </div>
+      </main>
+    </AdminProtected>
   );
 }

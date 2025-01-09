@@ -3,8 +3,8 @@ import EventContextProvider from "./eventProvider";
 import EventPanel from "./EventPanel";
 
 export const metadata: Metadata = {
-  title: "Event",
-  description: "Manage event.",
+  title: "Manage Event",
+  description: "Change event settings.",
 };
 
 export default async function Layout({
