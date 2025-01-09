@@ -3,6 +3,7 @@
 import { getMembersList } from "@/features/events/services/firestore";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { PiCrownSimpleFill } from "react-icons/pi";
 
 export default function MemberDisplay({
   isOwner,
@@ -37,7 +38,11 @@ export default function MemberDisplay({
 
       <ul className="max-w-full w-fit p-1 overflow-auto grid grid-rows-1 grid-flow-col gap-1">
         {members.map((el, i) => (
-          <li className="px-3 rounded-full bg-gray-100" key={i}>
+          <li
+            className="px-3 rounded-full bg-gray-100 flex flex-row items-center"
+            key={i}
+          >
+            {i == 0 && <PiCrownSimpleFill className="mr-1 -ml-1" />}
             <p>{el}</p>
           </li>
         ))}

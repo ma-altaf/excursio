@@ -16,5 +16,9 @@ export default async function layout({
 
   const { ownerId } = eventData;
 
-  return <UidProtected uid={ownerId}>{children}</UidProtected>;
+  return (
+    <UidProtected uid={ownerId} redirectUrl={`/event/${eventId}`}>
+      {children}
+    </UidProtected>
+  );
 }

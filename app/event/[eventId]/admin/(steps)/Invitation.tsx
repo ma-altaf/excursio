@@ -94,7 +94,9 @@ export default function Invitation() {
 
       {invitation.limit != Number.MAX_VALUE && (
         <>
-          <label htmlFor="limit">Maximum number of members: </label>
+          <label htmlFor="limit">
+            Maximum number of members (including you):
+          </label>
           <input
             type="number"
             id="limit"

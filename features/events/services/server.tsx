@@ -22,7 +22,7 @@ export async function joinEvent(joinForm: JoinForm) {
   const { inviteOpt } = eventInfo;
   if (!inviteOpt) throw Error("Event not setup yet.");
 
-  const { secret: reqSecret, needApproval } = inviteOpt;
+  const { secret: reqSecret, needApproval, limit } = inviteOpt;
 
   if (reqSecret !== secret) throw Error("Incorrect secret phrase.");
 
@@ -52,14 +52,19 @@ export async function joinEvent(joinForm: JoinForm) {
       await transaction.get(doc(db, `events/${eventId}/members/properties`))
     ).data() as { members: string[] } | undefined;
 
-    if (!properties) throw Error("Could not get properties");
+    if (!properties) throw new Error("Could not get event members properties.");
+
+    if (properties.members.length + 1 > limit)
+      throw new Error("Event is full, could not add you to the event.");
+
+    if (!needApproval) {
+      properties.members.push(displayName);
+
+      transaction.update(doc(db, `events/${eventId}/members/properties`), {
+        members: properties.members,
+      });
+    }
 
     transaction.set(doc(db, `events/${eventId}/members/${uid}`), memberData);
-
-    properties.members.push(displayName);
-
-    transaction.update(doc(db, `events/${eventId}/members/properties`), {
-      members: properties.members,
-    });
   });
 }
