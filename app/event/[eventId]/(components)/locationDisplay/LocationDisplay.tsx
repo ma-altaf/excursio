@@ -54,7 +54,11 @@ export default function LocationDisplay({
         {selectedLocations ? (
           <LocationSelected selectedLocations={selectedLocations} />
         ) : eventData?.locationOpt ? (
-          <LocationInProgress suggestions={suggestions} eventId={eventId} />
+          <LocationInProgress
+            locationOpt={eventData.locationOpt}
+            suggestions={suggestions}
+            eventId={eventId}
+          />
         ) : (
           <p>
             Not Setup, wait for orginizer to setup time participation or set the

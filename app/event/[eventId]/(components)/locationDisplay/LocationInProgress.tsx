@@ -1,14 +1,21 @@
-import { LocationType } from "@/features/events/services/firestore";
+import {
+  LocationOptType,
+  LocationType,
+} from "@/features/events/services/firestore";
 import Link from "next/link";
 import SelectedLocationItems from "./SelectedLocationItems";
 
 export default function LocationInProgress({
   eventId,
   suggestions,
+  locationOpt,
 }: {
   eventId: string;
   suggestions: LocationType[] | undefined;
+  locationOpt: LocationOptType;
 }) {
+  const { status } = locationOpt;
+
   return (
     <span className="w-full flex flex-col">
       <span>
@@ -24,7 +31,7 @@ export default function LocationInProgress({
         )}
       </span>
 
-      {!suggestions ? (
+      {!suggestions && status === "suggestion" ? (
         <Link
           href={`/event/${eventId}/participate/location`}
           className="mt-1 p-button rounded-md bg-accent w-fit"
