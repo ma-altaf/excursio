@@ -8,14 +8,17 @@ import {
   CollectiveItemsType,
   getColItems,
   getReqItems,
+  MemberType,
   RequiredItemsType,
 } from "@/features/events/services/firestore";
 import MemberDisplay from "../memberDisplay/MemberDisplay";
 
 export default function RenderDetails({
+  member,
   isOwner,
   eventId,
 }: {
+  member: MemberType;
   isOwner: boolean;
   eventId: string;
 }) {
@@ -51,7 +54,11 @@ export default function RenderDetails({
       <TimeDisplay isOwner={isOwner} eventId={eventId} />
 
       <hr className="w-full border-b-1 my-1" />
-      <LocationDisplay isOwner={isOwner} eventId={eventId} />
+      <LocationDisplay
+        isOwner={isOwner}
+        suggestions={member.locations}
+        eventId={eventId}
+      />
 
       {eventColItems.length != 0 && (
         <>

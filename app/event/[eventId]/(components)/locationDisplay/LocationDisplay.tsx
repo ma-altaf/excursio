@@ -10,11 +10,14 @@ import LocationInProgress from "./LocationInProgress";
 import LocationSelected from "./LocationSelected";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import SelectedLocationItems from "./SelectedLocationItems";
 
 export default function LocationDisplay({
+  suggestions,
   isOwner,
   eventId,
 }: {
+  suggestions?: LocationType[];
   isOwner: boolean;
   eventId: string;
 }) {
@@ -52,7 +55,18 @@ export default function LocationDisplay({
         {selectedLocations ? (
           <LocationSelected selectedLocations={selectedLocations} />
         ) : eventData?.locationOpt ? (
-          <LocationInProgress eventId={eventId} />
+          <>
+            {suggestions ? (
+              <ul className="flex flex-col w-full mt-2 border-2 border-black rounded-md px-2 py-1">
+                <p>Your suggestions:</p>
+                {suggestions.map((el, i) => (
+                  <SelectedLocationItems key={i} location={el} />
+                ))}
+              </ul>
+            ) : (
+              <LocationInProgress eventId={eventId} />
+            )}
+          </>
         ) : (
           <p>
             Not Setup, wait for orginizer to setup time participation or set the

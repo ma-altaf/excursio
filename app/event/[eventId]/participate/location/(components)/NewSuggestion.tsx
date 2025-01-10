@@ -7,8 +7,10 @@ import Toggle from "@/shared/components/Toggle";
 
 export default function NewSuggestion({
   onSubmit,
+  limit,
 }: {
   onSubmit: (locationData: LocationType) => string;
+  limit: number;
 }) {
   const [locationData, setLocationData] = useState<LocationType>({
     title: "",
@@ -51,7 +53,7 @@ export default function NewSuggestion({
             setLocationData((prev) => ({ ...prev, isOnline: e.target.checked }))
           }
         />
-        <p className="ml-4">Online</p>
+        <p className="ml-2">Online</p>
       </label>
 
       {isOnline ? (
@@ -103,7 +105,7 @@ export default function NewSuggestion({
           setError(onSubmit(locationData));
         }}
       >
-        Add
+        Add ({limit})
       </button>
 
       {error && (

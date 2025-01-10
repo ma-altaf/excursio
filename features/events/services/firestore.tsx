@@ -104,6 +104,7 @@ export type MemberType = {
   uid: string;
   displayName: string;
   active: boolean;
+  locations?: LocationType[];
 };
 
 export const orderedEventSteps: EventStepsType[] = [
@@ -440,5 +441,15 @@ export async function acceptMember(
     transaction.update(doc(db, `events/${eventId}/members/properties`), {
       members: properties.members,
     });
+  });
+}
+
+export async function addSuggestion(
+  eventId: string,
+  memberId: string,
+  suggestionList: LocationType[]
+) {
+  await updateDoc(doc(db, `events/${eventId}/members/${memberId}`), {
+    locations: suggestionList,
   });
 }

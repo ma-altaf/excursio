@@ -51,7 +51,7 @@ export default function NewSuggestion({
             setLocationData((prev) => ({ ...prev, isOnline: e.target.checked }))
           }
         />
-        <p className="ml-4">Online</p>
+        <p className="ml-2">Online</p>
       </label>
 
       {isOnline ? (

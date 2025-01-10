@@ -10,7 +10,7 @@ export default function SelectedLocationItems({
 }) {
   const { title, isOnline, link } = location;
   return (
-    <div>
+    <div className="p-1 my-1 bg-gray-100 rounded-md">
       <p className="font-bold">{title}</p>
       {link &&
         (isOnline ? (

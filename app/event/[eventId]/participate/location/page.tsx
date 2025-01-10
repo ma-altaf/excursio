@@ -1,19 +1,31 @@
-"use client";
+import { getEvent } from "@/features/events/services/firestore";
+import Location from "./Location";
 
-import { LocationType } from "@/features/events/services/firestore";
-import NewSuggestion from "../../participate/location/(components)/NewSuggestion";
+export default async function page({
+  params,
+}: {
+  params: Promise<{ eventId: string }>;
+}) {
+  const { eventId } = await params;
+  const eventData = await getEvent(eventId);
 
-export default function Location() {
-  // TODO: finalize location
+  if (!eventData)
+    return (
+      <div className="w-full h-screen flex items-center justify-center">
+        <p>No Event Found</p>
+      </div>
+    );
 
-  function AddSuggestion(locationData: LocationType) {
-    // TODO: Add the suggestion for review to be put on the poll
-    return "";
-  }
+  const { locationOpt } = eventData;
 
-  return (
-    <section className="w-full min-h-screen flex flex-col p-2 md:px-[10%] lg:px-[20%]">
-      <NewSuggestion onSubmit={AddSuggestion} />
-    </section>
-  );
+  if (!locationOpt)
+    return (
+      <div className="w-full h-screen flex items-center justify-center">
+        <p>location participation not setup.</p>
+      </div>
+    );
+
+  const { num_suggestions } = locationOpt;
+
+  return <Location num_suggestions={num_suggestions} eventId={eventId} />;
 }
