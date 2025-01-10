@@ -15,6 +15,7 @@ export default function Location() {
   const { eventData, setEventData, setActiveSection } = useEventContext();
   const [locationOpt, setLocationOpt] = useState<LocationOptType>({
     num_suggestions: 0,
+    status: "suggestion",
   });
   const [limit, setLimit] = useState(1);
   const locationsListState = useState<LocationType[]>([]);

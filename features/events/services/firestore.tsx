@@ -64,6 +64,7 @@ export type InvitationOptType = {
 };
 
 export type LocationOptType = {
+  status: "suggestion" | "vote";
   num_suggestions: number;
 };
 
@@ -350,7 +351,7 @@ export async function getSetectedTimes(eventId: string) {
 
 export async function getSetectedLocations(eventId: string) {
   const res = (
-    await getDoc(doc(db, `events/${eventId}/lists/selectLocations`))
+    await getDoc(doc(db, `events/${eventId}/lists/selectedLocations`))
   ).data();
 
   if (!res) return undefined;
