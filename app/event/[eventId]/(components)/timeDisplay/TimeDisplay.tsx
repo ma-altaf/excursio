@@ -6,8 +6,15 @@ import {
   SelectedTimeMap,
 } from "@/features/events/services/firestore";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
-export default function TimeDisplay({ eventId }: { eventId: string }) {
+export default function TimeDisplay({
+  isOwner,
+  eventId,
+}: {
+  isOwner: boolean;
+  eventId: string;
+}) {
   const [selectedTimes, setSelectedTimes] = useState<
     SelectedTimeMap | undefined
   >(undefined);
@@ -26,17 +33,32 @@ export default function TimeDisplay({ eventId }: { eventId: string }) {
   }, [eventId, selectedTimes]);
 
   return (
-    <div className="flex w-full p-1">
-      {selectedTimes ? (
-        <TimeSelected selectedTimes={selectedTimes} />
-      ) : times ? (
-        <TimeInProgress eventId={eventId} />
-      ) : (
-        <p>
-          Not Setup, wait for orginizer to setup time participation or set the
-          times.
-        </p>
-      )}
-    </div>
+    <>
+      <span className="flex flex-row w-full justify-between items-center">
+        <h2 className="font-bold">Time</h2>
+
+        {isOwner && (
+          <Link
+            href={`/event/${eventId}/moderate/time`}
+            className="px-2 py-1 rounded-md bg-accent"
+          >
+            Moderate
+          </Link>
+        )}
+      </span>
+
+      <div className="flex w-full px-2">
+        {selectedTimes ? (
+          <TimeSelected selectedTimes={selectedTimes} />
+        ) : times ? (
+          <TimeInProgress eventId={eventId} />
+        ) : (
+          <p>
+            Not Setup, wait for orginizer to setup time participation or set the
+            times.
+          </p>
+        )}
+      </div>
+    </>
   );
 }

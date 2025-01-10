@@ -9,8 +9,15 @@ import {
 import LocationInProgress from "./LocationInProgress";
 import LocationSelected from "./LocationSelected";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
-export default function LocationDisplay({ eventId }: { eventId: string }) {
+export default function LocationDisplay({
+  isOwner,
+  eventId,
+}: {
+  isOwner: boolean;
+  eventId: string;
+}) {
   const [selectedLocations, setSelectedLocations] = useState<
     LocationType[] | undefined
   >(undefined);
@@ -27,17 +34,32 @@ export default function LocationDisplay({ eventId }: { eventId: string }) {
   }, [eventId, selectedLocations]);
 
   return (
-    <div className="flex w-full p-1">
-      {selectedLocations ? (
-        <LocationSelected selectedLocations={selectedLocations} />
-      ) : eventData?.locationOpt ? (
-        <LocationInProgress eventId={eventId} />
-      ) : (
-        <p>
-          Not Setup, wait for orginizer to setup time participation or set the
-          times.
-        </p>
-      )}
-    </div>
+    <>
+      <span className="flex flex-row w-full justify-between items-center">
+        <h2 className="font-bold">Location</h2>
+
+        {isOwner && (
+          <Link
+            href={`/event/${eventId}/moderate/locations`}
+            className="px-2 py-1 rounded-md bg-accent"
+          >
+            Moderate
+          </Link>
+        )}
+      </span>
+
+      <div className="flex w-full px-2">
+        {selectedLocations ? (
+          <LocationSelected selectedLocations={selectedLocations} />
+        ) : eventData?.locationOpt ? (
+          <LocationInProgress eventId={eventId} />
+        ) : (
+          <p>
+            Not Setup, wait for orginizer to setup time participation or set the
+            times.
+          </p>
+        )}
+      </div>
+    </>
   );
 }

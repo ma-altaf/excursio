@@ -48,12 +48,10 @@ export default function RenderDetails({
       )}
 
       <hr className="w-full border-b-1 my-1" />
-      <h2 className="font-bold">Time</h2>
-      <TimeDisplay eventId={eventId} />
+      <TimeDisplay isOwner={isOwner} eventId={eventId} />
 
       <hr className="w-full border-b-1 my-1" />
-      <h2 className="font-bold">Location</h2>
-      <LocationDisplay eventId={eventId} />
+      <LocationDisplay isOwner={isOwner} eventId={eventId} />
 
       {eventColItems.length != 0 && (
         <>
