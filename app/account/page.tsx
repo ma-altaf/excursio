@@ -7,7 +7,6 @@ import { DocumentData } from "firebase/firestore";
 import { PiSignOutBold } from "react-icons/pi";
 import Link from "next/link";
 import { FaArrowRight } from "react-icons/fa";
-import AccountLoading from "./AccountLoading";
 import { useAuthContext } from "@/features/users/components/authProvider";
 import { logOut } from "@/features/users/services/auth";
 import {
@@ -16,6 +15,7 @@ import {
   updateProfilePic,
   updateUsername,
 } from "@/features/users/services/firestore";
+import LoadingCover from "@/shared/components/loading/LoadingCover";
 
 export default function Account() {
   const { authLoading, user } = useAuthContext();
@@ -53,7 +53,7 @@ export default function Account() {
       .catch((e) => console.log(e));
   }, [user, authLoading]);
 
-  if (loading) return <AccountLoading />;
+  if (loading) return <LoadingCover text="Loading User..." />;
 
   return (
     <section className="flex flex-col w-full min-h-screen items-center md:px-[10%] lg:px-[20%]">

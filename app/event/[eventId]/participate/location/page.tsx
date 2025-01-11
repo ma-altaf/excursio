@@ -28,7 +28,7 @@ export default async function page({
 
   const { num_suggestions, status } = locationOpt;
 
-  if (status == "suggestion")
+  if (status === "suggestion")
     return <Location num_suggestions={num_suggestions} eventId={eventId} />;
-  if (status == "vote") return <Vote />;
+  if (status === "vote") return <Vote eventId={eventId} />;
 }

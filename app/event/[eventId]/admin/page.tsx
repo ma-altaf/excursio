@@ -4,8 +4,8 @@ import { lazy } from "react";
 import { useEventContext } from "./eventProvider";
 import { redirect } from "next/navigation";
 import { EventStepsType } from "@/features/events/services/firestore";
-import EventLoading from "../../EventLoading";
 import UidProtected from "@/shared/components/UidProtected";
+import LoadingCover from "@/shared/components/loading/LoadingCover";
 
 const Description = lazy(() => import("./(steps)/Description"));
 const Invitation = lazy(() => import("./(steps)/Invitation"));
@@ -16,7 +16,7 @@ const Contributions = lazy(() => import("./(steps)/Contributions"));
 export default function Event() {
   const { activeSection, eventLoading, eventData } = useEventContext();
 
-  if (eventLoading) return <EventLoading />;
+  if (eventLoading) return <LoadingCover text="Loading Event." />;
 
   if (!eventData) redirect("/event/error");
 
