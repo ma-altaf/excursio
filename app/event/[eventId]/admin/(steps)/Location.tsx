@@ -4,10 +4,10 @@ import { ChangeEvent, useEffect, useState } from "react";
 import {
   getLocations,
   LocationOptType,
-  LocationType,
   orderedEventSteps,
   setLocations,
   uploadLocationOpt,
+  VoteLocationType,
 } from "@/features/events/services/firestore";
 import LocationSuggestions from "./(components)/locationSuggestions/LocationSuggestions";
 
@@ -18,7 +18,7 @@ export default function Location() {
     status: "suggestion",
   });
   const [limit, setLimit] = useState(1);
-  const locationsListState = useState<LocationType[]>([]);
+  const locationsListState = useState<VoteLocationType[]>([]);
   const [changed, setChanged] = useState(false);
 
   const [locationsList, setLocationsList] = locationsListState;
@@ -63,9 +63,13 @@ export default function Location() {
         const loc = eventData.locations[index];
 
         if (
-          !locationsList.map((l) => l.title).includes(loc.title) ||
-          !locationsList.map((l) => l.isOnline).includes(loc.isOnline) ||
-          !locationsList.map((l) => l.link).includes(loc.link)
+          !locationsList
+            .map((l) => l.location.title)
+            .includes(loc.location.title) ||
+          !locationsList
+            .map((l) => l.location.isOnline)
+            .includes(loc.location.isOnline) ||
+          !locationsList.map((l) => l.location.link).includes(loc.location.link)
         ) {
           return true;
         }

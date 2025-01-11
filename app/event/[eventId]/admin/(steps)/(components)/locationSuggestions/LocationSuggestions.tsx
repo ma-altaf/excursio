@@ -1,6 +1,9 @@
 "use client";
 
-import { LocationType } from "@/features/events/services/firestore";
+import {
+  LocationType,
+  VoteLocationType,
+} from "@/features/events/services/firestore";
 import NewSuggestion from "./NewSuggestion";
 import { Dispatch, SetStateAction } from "react";
 import LocationItem from "./LocationItem";
@@ -9,8 +12,8 @@ export default function LocationSuggestions({
   locationsListState,
 }: {
   locationsListState: [
-    LocationType[],
-    Dispatch<SetStateAction<LocationType[]>>
+    VoteLocationType[],
+    Dispatch<SetStateAction<VoteLocationType[]>>
   ];
 }) {
   const [locationsList, setLocationsList] = locationsListState;
@@ -23,7 +26,7 @@ export default function LocationSuggestions({
       error.push("Title is required.");
     }
 
-    if (locationsList.map((el) => el.title).includes(title)) {
+    if (locationsList.map((el) => el.location.title).includes(title)) {
       error.push("location already exists.");
     }
 
@@ -31,14 +34,14 @@ export default function LocationSuggestions({
       return error.join(" | ");
     }
 
-    setLocationsList((prev) => [...prev, locationData]);
+    setLocationsList((prev) => [...prev, { location: locationData, vote: 0 }]);
 
     return "";
   }
 
   function removeItem(title: string) {
     setLocationsList((prev) => {
-      return prev.filter((loc) => loc.title != title);
+      return prev.filter((loc) => loc.location.title != title);
     });
   }
 
@@ -56,7 +59,7 @@ export default function LocationSuggestions({
         {locationsList.map((locationData, i) => (
           <LocationItem
             key={i}
-            locationData={locationData}
+            locationData={locationData.location}
             onRemove={removeItem}
           />
         ))}

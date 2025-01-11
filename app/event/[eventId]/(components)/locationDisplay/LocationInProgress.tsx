@@ -31,7 +31,7 @@ export default function LocationInProgress({
         )}
       </span>
 
-      {!suggestions && status === "suggestion" ? (
+      {!suggestions || status === "vote" ? (
         <Link
           href={`/event/${eventId}/participate/location`}
           className="mt-1 p-button rounded-md bg-accent w-fit"

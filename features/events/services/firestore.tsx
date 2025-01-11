@@ -52,7 +52,7 @@ export type EventType = {
   locationOpt?: LocationOptType;
   contributionsOpt?: ContributionsOptType;
   times: Map<string, boolean[]>;
-  locations: LocationType[] | null;
+  locations: VoteLocationType[] | null;
   reqItems: RequiredItemsType[] | null;
   colItems: CollectiveItemsType[] | null;
 };
@@ -63,8 +63,10 @@ export type InvitationOptType = {
   secret: string;
 };
 
+export type LocationOptStatusType = "suggestion" | "vote";
+
 export type LocationOptType = {
-  status: "suggestion" | "vote";
+  status: LocationOptStatusType;
   num_suggestions: number;
 };
 
@@ -72,6 +74,11 @@ export type LocationType = {
   title: string;
   isOnline: boolean;
   link: string;
+};
+
+export type VoteLocationType = {
+  location: LocationType;
+  vote: number;
 };
 
 export type ContributionsOptType = {
@@ -273,7 +280,10 @@ export async function uploadLocationOpt(
   });
 }
 
-export async function setLocations(eventId: string, locations: LocationType[]) {
+export async function setLocations(
+  eventId: string,
+  locations: VoteLocationType[]
+) {
   return await setDoc(doc(db, `events/${eventId}/lists/locations`), {
     locations,
   });
@@ -286,7 +296,7 @@ export async function getLocations(eventId: string) {
 
   if (!res) return [];
 
-  return res.locations as LocationType[];
+  return res.locations as VoteLocationType[];
 }
 
 export async function uploadContributionOpt(
@@ -452,5 +462,21 @@ export async function addSuggestion(
 ) {
   await updateDoc(doc(db, `events/${eventId}/members/${memberId}`), {
     locations: suggestionList,
+  });
+}
+
+export async function updateLocationOptStatus(
+  eventId: string,
+  newStatus: LocationOptStatusType
+) {
+  await runTransaction(db, async (transaction) => {
+    const eventData = (
+      await transaction.get(doc(db, `events/${eventId}`))
+    ).data() as EventType;
+
+    transaction.update(doc(db, `events/${eventId}`), {
+      ...eventData,
+      locationOpt: { ...eventData.locationOpt, status: newStatus },
+    });
   });
 }

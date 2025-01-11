@@ -1,8 +1,18 @@
-export default function Location() {
-  // TODO: finalize location
-  return (
-    <section className="w-full min-h-screen flex flex-col items-center p-2 md:px-[10%] lg:px-[20%]">
-      moderate location
-    </section>
-  );
+import { getEvent } from "@/features/events/services/firestore";
+import Location from "./Location";
+import SelectLocations from "./(components)/SelectLocations";
+
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ eventId: string }>;
+}) {
+  const { eventId } = await params;
+  const eventData = await getEvent(eventId);
+
+  if (!eventData) return <p>Event not found.</p>;
+
+  if (eventData.locationOpt?.status === "vote") return <SelectLocations />;
+
+  return <Location eventId={eventId} />;
 }
