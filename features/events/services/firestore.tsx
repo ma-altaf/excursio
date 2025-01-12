@@ -113,6 +113,7 @@ export type MemberType = {
   displayName: string;
   active: boolean;
   locations?: LocationType[];
+  vote?: string;
 };
 
 export const orderedEventSteps: EventStepsType[] = [
@@ -477,6 +478,40 @@ export async function updateLocationOptStatus(
     transaction.update(doc(db, `events/${eventId}`), {
       ...eventData,
       locationOpt: { ...eventData.locationOpt, status: newStatus },
+    });
+  });
+}
+
+export async function submitVote(
+  eventId: string,
+  memberId: string,
+  title: string
+) {
+  await runTransaction(db, async (transaction) => {
+    const member = (
+      await transaction.get(doc(db, `events/${eventId}/members/${memberId}`))
+    ).data() as MemberType | undefined;
+
+    if (member?.vote) throw new Error(`You Already vote for ${member.vote}.`);
+
+    const res = (
+      await transaction.get(doc(db, `events/${eventId}/lists/locations/`))
+    ).data() as { locations: VoteLocationType[] } | undefined;
+
+    if (!res) throw new Error("Location suggestions not found.");
+
+    const { locations } = res;
+
+    transaction.update(doc(db, `events/${eventId}/members/${memberId}`), {
+      vote: title,
+    });
+
+    locations[
+      locations.findIndex((el) => el.location.title === title)
+    ].vote += 1;
+
+    transaction.update(doc(db, `events/${eventId}/lists/locations/`), {
+      locations,
     });
   });
 }
