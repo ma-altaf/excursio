@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Participate in locations",
-  description: "Participate in suggesting locations to go to.",
+  title: "Participate in time availability",
+  description: "Participate in providing your time availability.",
 };
 
 export default function Layout({

@@ -516,6 +516,17 @@ export async function submitVote(
   });
 }
 
+export async function MembersListSnapShot(
+  eventId: string,
+  callback: (names: string[]) => void
+) {
+  return onSnapshot(doc(db, `events/${eventId}/members/properties`), (res) => {
+    const data = res.data();
+    if (!data) throw new Error("Failed to retrieve members properties.");
+    callback(data.members as string[]);
+  });
+}
+
 export async function pollsSnapShot(
   eventId: string,
   callback: (polls: VoteLocationType[]) => void
