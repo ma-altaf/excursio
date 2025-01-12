@@ -18,13 +18,13 @@ export default function Poll({ eventId }: { eventId: string }) {
       setPolls(polls.sort((a, b) => b.vote - a.vote));
     });
 
-    const membersSnap = MembersListSnapShot(eventId, (res) => {
+    const namesSnap = MembersListSnapShot(eventId, (res) => {
       setNames(res);
     });
 
     return () => {
       pollsSnap.then(() => console.log("Unsub to polls."));
-      membersSnap.then(() => console.log("Unsub to members."));
+      namesSnap.then(() => console.log("Unsub to members."));
     };
   }, [eventId]);
 
