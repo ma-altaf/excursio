@@ -1,6 +1,6 @@
 import { getEvent } from "@/features/events/services/firestore";
-import Location from "./Location";
 import Vote from "./Vote";
+import Locations from "./Locations";
 
 export default async function page({
   params,
@@ -29,6 +29,6 @@ export default async function page({
   const { num_suggestions, status } = locationOpt;
 
   if (status === "suggestion")
-    return <Location num_suggestions={num_suggestions} eventId={eventId} />;
+    return <Locations num_suggestions={num_suggestions} eventId={eventId} />;
   if (status === "vote") return <Vote eventId={eventId} />;
 }

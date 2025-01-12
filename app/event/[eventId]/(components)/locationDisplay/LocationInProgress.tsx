@@ -33,7 +33,7 @@ export default function LocationInProgress({
 
       {!suggestions || status === "vote" ? (
         <Link
-          href={`/event/${eventId}/participate/location`}
+          href={`/event/${eventId}/participate/locations`}
           className="mt-1 p-button rounded-md bg-accent w-fit"
         >
           Participate

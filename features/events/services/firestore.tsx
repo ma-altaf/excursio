@@ -515,3 +515,18 @@ export async function submitVote(
     });
   });
 }
+
+export async function pollsSnapShot(
+  eventId: string,
+  callback: (polls: VoteLocationType[]) => void
+) {
+  return onSnapshot(
+    doc(db, `events/${eventId}/lists/locations`),
+
+    (res) => {
+      const polls = res.data() as { locations: VoteLocationType[] } | undefined;
+      if (!polls) throw new Error("location suggestions not found.");
+      callback(polls.locations);
+    }
+  );
+}

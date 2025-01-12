@@ -15,7 +15,6 @@ import VoteItems from "./(components)/VoteItems";
 import ViewPoll from "./ViewPoll";
 
 export default function Vote({ eventId }: { eventId: string }) {
-  // TODO: participate
   const { authLoading, user } = useAuthContext();
   const [locationChoices, setLocationChoices] = useState<VoteLocationType[]>(
     []
@@ -46,10 +45,17 @@ export default function Vote({ eventId }: { eventId: string }) {
     if (!title) {
       return setError("Please select an location suggestion.");
     }
-    submitVote(eventId, user!.uid, title).catch((e) => setError(e.message));
+    submitVote(eventId, user!.uid, title)
+      .then(() =>
+        setMember((prev) => {
+          if (!prev) return undefined;
+          return { ...prev, vote: title };
+        })
+      )
+      .catch((e) => setError(e.message));
   }
 
-  if (member) return <ViewPoll eventId={eventId} />;
+  if (member?.vote) return <ViewPoll eventId={eventId} />;
 
   return (
     <section className="w-full min-h-screen flex flex-col items-center p-2 md:px-[10%] lg:px-[20%]">

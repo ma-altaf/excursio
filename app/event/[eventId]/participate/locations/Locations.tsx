@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import Suggestion from "./Suggestion";
 import LoadingCover from "@/shared/components/loading/LoadingCover";
 
-export default function Location({
+export default function Locations({
   eventId,
   num_suggestions,
 }: {
