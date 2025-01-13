@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Moderate location",
+  title: "Moderate locations",
   description: "Moderate location suggestions.",
 };
 

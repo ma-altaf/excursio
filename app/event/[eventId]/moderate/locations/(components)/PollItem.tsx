@@ -1,5 +1,5 @@
 import { roboto } from "@/app/layout";
-import { PollType } from "@/features/events/services/firestore";
+import { PollType } from "./Poll";
 
 export default function PollItem({
   length,

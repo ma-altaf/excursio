@@ -1,26 +1,22 @@
-import { VoteLocationType } from "@/features/events/services/firestore";
+import { LocationType } from "@/features/events/services/firestore";
 import RemovableLocItem from "./RemovableLocItem";
 
 export default function SelectedSuggestions({
   selectedLocations,
   onRemove,
 }: {
-  selectedLocations: VoteLocationType[];
+  selectedLocations: LocationType[];
   onRemove: (title: string) => void;
 }) {
   return (
     <div className="flex flex-col p-1 border-2 border-black rounded-md w-full">
-      <p>Selected suggestions:</p>
+      <p>Selected locations:</p>
       {selectedLocations.length === 0 ? (
-        <p className="text-center">No suggestion selected.</p>
+        <p className="text-center">No location selected.</p>
       ) : (
         <ul>
           {selectedLocations.map((loc, i) => (
-            <RemovableLocItem
-              key={i}
-              locationData={loc.location}
-              onRemove={onRemove}
-            />
+            <RemovableLocItem key={i} locationData={loc} onRemove={onRemove} />
           ))}
         </ul>
       )}

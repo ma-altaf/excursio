@@ -116,6 +116,8 @@ export type MemberType = {
   vote?: string;
 };
 
+export type PollType = { title: string; vote: number };
+
 export const orderedEventSteps: EventStepsType[] = [
   "description",
   "invitation",
@@ -367,7 +369,16 @@ export async function getSetectedLocations(eventId: string) {
 
   if (!res) return undefined;
 
-  return res as LocationType[];
+  return res.selectedLocations as LocationType[];
+}
+
+export async function setSetectedLocations(
+  eventId: string,
+  selectedLocations: LocationType[]
+) {
+  await setDoc(doc(db, `events/${eventId}/lists/selectedLocations`), {
+    selectedLocations,
+  });
 }
 
 export async function getMember(eventId: string, uid: string) {
@@ -516,7 +527,7 @@ export async function submitVote(
   });
 }
 
-export async function MembersListSnapShot(
+export async function membersListSnapShot(
   eventId: string,
   callback: (names: string[]) => void
 ) {

@@ -12,7 +12,8 @@ export default async function Page({
 
   if (!eventData) return <p>Event not found.</p>;
 
-  if (eventData.locationOpt?.status === "vote") return <SelectLocations />;
+  if (eventData.locationOpt?.status === "vote")
+    return <SelectLocations eventId={eventId} />;
 
   return <Location eventId={eventId} />;
 }

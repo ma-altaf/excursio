@@ -1,20 +1,22 @@
 import { MemberType } from "@/features/events/services/firestore";
 
-export default function SuggestionWaitlist({
-  members,
+export default function WaitList({
+  headerText,
+  completionText,
+  waitingMembers,
 }: {
-  members: MemberType[];
+  headerText: string;
+  completionText: string;
+  waitingMembers: MemberType[];
 }) {
-  const waitingMembers = members.filter((el) => el.locations === undefined);
-
   return (
     <div className="flex flex-col p-1 border-2 border-black rounded-md w-full">
       {waitingMembers.length === 0 ? (
-        <p className="text-center">All members have voted.</p>
+        <p className="text-center">{completionText}</p>
       ) : (
         <>
           <span className="flex flex-row">
-            <p>Waiting for response:</p>
+            <p>{headerText}</p>
             <p className="ml-2 px-2 bg-gray-100 rounded-full">
               {waitingMembers.length}
             </p>

@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import SelectedSuggestions from "./(components)/SelectedSuggestions";
 import SuggestedLocations from "./(components)/SuggestedLocations";
-import SuggestionWaitlist from "./(components)/SuggestionWaitlist";
 import {
   getLocations,
   LocationType,
@@ -14,6 +13,7 @@ import {
   VoteLocationType,
 } from "@/features/events/services/firestore";
 import { redirect } from "next/navigation";
+import WaitList from "@/shared/components/WaitList";
 
 export default function Location({ eventId }: { eventId: string }) {
   const [members, setMembers] = useState<MemberType[]>([]);
@@ -79,7 +79,11 @@ export default function Location({ eventId }: { eventId: string }) {
 
       <hr className="w-full border-b-2 my-1" />
 
-      <SuggestionWaitlist members={members} />
+      <WaitList
+        headerText="Waiting for suggestions:"
+        completionText="All members have suggested their locations."
+        waitingMembers={members.filter((el) => el.locations === undefined)}
+      />
 
       <span className="w-full flex items-center justify-end mt-2">
         <button

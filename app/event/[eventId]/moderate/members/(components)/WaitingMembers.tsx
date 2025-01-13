@@ -9,7 +9,7 @@ import {
 import { useEffect, useState } from "react";
 import { IoCheckmark, IoClose } from "react-icons/io5";
 
-export default function Waitlist({ eventId }: { eventId: string }) {
+export default function WaitingMembers({ eventId }: { eventId: string }) {
   const [members, setMembers] = useState<MemberType[]>([]);
 
   useEffect(() => {

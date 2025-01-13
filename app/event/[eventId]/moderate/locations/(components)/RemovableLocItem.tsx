@@ -3,7 +3,7 @@ import Link from "next/link";
 import { IoClose, IoGlobeOutline } from "react-icons/io5";
 import { MdOutlineLocationOn } from "react-icons/md";
 
-export default function ToVoteItem({
+export default function RemovableLocItem({
   locationData,
   onRemove,
 }: {
