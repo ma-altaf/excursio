@@ -31,14 +31,21 @@ export default function DateUnit({
   return (
     <span className="flex justify-center items-center p-1 w-full">
       {disabled ? (
-        <div className="flex justify-center items-center rounded-md size-14 bg-gray-100 text-gray-300">
+        <div
+          draggable="false"
+          className="flex justify-center items-center rounded-md size-14 bg-gray-100 text-gray-300 select-none"
+        >
           {date.getDate()}
         </div>
       ) : (
         <button
-          onClick={() => updateDates(date)}
+          draggable="false"
+          onMouseDown={() => updateDates(date)}
+          onMouseOver={(e) => {
+            if (e.buttons === 1) updateDates(date);
+          }}
           disabled={disabled}
-          className={`flex justify-center items-center transition-colors ${
+          className={`flex justify-center items-center transition-colors select-none ${
             isActive ? "bg-accent" : "bg-gray-200"
           } rounded-md size-14 border-black hover:border-2`}
         >
