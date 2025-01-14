@@ -263,7 +263,7 @@ export async function setDateTimes(
 export async function getDateTimes(eventId: string) {
   const dateTime = (
     await getDoc(doc(db, `events/${eventId}/lists/times`))
-  ).data();
+  ).data() as { [date: string]: boolean[] };
   if (!dateTime) return undefined;
 
   return new Map(Object.entries(dateTime));

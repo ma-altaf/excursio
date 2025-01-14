@@ -1,8 +1,17 @@
-export default function Time() {
-  // TODO: allow user to participate in adding their availability
-  return (
-    <section className="w-full min-h-screen flex flex-col items-center p-2 md:px-[10%] lg:px-[20%]">
-      user participate time
-    </section>
-  );
+import { getDateTimes } from "@/features/events/services/firestore";
+import Time from "./Time";
+import { redirect } from "next/navigation";
+
+// PARTICIPATE
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ eventId: string }>;
+}) {
+  const { eventId } = await params;
+  const times = await getDateTimes(eventId);
+
+  if (!times) redirect(`event/${eventId}`);
+
+  return <Time times={times} eventId={eventId} />;
 }
