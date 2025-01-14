@@ -10,11 +10,12 @@ import {
 import RangedDateToggle from "./(components)/datePicker/RangedDateToggle";
 import DatePicker from "./(components)/datePicker/DatePicker";
 import TimePicker from "./(components)/timePicker/TimePicker";
+import { TimeStateType } from "@/shared/services/utils";
 
 export default function Time() {
   const { eventData, setEventData, setActiveSection } = useEventContext();
   const [showDatePicker, setShowDatePicker] = useState(true);
-  const dateUseState = useState<Map<string, boolean[]>>(new Map());
+  const dateUseState = useState<Map<string, TimeStateType[]>>(new Map());
   const [changed, setChanged] = useState(false);
 
   const [dates, setDates] = dateUseState;
@@ -70,7 +71,7 @@ export default function Time() {
           {showDatePicker ? (
             <>
               <RangedDateToggle dateUseState={dateUseState} />
-              <DatePicker dateUseState={dateUseState} setChange={setChanged} />
+              <DatePicker dateUseState={dateUseState} setChanged={setChanged} />
               <span className="w-full flex flex-row justify-end mt-2">
                 <button
                   onClick={() => setShowDatePicker(false)}
@@ -82,7 +83,7 @@ export default function Time() {
             </>
           ) : (
             <>
-              <TimePicker dateUseState={dateUseState} setChange={setChanged} />
+              <TimePicker dateUseState={dateUseState} setChanged={setChanged} />
               <span className="w-full flex flex-row justify-end mt-2">
                 <button
                   onClick={() => setShowDatePicker(true)}

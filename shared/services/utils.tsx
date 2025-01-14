@@ -1,8 +1,10 @@
-export type DateMap = Map<number, Map<number, Map<number, boolean[]>>>;
+export type TimeStateType = "disable" | "enable" | "available";
+
+export type DateMap = Map<number, Map<number, Map<number, TimeStateType[]>>>;
 
 export const today = resetTime(new Date());
 
-export const fullDay = new Array<boolean>(24).fill(true);
+export const fullDay = new Array<TimeStateType>(24).fill("enable");
 
 export function formatDate(date: Date) {
   return new Intl.DateTimeFormat("en-CA", {

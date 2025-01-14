@@ -1,4 +1,4 @@
-import { formatDate, fullDay } from "@/shared/services/utils";
+import { formatDate, fullDay, TimeStateType } from "@/shared/services/utils";
 import { Dispatch, SetStateAction } from "react";
 
 export default function DateUnit({
@@ -6,13 +6,13 @@ export default function DateUnit({
   isActive,
   disabled,
   setDates,
-  setChange,
+  setChanged,
 }: {
   date: Date;
   isActive: boolean;
   disabled: boolean;
-  setDates: Dispatch<SetStateAction<Map<string, boolean[]>>>;
-  setChange: Dispatch<SetStateAction<boolean>>;
+  setDates: Dispatch<SetStateAction<Map<string, TimeStateType[]>>>;
+  setChanged: Dispatch<SetStateAction<boolean>>;
 }) {
   function updateDates(date: Date) {
     const dateStr = formatDate(date);
@@ -23,7 +23,7 @@ export default function DateUnit({
       } else {
         prev.set(dateStr, [...fullDay]);
       }
-      setChange(true);
+      setChanged(true);
       return new Map(prev);
     });
   }

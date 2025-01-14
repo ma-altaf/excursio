@@ -1,5 +1,6 @@
 import { getUser } from "@/features/users/services/firestore";
 import { db } from "@/shared/services/firestore";
+import { TimeStateType } from "@/shared/services/utils";
 import {
   addDoc,
   collection,
@@ -51,7 +52,7 @@ export type EventType = {
   inviteOpt?: InvitationOptType;
   locationOpt?: LocationOptType;
   contributionsOpt?: ContributionsOptType;
-  times: Map<string, boolean[]>;
+  times: Map<string, TimeStateType[]>;
   locations: VoteLocationType[] | null;
   reqItems: RequiredItemsType[] | null;
   colItems: CollectiveItemsType[] | null;
@@ -248,7 +249,7 @@ export async function updateInvitation(
 
 export async function setDateTimes(
   eventId: string,
-  dateMaps: Map<string, boolean[]>,
+  dateMaps: Map<string, TimeStateType[]>,
   inProgress: InProgressType
 ) {
   inProgress.times = false;
@@ -263,7 +264,7 @@ export async function setDateTimes(
 export async function getDateTimes(eventId: string) {
   const dateTime = (
     await getDoc(doc(db, `events/${eventId}/lists/times`))
-  ).data() as { [date: string]: boolean[] };
+  ).data() as { [date: string]: TimeStateType[] };
   if (!dateTime) return undefined;
 
   return new Map(Object.entries(dateTime));

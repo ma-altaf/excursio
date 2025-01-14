@@ -29,7 +29,7 @@ export default function Day({
       if (!dateTime || !fullDate) {
         throw new Error("failed to update time");
       }
-      dateTime[i] = currStatus === "enable" ? "disable" : "enable";
+      dateTime[i] = currStatus === "enable" ? "available" : "enable";
       prev.set(fullDate, dateTime);
       setChanged(true);
       return new Map(prev);
@@ -39,8 +39,13 @@ export default function Day({
   function toggleList(i: number) {
     if (!dateTime) throw new Error("time not available");
     const state = dateTime[i];
-    while (i < dateTime.length && dateTime[i] === state) {
-      toggleTime(i, dateTime[i]);
+    while (
+      i < dateTime.length &&
+      (dateTime[i] === state || dateTime[i] === "disable")
+    ) {
+      if (dateTime[i] !== "disable") {
+        toggleTime(i, dateTime[i]);
+      }
       i += 1;
     }
   }
@@ -53,19 +58,28 @@ export default function Day({
       </p>
       {dateTime.map((v, i) => {
         return (
-          <button
-            draggable="false"
-            onMouseDown={() => toggleTime(i, v)}
-            onMouseOver={(e) => {
-              if (e.buttons === 1) toggleTime(i, v);
-            }}
-            onDoubleClick={() => toggleList(i)}
-            title={`${v === "enable" ? "Remove" : "Add"}: ${fullDate}`}
-            key={i}
-            className={`border-b-2 border-black h-8 w-12 transition-all ${
-              v === "enable" ? "bg-accent" : "bg-background"
-            }`}
-          ></button>
+          <>
+            {v === "disable" ? (
+              <div
+                key={i}
+                className="border-b-2 border-black h-8 w-12 bg-black"
+              ></div>
+            ) : (
+              <button
+                draggable="false"
+                onMouseDown={() => toggleTime(i, v)}
+                onMouseOver={(e) => {
+                  if (e.buttons === 1) toggleTime(i, v);
+                }}
+                onDoubleClick={() => toggleList(i)}
+                title={`${v === "available" ? "Remove" : "Add"}: ${fullDate}`}
+                key={i}
+                className={`border-b-2 border-black h-8 w-12 transition-all ${
+                  v === "available" ? "bg-accent" : "bg-background"
+                }`}
+              ></button>
+            )}
+          </>
         );
       })}
     </div>

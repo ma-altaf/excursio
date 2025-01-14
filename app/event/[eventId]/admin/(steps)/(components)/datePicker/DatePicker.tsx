@@ -1,17 +1,22 @@
 import { Dispatch, SetStateAction, useState } from "react";
 import DateHeader from "./DatePickerHeader";
 import DateUnit from "./DatePickerUnit";
-import { formatDate, namedDays, today } from "@/shared/services/utils";
+import {
+  formatDate,
+  namedDays,
+  TimeStateType,
+  today,
+} from "@/shared/services/utils";
 
 export default function DatePicker({
   dateUseState,
-  setChange,
+  setChanged,
 }: {
   dateUseState: [
-    Map<string, boolean[]>,
-    Dispatch<SetStateAction<Map<string, boolean[]>>>
+    Map<string, TimeStateType[]>,
+    Dispatch<SetStateAction<Map<string, TimeStateType[]>>>
   ];
-  setChange: Dispatch<SetStateAction<boolean>>;
+  setChanged: Dispatch<SetStateAction<boolean>>;
 }) {
   const [currDate, setCurrDate] = useState(new Date(new Date().setDate(1)));
   const [dates, setDates] = dateUseState;
@@ -34,7 +39,7 @@ export default function DatePicker({
           date={date}
           isActive={dates.has(dateStr)}
           setDates={setDates}
-          setChange={setChange}
+          setChanged={setChanged}
           key={`${index}`}
         />
       );

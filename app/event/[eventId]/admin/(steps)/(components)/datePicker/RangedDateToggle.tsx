@@ -1,6 +1,11 @@
 "use client";
 
-import { formatDate, fullDay, resetTime } from "@/shared/services/utils";
+import {
+  formatDate,
+  fullDay,
+  resetTime,
+  TimeStateType,
+} from "@/shared/services/utils";
 import { Dispatch, SetStateAction, useRef, useState } from "react";
 import { FaArrowRightLong } from "react-icons/fa6";
 
@@ -8,8 +13,8 @@ export default function RangedDateToggle({
   dateUseState,
 }: {
   dateUseState: [
-    Map<string, boolean[]>,
-    Dispatch<SetStateAction<Map<string, boolean[]>>>
+    Map<string, TimeStateType[]>,
+    Dispatch<SetStateAction<Map<string, TimeStateType[]>>>
   ];
 }) {
   const [startDate, setStartDate] = useState<Date>(resetTime(new Date()));
