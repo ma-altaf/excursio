@@ -115,6 +115,7 @@ export type MemberType = {
   active: boolean;
   locations?: LocationType[];
   vote?: string;
+  times?: Map<string, TimeStateType[]>;
 };
 
 export type PollType = { title: string; vote: number };
@@ -552,4 +553,14 @@ export async function pollsSnapShot(
       callback(polls.locations);
     }
   );
+}
+
+export async function setMemberTimes(
+  eventId: string,
+  memberId: string,
+  dates: Map<string, TimeStateType[]>
+) {
+  await updateDoc(doc(db, `events/${eventId}/members/${memberId}`), {
+    times: Object.fromEntries(dates),
+  });
 }
