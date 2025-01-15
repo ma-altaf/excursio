@@ -383,10 +383,18 @@ export async function setSetectedLocations(
   });
 }
 
+export function memberFromDoc(member: MemberType) {
+  if (member?.times) member.times = new Map(Object.entries(member.times));
+  return member;
+}
+
 export async function getMember(eventId: string, uid: string) {
-  return (await getDoc(doc(db, `events/${eventId}/members/${uid}`))).data() as
-    | MemberType
-    | undefined;
+  const member = (
+    await getDoc(doc(db, `events/${eventId}/members/${uid}`))
+  ).data() as MemberType | undefined;
+
+  if (!member) return undefined;
+  return memberFromDoc(member);
 }
 
 export async function getMembersList(eventId: string) {
@@ -405,7 +413,9 @@ export async function getMembers(eventId: string, active = false) {
     )
   );
 
-  return res.docs.map((doc) => doc.data()) as MemberType[];
+  return res.docs.map((doc) =>
+    memberFromDoc(doc.data() as MemberType)
+  ) as MemberType[];
 }
 
 export async function membersSnapShot(

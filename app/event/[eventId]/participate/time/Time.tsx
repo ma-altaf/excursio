@@ -34,7 +34,7 @@ export default function Time({
     if (user) {
       getMember(eventId, user.uid)
         .then((res) => {
-          if (res?.times) setDates(new Map(Object.entries(res.times)));
+          if (res?.times) setDates(res.times);
         })
         .catch((e) => console.log(e.message));
     }
