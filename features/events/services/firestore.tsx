@@ -429,7 +429,7 @@ export async function membersSnapShot(
       where("active", "==", active)
     ),
     (res) => {
-      callback(res.docs.map((doc) => doc.data()) as MemberType[]);
+      callback(res.docs.map((doc) => memberFromDoc(doc.data() as MemberType)));
     }
   );
 }
