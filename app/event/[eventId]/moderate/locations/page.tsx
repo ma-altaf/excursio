@@ -1,6 +1,6 @@
 import { getEvent } from "@/features/events/services/firestore";
 import Location from "./Location";
-import SelectLocations from "./(components)/SelectLocations";
+import SelectLocations from "./SelectLocations";
 
 export default async function Page({
   params,

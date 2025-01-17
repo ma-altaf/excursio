@@ -16,7 +16,7 @@ export function formatDate(date: Date) {
 
 export function formatTime(date: Date) {
   return new Intl.DateTimeFormat("en-CA", {
-    timeStyle: "long",
+    timeStyle: "short",
   }).format(date);
 }
 

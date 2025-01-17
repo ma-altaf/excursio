@@ -67,6 +67,14 @@ export default function Location({ eventId }: { eventId: string }) {
     <section className="w-full min-h-screen flex flex-col items-center p-2 md:px-[10%] lg:px-[20%]">
       <h1 className="text-3xl p-4">Moderate Locations</h1>
 
+      <WaitList
+        headerText="Waiting for suggestions:"
+        completionText="All members have suggested their locations."
+        waitingMembers={members.filter((el) => el.locations === undefined)}
+      />
+
+      <hr className="w-full border-b-2 my-1" />
+
       <SuggestedLocations
         onAdd={onAdd}
         members={members}
@@ -76,14 +84,6 @@ export default function Location({ eventId }: { eventId: string }) {
       <hr className="w-full border-b-2 my-1" />
 
       <SelectedSuggestions selectedLocations={toVote} onRemove={onRemove} />
-
-      <hr className="w-full border-b-2 my-1" />
-
-      <WaitList
-        headerText="Waiting for suggestions:"
-        completionText="All members have suggested their locations."
-        waitingMembers={members.filter((el) => el.locations === undefined)}
-      />
 
       <span className="w-full flex items-center justify-end mt-2">
         <button

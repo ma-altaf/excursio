@@ -2,11 +2,12 @@ import TimeSelected from "./TimeSelected";
 import TimeInProgress from "./TimeInProgress";
 import {
   getDateTimes,
-  getSetectedTimes,
+  getSelectedTimes,
   SelectedTimeMap,
 } from "@/features/events/services/firestore";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { TimeStateType } from "@/shared/services/utils";
 
 export default function TimeDisplay({
   isOwner,
@@ -18,17 +19,19 @@ export default function TimeDisplay({
   const [selectedTimes, setSelectedTimes] = useState<
     SelectedTimeMap | undefined
   >(undefined);
-  const [times, setTimes] = useState<Map<string, boolean[]> | undefined>(
+  const [times, setTimes] = useState<Map<string, TimeStateType[]> | undefined>(
     undefined
   );
 
   useEffect(() => {
-    getSetectedTimes(eventId).then((res) => setSelectedTimes(res));
+    getSelectedTimes(eventId).then((res) => setSelectedTimes(res));
   }, [eventId]);
 
   useEffect(() => {
     if (!selectedTimes) {
-      getDateTimes(eventId).then((res) => setTimes(res));
+      getDateTimes(eventId).then((res) => {
+        if (res) setTimes(res);
+      });
     }
   }, [eventId, selectedTimes]);
 

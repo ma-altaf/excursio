@@ -1,19 +1,20 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Poll from "./Poll";
+import Poll from "./(components)/Poll";
 import {
+  getSetectedLocations,
   LocationType,
   membersSnapShot,
   MemberType,
   pollsSnapShot,
-  setSetectedLocations,
+  setSelectedLocations,
   VoteLocationType,
 } from "@/features/events/services/firestore";
 import LoadingCover from "@/shared/components/loading/LoadingCover";
 import WaitList from "@/shared/components/WaitList";
 import { redirect } from "next/navigation";
-import SelectedLocationsList from "./SelectedLocationsList";
+import SelectedLocationsList from "./(components)/SelectedLocationsList";
 
 export default function SelectLocations({ eventId }: { eventId: string }) {
   const [polls, setPolls] = useState<VoteLocationType[]>([]);
@@ -29,6 +30,10 @@ export default function SelectLocations({ eventId }: { eventId: string }) {
 
     const namesSnap = membersSnapShot(eventId, true, (res) => {
       setMembers(res);
+    });
+
+    getSetectedLocations(eventId).then((res) => {
+      if (res) setLocations(res);
     });
 
     return () => {
@@ -64,7 +69,7 @@ export default function SelectLocations({ eventId }: { eventId: string }) {
   function submit(selectedLocations: LocationType[]) {
     if (locations.length === 0)
       return setError("Select at least one location.");
-    setSetectedLocations(eventId, selectedLocations)
+    setSelectedLocations(eventId, selectedLocations)
       .then(() => setSuccess(true))
       .catch((e) => setError(e.message));
   }
@@ -72,6 +77,14 @@ export default function SelectLocations({ eventId }: { eventId: string }) {
   return (
     <section className="w-full min-h-screen flex flex-col items-center p-2 md:px-[10%] lg:px-[20%]">
       <h1 className="text-3xl p-4">Select Locations</h1>
+
+      <WaitList
+        headerText="Waiting for vote:"
+        completionText="All members have voted."
+        waitingMembers={members.filter((m) => !m.vote)}
+      />
+
+      <hr className="w-full border-b-2 my-2" />
 
       <Poll
         polls={polls.map(({ location, vote }) => ({
@@ -82,13 +95,9 @@ export default function SelectLocations({ eventId }: { eventId: string }) {
         toggleLocation={toggleLocation}
         activeLocations={locations}
       />
+
       <hr className="w-full border-b-2 mb-2" />
-      <WaitList
-        headerText="Waiting for vote:"
-        completionText="All members have voted."
-        waitingMembers={members.filter((m) => !m.vote)}
-      />
-      <hr className="w-full border-b-2 m-2" />
+
       <SelectedLocationsList
         selectedLocations={locations}
         onRemove={onRemove}

@@ -102,12 +102,12 @@ export type ColItemProgress = {
   contribution: number;
 };
 
-export type SelectedTime = {
-  startTime: Date;
+export type SelectedTimeType = {
   comment: string;
+  locations?: LocationType[];
 };
 
-export type SelectedTimeMap = Map<string, SelectedTime[]>;
+export type SelectedTimeMap = Map<string, Map<string, SelectedTimeType>>;
 
 export type MemberType = {
   uid: string;
@@ -266,6 +266,7 @@ export async function getDateTimes(eventId: string) {
   const dateTime = (
     await getDoc(doc(db, `events/${eventId}/lists/times`))
   ).data() as { [date: string]: TimeStateType[] };
+
   if (!dateTime) return undefined;
 
   return new Map(Object.entries(dateTime));
@@ -354,14 +355,20 @@ export async function getColItems(eventId: string) {
   return res.colItems as CollectiveItemsType[];
 }
 
-export async function getSetectedTimes(eventId: string) {
+export async function getSelectedTimes(eventId: string) {
   const res = (
-    await getDoc(doc(db, `events/${eventId}/lists/selectTimes`))
+    await getDoc(doc(db, `events/${eventId}/lists/selectedTimes`))
   ).data();
 
   if (!res) return undefined;
 
-  return new Map(Object.entries(res)) as SelectedTimeMap;
+  const selectedTimes = new Map(Object.entries(res));
+
+  selectedTimes.forEach((content, date) => {
+    selectedTimes.set(date, new Map(Object.entries<SelectedTimeType>(content)));
+  });
+
+  return selectedTimes as SelectedTimeMap;
 }
 
 export async function getSetectedLocations(eventId: string) {
@@ -374,7 +381,7 @@ export async function getSetectedLocations(eventId: string) {
   return res.selectedLocations as LocationType[];
 }
 
-export async function setSetectedLocations(
+export async function setSelectedLocations(
   eventId: string,
   selectedLocations: LocationType[]
 ) {
@@ -573,4 +580,17 @@ export async function setMemberTimes(
   await updateDoc(doc(db, `events/${eventId}/members/${memberId}`), {
     times: Object.fromEntries(dates),
   });
+}
+
+export async function setSelectedTimes(
+  eventId: string,
+  dateTimesData: SelectedTimeMap
+) {
+  dateTimesData.forEach((content, date) => {
+    // @ts-expect-error converting inner Map to Object
+    dateTimesData.set(date, Object.fromEntries(content));
+  });
+  const data = Object.fromEntries(dateTimesData);
+
+  await setDoc(doc(db, `events/${eventId}/lists/selectedTimes`), data);
 }

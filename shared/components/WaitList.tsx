@@ -18,7 +18,7 @@ export default function WaitList({
           <span className="flex flex-row">
             <p>{headerText}</p>
             <p className="ml-2 px-2 bg-gray-100 rounded-full">
-              {waitingMembers.length}
+              <b>{waitingMembers.length}</b> Remaining
             </p>
           </span>
           <ul className="flex flex-row flex-wrap mt-1">

@@ -22,6 +22,10 @@ export default function TimePicker({
       {showGuide && (
         <div className="w-full p-1 flex flex-col">
           <p>
+            Only select the start time (if end time is required either add it in
+            the comment for the selected time or create another selected time.)
+          </p>
+          <p>
             <b>Click:</b> toggle time cell.
           </p>
           <p>
