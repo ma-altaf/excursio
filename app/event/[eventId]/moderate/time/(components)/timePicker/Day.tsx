@@ -28,8 +28,7 @@ export default function Day({
 
   if (!dateTime) throw new Error("date times not found");
 
-  function toggleTime(time: Date) {
-    // TODO: Bug fix required, time overwriting when set
+  function toggleTime(time: Date, active: boolean | undefined) {
     setChanged(true);
     setSelectedTimes((prev) => {
       if (!prev) prev = new Map();
@@ -37,14 +36,9 @@ export default function Day({
       if (!fullDate) throw new Error("date not found");
       let newVal = prev.get(fullDate) || [];
 
-      if (
-        prev
-          ?.get(fullDate)
-          ?.map((el) => el.startTime.getMilliseconds())
-          ?.includes(time.getMilliseconds())
-      ) {
+      if (active) {
         newVal = newVal.filter(
-          (el) => el.startTime.getMilliseconds() != time.getMilliseconds()
+          (el) => el.startTime.getTime() != time.getTime()
         );
       } else {
         newVal.push({
@@ -58,8 +52,6 @@ export default function Day({
       } else {
         prev.set(fullDate, newVal);
       }
-
-      console.log(prev);
 
       return new Map(prev);
     });
@@ -78,6 +70,11 @@ export default function Day({
         );
         const time = new Date(new Date(fullDate).setHours(24 + i, 0, 0, 0));
 
+        const active = selectedTimes
+          ?.get(fullDate)
+          ?.map((el) => el.startTime.getTime())
+          .includes(time.getTime());
+
         return (
           <>
             {v === "disable" ? (
@@ -88,23 +85,18 @@ export default function Day({
             ) : (
               <button
                 draggable="false"
-                onMouseDown={() => toggleTime(time)}
+                onMouseDown={() => toggleTime(time, active)}
                 onMouseOver={(e) => {
-                  if (e.buttons === 1) toggleTime(time);
+                  if (e.buttons === 1) toggleTime(time, active);
                 }}
                 key={`${fullDate}-${i}`}
-                className={`border-b-2 border-black h-8 w-12 transition-all ${
-                  selectedTimes
-                    ?.get(fullDate)
-                    ?.map((el) => el.startTime)
-                    .includes(time)
-                    ? "bg-accent"
-                    : ""
-                }`}
+                className="border-b-2 border-black h-8 w-12 transition-all"
                 style={{
                   backgroundColor: `rgba(137, 232, 148, ${
                     (availableMembers / numMembers) * 255
                   })`,
+                  outline: active ? "solid var(--accent)" : "none",
+                  zIndex: active ? "1" : "0",
                 }}
               ></button>
             )}
