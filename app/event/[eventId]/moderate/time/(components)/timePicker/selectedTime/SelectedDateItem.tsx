@@ -37,6 +37,7 @@ export default function SelectedDateItem({
         {times
           .entries()
           .toArray()
+          .sort((a, b) => Number(a[0]) - Number(b[0]))
           .map(([time, selectedTimeData], i) => (
             <SelectedDateTimeItem
               date={date}

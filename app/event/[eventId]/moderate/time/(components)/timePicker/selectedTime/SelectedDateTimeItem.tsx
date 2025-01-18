@@ -13,7 +13,7 @@ export default function SelectedDateTimeItem({
   setComment,
 }: {
   date: string;
-  time: number;
+  time: string;
   selectedLoc: LocationType[] | undefined;
   selectedTimeData: SelectedTimeType;
   deleteDateTime: (date: string, time: string) => void;

@@ -67,6 +67,7 @@ export default function SelectedTime({
           {selectedTimes
             .entries()
             .toArray()
+            .sort((a, b) => new Date(a[0]).getTime() - new Date(b[0]).getTime())
             .map((dateData) => (
               <SelectedDateItem
                 key={dateData[0]}
