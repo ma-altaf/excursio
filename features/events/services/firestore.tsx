@@ -55,7 +55,7 @@ export type EventType = {
   times: Map<string, TimeStateType[]>;
   locations: VoteLocationType[] | null;
   reqItems: RequiredItemsType[] | null;
-  colItems: CollectiveItemsType[] | null;
+  colItems: CollectiveItemsMapType | null;
 };
 
 export type InvitationOptType = {
@@ -97,6 +97,8 @@ export type CollectiveItemsType = {
   current: number;
 };
 
+export type CollectiveItemsMapType = Map<string, CollectiveItemsType>;
+
 export type ColItemProgress = {
   userId: string;
   contribution: number;
@@ -116,6 +118,7 @@ export type MemberType = {
   locations?: LocationType[];
   vote?: string;
   times?: Map<string, TimeStateType[]>;
+  colItem?: { [title: string]: number };
 };
 
 export type PollType = { title: string; vote: number };
@@ -328,11 +331,12 @@ export async function setReqItems(
 
 export async function setColItems(
   eventId: string,
-  colItems: CollectiveItemsType[]
+  colItems: CollectiveItemsMapType
 ) {
-  return await setDoc(doc(db, `events/${eventId}/lists/colItems`), {
-    colItems,
-  });
+  return await setDoc(
+    doc(db, `events/${eventId}/lists/colItems`),
+    Object.fromEntries(colItems)
+  );
 }
 
 export async function getReqItems(eventId: string) {
@@ -345,14 +349,71 @@ export async function getReqItems(eventId: string) {
   return res.reqItems as RequiredItemsType[];
 }
 
-export async function getColItems(eventId: string) {
+export async function getColItems(
+  eventId: string
+): Promise<CollectiveItemsMapType> {
   const res = (
     await getDoc(doc(db, `events/${eventId}/lists/colItems`))
   ).data();
 
-  if (!res) return [];
+  if (!res) return new Map();
 
-  return res.colItems as CollectiveItemsType[];
+  return new Map(Object.entries(res));
+}
+
+export async function colItemsSnapShot(
+  eventId: string,
+  callback: (collItems: CollectiveItemsMapType) => void
+) {
+  return onSnapshot(doc(db, `events/${eventId}/lists/colItems`), (res) => {
+    callback(new Map(Object.entries(res.data() || new Map())));
+  });
+}
+
+export async function updateColItem(
+  eventId: string,
+  membetId: string,
+  title: string,
+  amount: number
+) {
+  runTransaction(db, async (transaction) => {
+    const currData = (
+      await transaction.get(doc(db, `events/${eventId}/lists/colItems`))
+    ).data() as CollectiveItemsMapType;
+
+    if (!currData) throw new Error("No collection items.");
+
+    const collItem = currData.get(title);
+    if (!collItem) throw new Error("Item not found.");
+
+    if (collItem.current + amount > collItem.amount) {
+      collItem.current = collItem.amount;
+    } else {
+      collItem.current += amount;
+    }
+
+    currData.set(title, collItem);
+
+    transaction.update(
+      doc(db, `events/${eventId}/lists/colItems`),
+      Object.fromEntries(currData)
+    );
+
+    const member = (await (
+      await transaction.get(doc(db, `events/${eventId}/members/${membetId}`))
+    ).data()) as MemberType;
+
+    if (!member.colItem) {
+      member.colItem = { [title]: amount };
+    }
+
+    member.colItem = { ...member.colItem, [title]: amount };
+
+    transaction.update(
+      doc(db, `events/${eventId}/members/${membetId}`),
+      member
+    );
+  });
 }
 
 export async function getSelectedTimes(eventId: string) {

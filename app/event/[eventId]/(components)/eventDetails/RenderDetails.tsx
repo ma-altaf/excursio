@@ -2,16 +2,14 @@
 
 import TimeDisplay from "../timeDisplay/TimeDisplay";
 import LocationDisplay from "../locationDisplay/LocationDisplay";
-import ColItemProgress from "../collectiveItemsDisplay/ColItemProgress";
 import { useEffect, useState } from "react";
 import {
-  CollectiveItemsType,
-  getColItems,
   getReqItems,
   MemberType,
   RequiredItemsType,
 } from "@/features/events/services/firestore";
 import MemberDisplay from "../memberDisplay/MemberDisplay";
+import CollItemDisplay from "../collectiveItemsDisplay/CollItemDisplay";
 
 export default function RenderDetails({
   member,
@@ -23,11 +21,9 @@ export default function RenderDetails({
   eventId: string;
 }) {
   const [eventReqItems, setEventReqItems] = useState<RequiredItemsType[]>([]);
-  const [eventColItems, setEventColItems] = useState<CollectiveItemsType[]>([]);
 
   useEffect(() => {
     getReqItems(eventId).then((res) => setEventReqItems(res));
-    getColItems(eventId).then((res) => setEventColItems(res));
   }, [eventId]);
 
   return (
@@ -60,20 +56,7 @@ export default function RenderDetails({
         eventId={eventId}
       />
 
-      {eventColItems.length != 0 && (
-        <>
-          <hr className="w-full border-b-1 my-1" />
-
-          <h2 className="font-bold">Items to contribute</h2>
-          <ul className="flex flex-col px-1">
-            {eventColItems.map((colItemData, i) => (
-              <li key={i} className="my-1">
-                <ColItemProgress colItemData={colItemData} />
-              </li>
-            ))}
-          </ul>
-        </>
-      )}
+      <CollItemDisplay eventId={eventId} />
 
       <hr className="w-full border-b-1 my-1" />
       <h2 className="font-bold">Transport</h2>

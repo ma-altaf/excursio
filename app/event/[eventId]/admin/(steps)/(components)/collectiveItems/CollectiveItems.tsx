@@ -1,4 +1,7 @@
-import { CollectiveItemsType } from "@/features/events/services/firestore";
+import {
+  CollectiveItemsMapType,
+  CollectiveItemsType,
+} from "@/features/events/services/firestore";
 import { Dispatch, SetStateAction } from "react";
 import NewCollectiveItem from "./NewCollectiveItem";
 import ColItem from "./ColItem";
@@ -7,13 +10,13 @@ export default function CollectiveItems({
   collectiveItemsState,
 }: {
   collectiveItemsState: [
-    CollectiveItemsType[],
-    Dispatch<SetStateAction<CollectiveItemsType[]>>
+    CollectiveItemsMapType,
+    Dispatch<SetStateAction<CollectiveItemsMapType>>
   ];
 }) {
   const [collectiveItemsList, setCollectiveItems] = collectiveItemsState;
 
-  function reqItemSubmit(colItemData: CollectiveItemsType) {
+  function colItemSubmit(colItemData: CollectiveItemsType) {
     const { title, amount, unit } = colItemData;
     const error = [];
 
@@ -21,7 +24,7 @@ export default function CollectiveItems({
       error.push("Title is required.");
     }
 
-    if (collectiveItemsList.map((el) => el.title).includes(title)) {
+    if (collectiveItemsList?.has(title)) {
       error.push("Required item already exists.");
     }
 
@@ -37,14 +40,17 @@ export default function CollectiveItems({
       return error.join(" | ");
     }
 
-    setCollectiveItems((prev) => [...prev, colItemData]);
+    setCollectiveItems(
+      (prev) => new Map(prev?.set(colItemData.title, colItemData))
+    );
 
     return "";
   }
 
   function removeItem(title: string) {
     setCollectiveItems((prev) => {
-      return prev.filter((colItem) => colItem.title != title);
+      prev?.delete(title);
+      return new Map(prev);
     });
   }
 
@@ -53,17 +59,20 @@ export default function CollectiveItems({
       <h2 className="font-bold text-center mb-2">
         Add items to contribute collectively
       </h2>
-      <NewCollectiveItem onSubmit={reqItemSubmit} />
+      <NewCollectiveItem onSubmit={colItemSubmit} />
       <div className="flex flex-col overflow-auto p-2 rounded-md border-2 border-black mt-2">
-        {collectiveItemsList.length == 0 ? (
+        {collectiveItemsList?.size == 0 ? (
           <p className="text-center">No collective items to contribute.</p>
         ) : (
           <p>Collective contribution items:</p>
         )}
 
-        {collectiveItemsList.map((colItemData, i) => (
-          <ColItem key={i} colItemData={colItemData} onRemove={removeItem} />
-        ))}
+        {collectiveItemsList
+          ?.entries()
+          .toArray()
+          .map(([, colItemData], i) => (
+            <ColItem key={i} colItemData={colItemData} onRemove={removeItem} />
+          ))}
       </div>
     </div>
   );

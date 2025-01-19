@@ -1,5 +1,5 @@
 import {
-  CollectiveItemsType,
+  CollectiveItemsMapType,
   ContributionsOptType,
   getColItems,
   getReqItems,
@@ -18,7 +18,7 @@ import CollectiveItems from "./(components)/collectiveItems/CollectiveItems";
 export default function Contributions() {
   const { eventData, setEventData } = useEventContext();
   const requiredItemsState = useState<RequiredItemsType[]>([]);
-  const collectiveItemsState = useState<CollectiveItemsType[]>([]);
+  const collectiveItemsState = useState<CollectiveItemsMapType>(new Map());
   const [contributionsOpt, setContributionsOpt] =
     useState<ContributionsOptType>({
       requireTransport: false,
@@ -71,7 +71,7 @@ export default function Contributions() {
         !eventData.reqItems ||
         eventData.reqItems.length != requiredItemsList.length ||
         !eventData.colItems ||
-        eventData.colItems.length != collectiveItemsList.length
+        eventData.colItems.size !== collectiveItemsList?.size
       ) {
         return true;
       }
@@ -86,17 +86,11 @@ export default function Contributions() {
         }
       }
 
-      for (let index = 0; index < eventData.colItems.length; index++) {
-        const colItem = eventData.colItems[index];
-
+      for (const [, colItem] of eventData.colItems) {
         if (
-          !collectiveItemsList
-            .map((item) => item.title)
-            .includes(colItem.title) ||
-          !collectiveItemsList
-            .map((item) => item.amount)
-            .includes(colItem.amount) ||
-          !collectiveItemsList.map((item) => item.unit).includes(colItem.unit)
+          !collectiveItemsList.has(colItem.title) ||
+          collectiveItemsList.get(colItem.title)?.amount !== colItem.amount ||
+          collectiveItemsList.get(colItem.title)?.unit !== colItem.unit
         ) {
           return true;
         }
@@ -109,7 +103,7 @@ export default function Contributions() {
   function updateContributions(
     newContributionOpt: ContributionsOptType,
     reqItems: RequiredItemsType[],
-    colItems: CollectiveItemsType[]
+    colItems: CollectiveItemsMapType
   ) {
     if (!eventData?.eventId) {
       throw new Error("no event ID");
