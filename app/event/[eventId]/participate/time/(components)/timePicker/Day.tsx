@@ -57,29 +57,29 @@ export default function Day({
         {date}
       </p>
       {dateTime.map((v, i) => {
+        if (v === "disable") {
+          return (
+            <div
+              key={i}
+              className="border-b-2 border-black h-8 w-12 bg-black"
+            ></div>
+          );
+        }
+
         return (
-          <>
-            {v === "disable" ? (
-              <div
-                key={i}
-                className="border-b-2 border-black h-8 w-12 bg-black"
-              ></div>
-            ) : (
-              <button
-                draggable="false"
-                onMouseDown={() => toggleTime(i, v)}
-                onMouseOver={(e) => {
-                  if (e.buttons === 1) toggleTime(i, v);
-                }}
-                onDoubleClick={() => toggleList(i)}
-                title={`${v === "available" ? "Remove" : "Add"}: ${fullDate}`}
-                key={i}
-                className={`border-b-2 border-black h-8 w-12 transition-all ${
-                  v === "available" ? "bg-accent" : "bg-background"
-                }`}
-              ></button>
-            )}
-          </>
+          <button
+            draggable="false"
+            onMouseDown={() => toggleTime(i, v)}
+            onMouseOver={(e) => {
+              if (e.buttons === 1) toggleTime(i, v);
+            }}
+            onDoubleClick={() => toggleList(i)}
+            title={`${v === "available" ? "Remove" : "Add"}: ${fullDate}`}
+            key={i}
+            className={`border-b-2 border-black h-8 w-12 transition-all ${
+              v === "available" ? "bg-accent" : "bg-background"
+            }`}
+          ></button>
         );
       })}
     </div>

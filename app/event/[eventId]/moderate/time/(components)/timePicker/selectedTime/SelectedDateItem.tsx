@@ -11,12 +11,14 @@ export default function SelectedDateItem({
   deleteDate,
   deleteDateTime,
   setComment,
+  setLocs,
 }: {
   dateData: [string, Map<string, SelectedTimeType>];
   selectedLoc: LocationType[] | undefined;
   deleteDate: (date: string) => void;
   deleteDateTime: (date: string, time: string) => void;
   setComment: (date: string, time: string, text: string) => void;
+  setLocs: (date: string, time: string, loc: LocationType[]) => void;
 }) {
   const [date, times] = dateData;
   return (
@@ -47,6 +49,7 @@ export default function SelectedDateItem({
               key={i}
               setComment={setComment}
               deleteDateTime={deleteDateTime}
+              setLocs={setLocs}
             />
           ))}
       </ul>

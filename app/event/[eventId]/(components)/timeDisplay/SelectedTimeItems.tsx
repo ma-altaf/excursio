@@ -1,7 +1,4 @@
-import {
-  SelectedTimeMap,
-  SelectedTimeType,
-} from "@/features/events/services/firestore";
+import { SelectedTimeType } from "@/features/events/services/firestore";
 import { namedMonths } from "@/shared/services/utils";
 
 export default function SelectedTimeItems({
@@ -29,12 +26,12 @@ export default function SelectedTimeItems({
           .toArray()
           .sort((a, b) => Number(a[0]) - Number(b[0]))
           .map((selectedTime, i) => (
-            <>
-              <Item key={i} selectedTime={selectedTime} />
+            <span key={`item-${i}`}>
+              <Item selectedTime={selectedTime} />
               {i !== selectedTimes.size - 1 && (
                 <hr className="w-full border-b-2" />
               )}
-            </>
+            </span>
           ))}
       </span>
     </div>
@@ -52,9 +49,10 @@ export function Item({
       <span className="flex flex-row">
         <p className="flex items-center font-bold">{time}:00</p>
         {locations && (
-          <ul className="ml-1 px-1 border-l-2 border-black w-full">
+          <ul className="ml-1 px-1 border-l-2 border-black max-w-full w-fit grid grid-flow-col gap-1 overflow-auto">
+            <p>locations:</p>
             {locations.map(({ title }, i) => (
-              <p className="px-1 w-fit rounded-md bg-gray-100" key={i}>
+              <p key={i} className="px-1 w-fit rounded-md bg-gray-100">
                 {title}
               </p>
             ))}

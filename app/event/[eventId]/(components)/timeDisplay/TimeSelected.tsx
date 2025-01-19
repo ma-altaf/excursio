@@ -12,18 +12,14 @@ export default function TimeSelected({
         .entries()
         .toArray()
         .sort((a, b) => new Date(a[0]).getTime() - new Date(b[0]).getTime())
-        .map(([date, selectedTimes], i) => (
-          <>
-            <SelectedTimeItems
-              key={date}
-              date={date}
-              selectedTimes={selectedTimes}
-            />
+        .map(([date, times], i) => (
+          <span key={`selected-${date}`}>
+            <SelectedTimeItems date={date} selectedTimes={times} />
 
             {i !== selectedTimes.size - 1 && (
-              <hr className="w-full border-b-2" />
+              <hr className="w-full border-b-2 mt-1" />
             )}
-          </>
+          </span>
         ))}
     </div>
   );

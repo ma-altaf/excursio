@@ -69,32 +69,32 @@ export default function Day({
         );
         const activeStart = selectedTimes?.get(fullDate)?.has(`${time}`);
 
+        if (v === "disable") {
+          return (
+            <div
+              key={`${fullDate}-${time}`}
+              className="border-b-2 border-black h-8 w-12 bg-black"
+            ></div>
+          );
+        }
+
         return (
-          <>
-            {v === "disable" ? (
-              <div
-                key={`${fullDate}-${time}`}
-                className="border-b-2 border-black h-8 w-12 bg-black"
-              ></div>
-            ) : (
-              <button
-                draggable="false"
-                onMouseDown={() => toggleTime(`${time}`, activeStart)}
-                onMouseOver={(e) => {
-                  if (e.buttons === 1) toggleTime(`${time}`, activeStart);
-                }}
-                key={`${fullDate}-${time}`}
-                className={`border-b-2 border-black h-8 w-12 transition-all relative ${
-                  activeStart && "startTime"
-                }`}
-                style={{
-                  backgroundColor: `rgba(137, 232, 148, ${
-                    (availableMembers / numMembers) * 255
-                  })`,
-                }}
-              ></button>
-            )}
-          </>
+          <button
+            draggable="false"
+            onMouseDown={() => toggleTime(`${time}`, activeStart)}
+            onMouseOver={(e) => {
+              if (e.buttons === 1) toggleTime(`${time}`, activeStart);
+            }}
+            key={`${fullDate}-${time}`}
+            className={`border-b-2 border-black h-8 w-12 transition-all relative ${
+              activeStart && "startTime"
+            }`}
+            style={{
+              backgroundColor: `rgba(137, 232, 148, ${
+                (availableMembers / numMembers) * 255
+              })`,
+            }}
+          ></button>
         );
       })}
     </div>

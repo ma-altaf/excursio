@@ -9,12 +9,14 @@ import SelectedDateItem from "./SelectedDateItem";
 export default function SelectedTime({
   selectedTimesUseState,
   selectedLoc,
+  setChanged,
 }: {
   selectedTimesUseState: [
     SelectedTimeMap | undefined,
     Dispatch<SetStateAction<SelectedTimeMap | undefined>>
   ];
   selectedLoc: LocationType[] | undefined;
+  setChanged: Dispatch<SetStateAction<boolean>>;
 }) {
   const [selectedTimes, setSelectedTimes] = selectedTimesUseState;
 
@@ -60,6 +62,25 @@ export default function SelectedTime({
     });
   }
 
+  function setLocs(date: string, time: string, locs: LocationType[]) {
+    setChanged(true);
+    setSelectedTimes((prev) => {
+      if (!prev) return prev;
+
+      const currTime = prev.get(date) || new Map<string, SelectedTimeType>();
+
+      prev.set(
+        date,
+        currTime.set(time, {
+          comment: currTime.get(time)?.comment || "",
+          locations: locs,
+        })
+      );
+
+      return new Map(prev);
+    });
+  }
+
   return (
     <div className="flex flex-col p-1 border-2 border-black rounded-md w-full">
       {selectedTimes && selectedTimes.size !== 0 ? (
@@ -76,6 +97,7 @@ export default function SelectedTime({
                 deleteDate={deleteDate}
                 deleteDateTime={deleteDateTime}
                 setComment={setComment}
+                setLocs={setLocs}
               />
             ))}
         </ul>
