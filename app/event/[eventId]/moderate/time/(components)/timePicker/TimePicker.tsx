@@ -18,7 +18,7 @@ export default function TimePicker({
   showGuide?: boolean;
 }) {
   return (
-    <div className="rounded-md border-2 border-black flex flex-col max-h-[75vh] max-w-screen-sm mx-1 w-full">
+    <div className="rounded-md border-2 border-black flex flex-col max-h-[75vh] max-w-screen-sm w-full">
       {showGuide && (
         <div className="w-full p-1 flex flex-col">
           <p>

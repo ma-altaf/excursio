@@ -57,7 +57,7 @@ export default function Time({
     <section className="w-full min-h-screen flex flex-col items-center p-2 md:px-[10%] lg:px-[20%] relative">
       <h1 className="text-3xl p-4">Select Time</h1>
 
-      <span className="h-fit w-fit flex flex-col">
+      <span className="h-fit max-w-full w-fit flex flex-col">
         <WaitList
           headerText="Waiting for time availability:"
           completionText="All members have provided their availability."
