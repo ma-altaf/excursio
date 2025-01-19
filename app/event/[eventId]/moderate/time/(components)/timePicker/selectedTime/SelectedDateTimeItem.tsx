@@ -29,18 +29,7 @@ export default function SelectedDateTimeItem({
 
   return (
     <div className="flex flex-col border-2 border-black rounded-md">
-      {selectedLoc && isSelectLocs && (
-        <LocationPicker
-          date={date}
-          time={time}
-          selectedLoc={selectedLoc}
-          selectedTimeData={selectedTimeData}
-          setLocs={setLocs}
-          open={setIsSelectLocs}
-        />
-      )}
-
-      <span className="flex flex-row border-b-2 border-black px-1">
+      <span className="flex flex-row border-b-2 border-black px-1 items-center">
         <p className="font-bold pr-1 flex items-center">{time}:00</p>
 
         {selectedLoc ? (
@@ -65,16 +54,20 @@ export default function SelectedDateTimeItem({
             <button
               id={`location-${date}-${time}`}
               onClick={() => setIsSelectLocs((prev) => !prev)}
-              className="p-1 m-1 rounded-md bg-gray-100 hover:bg-gray-200 transition-all"
+              className="p-1 m-1 h-fit rounded-md bg-gray-100 hover:bg-gray-200 transition-all"
             >
-              <MdEditLocationAlt className="size-5" />
+              {isSelectLocs ? (
+                <IoClose className="size-5" />
+              ) : (
+                <MdEditLocationAlt className="size-5" />
+              )}
             </button>
           </>
         ) : (
           <p>Select locations to be able to add locations.</p>
         )}
 
-        <span className="border-l-2 border-black pl-1 flex items-center">
+        <span className="border-l-2 border-black pl-1 flex items-center h-full">
           <button
             className="p-1 rounded-md bg-gray-100 hover:bg-gray-200 transition-all"
             title={`Remove: ${date} : ${time}:00`}
@@ -84,6 +77,17 @@ export default function SelectedDateTimeItem({
           </button>
         </span>
       </span>
+
+      {selectedLoc && isSelectLocs && (
+        <LocationPicker
+          date={date}
+          time={time}
+          selectedLoc={selectedLoc}
+          selectedTimeData={selectedTimeData}
+          setLocs={setLocs}
+        />
+      )}
+
       <span className="p-1 flex flex-col">
         <label htmlFor={`comment-${date}-${time}`}>Comment:</label>
         <textarea
