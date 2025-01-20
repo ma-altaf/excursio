@@ -376,18 +376,34 @@ export async function updateColItem(
   title: string,
   amount: number
 ) {
-  runTransaction(db, async (transaction) => {
-    const currData = (
+  let resAmount = amount;
+  let prevAmount = 0;
+
+  await runTransaction(db, async (transaction) => {
+    let currData = (
       await transaction.get(doc(db, `events/${eventId}/lists/colItems`))
     ).data() as CollectiveItemsMapType;
 
+    const member = (await (
+      await transaction.get(doc(db, `events/${eventId}/members/${membetId}`))
+    ).data()) as MemberType;
+
+    if (member.colItem && member.colItem[title]) {
+      prevAmount = member.colItem[title];
+    }
+
     if (!currData) throw new Error("No collection items.");
+
+    currData = new Map(Object.entries(currData));
 
     const collItem = currData.get(title);
     if (!collItem) throw new Error("Item not found.");
 
+    collItem.current -= prevAmount;
+
     if (collItem.current + amount > collItem.amount) {
       collItem.current = collItem.amount;
+      resAmount = collItem.amount - collItem.current;
     } else {
       collItem.current += amount;
     }
@@ -399,21 +415,19 @@ export async function updateColItem(
       Object.fromEntries(currData)
     );
 
-    const member = (await (
-      await transaction.get(doc(db, `events/${eventId}/members/${membetId}`))
-    ).data()) as MemberType;
-
     if (!member.colItem) {
-      member.colItem = { [title]: amount };
+      member.colItem = { [title]: resAmount };
     }
 
-    member.colItem = { ...member.colItem, [title]: amount };
+    member.colItem = { ...member.colItem, [title]: resAmount };
 
     transaction.update(
       doc(db, `events/${eventId}/members/${membetId}`),
       member
     );
   });
+
+  return resAmount;
 }
 
 export async function getSelectedTimes(eventId: string) {

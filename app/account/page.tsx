@@ -77,7 +77,7 @@ export default function Account() {
         <button
           className="w-fit h-fit mx-auto cursor-pointer flex flex-col justify-center items-center"
           onClick={() => fileBtnRef.current?.click()}
-          title="click to change profile picture"
+          title="Click to change profile picture"
         >
           <Image
             className="rounded-full aspect-square w-48 object-cover pointer-events-none bg-gray-200"

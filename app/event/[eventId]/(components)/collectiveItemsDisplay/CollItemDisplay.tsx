@@ -5,10 +5,19 @@ import ColItemProgress from "./ColItemProgress";
 import {
   colItemsSnapShot,
   CollectiveItemsMapType,
+  MemberType,
 } from "@/features/events/services/firestore";
 
-export default function CollItemDisplay({ eventId }: { eventId: string }) {
-  const [eventColItems, setEventColItems] = useState<CollectiveItemsMapType>();
+export default function CollItemDisplay({
+  eventId,
+  member,
+}: {
+  eventId: string;
+  member: MemberType;
+}) {
+  const [eventColItems, setEventColItems] = useState<CollectiveItemsMapType>(
+    new Map()
+  );
 
   useEffect(() => {
     const unsub = colItemsSnapShot(eventId, (colItems) =>
@@ -22,7 +31,7 @@ export default function CollItemDisplay({ eventId }: { eventId: string }) {
 
   return (
     <div>
-      {eventColItems && eventColItems.size !== 0 && (
+      {eventColItems.size !== 0 && (
         <>
           <hr className="w-full border-b-1 my-1" />
 
@@ -31,9 +40,14 @@ export default function CollItemDisplay({ eventId }: { eventId: string }) {
             {eventColItems
               .entries()
               .toArray()
-              .map(([, colItemData], i) => (
-                <li key={i} className="my-1">
-                  <ColItemProgress colItemData={colItemData} />
+              .sort()
+              .map(([, colItemData]) => (
+                <li key={colItemData.title} className="my-1">
+                  <ColItemProgress
+                    colItemData={colItemData}
+                    eventId={eventId}
+                    member={member}
+                  />
                 </li>
               ))}
           </ul>

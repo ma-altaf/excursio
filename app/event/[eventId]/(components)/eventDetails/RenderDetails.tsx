@@ -56,7 +56,7 @@ export default function RenderDetails({
         eventId={eventId}
       />
 
-      <CollItemDisplay eventId={eventId} />
+      <CollItemDisplay eventId={eventId} member={member} />
 
       <hr className="w-full border-b-1 my-1" />
       <h2 className="font-bold">Transport</h2>
