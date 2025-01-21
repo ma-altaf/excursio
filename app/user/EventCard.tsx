@@ -18,7 +18,7 @@ export default function EventCard({ data }: { data: DocumentData }) {
         {description.length > MAX_TEXT_LENGTH && "..."}
       </p>
       <p>
-        {formatDate(new Date(created_at.toMillis()))}{" "}
+        Created on: {formatDate(new Date(created_at.toMillis()))}{" "}
         {formatTime(new Date(created_at.toMillis()))}
       </p>
     </Link>
