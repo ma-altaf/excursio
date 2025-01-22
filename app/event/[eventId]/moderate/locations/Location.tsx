@@ -69,7 +69,7 @@ export default function Location({ eventId }: { eventId: string }) {
 
       <WaitList
         headerText="Waiting for suggestions:"
-        completionText="All members have suggested their locations."
+        completionText={`All members (${members.length}) have suggested their locations.`}
         waitingMembers={members.filter((el) => el.locations === undefined)}
       />
 

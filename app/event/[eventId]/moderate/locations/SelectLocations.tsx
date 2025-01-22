@@ -80,7 +80,7 @@ export default function SelectLocations({ eventId }: { eventId: string }) {
 
       <WaitList
         headerText="Waiting for vote:"
-        completionText="All members have voted."
+        completionText={`All members (${members.length}) have voted.`}
         waitingMembers={members.filter((m) => !m.vote)}
       />
 

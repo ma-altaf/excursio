@@ -5,9 +5,8 @@ import { useAuthContext } from "@/features/users/components/authProvider";
 import { signWithAnonymous } from "@/features/users/services/auth";
 import Spinner from "@/shared/components/loading/Spinner";
 import Link from "next/link";
-import { lazy, useEffect, useState } from "react";
-
-const JoinSuccess = lazy(() => import("./JoinSuccess"));
+import { redirect } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export type JoinForm = {
   eventId: string;
@@ -81,7 +80,7 @@ export default function JoinForm({
       </section>
     );
 
-  if (success) return <JoinSuccess eventId={eventId} />;
+  if (success) return redirect(`/event/${eventId}`);
 
   return (
     <form className="flex flex-col w-full">

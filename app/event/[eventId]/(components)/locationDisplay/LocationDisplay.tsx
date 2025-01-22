@@ -53,7 +53,8 @@ export default function LocationDisplay({
       <div className="flex w-full px-2">
         {selectedLocations ? (
           <LocationSelected selectedLocations={selectedLocations} />
-        ) : eventData?.locationOpt ? (
+        ) : eventData?.locationOpt &&
+          eventData.locationOpt.num_suggestions > 0 ? (
           <LocationInProgress
             locationOpt={eventData.locationOpt}
             suggestions={suggestions}
@@ -61,8 +62,8 @@ export default function LocationDisplay({
           />
         ) : (
           <p>
-            Not Setup, wait for orginizer to setup time participation or set the
-            times.
+            Not setup, wait for orginizer to setup location suggestions or set
+            the locations.
           </p>
         )}
       </div>

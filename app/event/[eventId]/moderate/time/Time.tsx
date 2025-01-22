@@ -12,6 +12,7 @@ import TimePicker from "./(components)/timePicker/TimePicker";
 import WaitList from "@/shared/components/WaitList";
 import SelectedTime from "./(components)/timePicker/selectedTime/SelectedTime";
 import { redirect } from "next/navigation";
+import Link from "next/link";
 
 // MODERATE
 // TODO: View users availability + finalize time
@@ -53,6 +54,10 @@ export default function Time({
 
   if (success) redirect(`/event/${eventId}`);
 
+  const availableTimeMembers = members
+    .map((m) => m.times)
+    .filter((t) => t !== undefined);
+
   return (
     <section className="w-full min-h-screen flex flex-col items-center p-2 md:px-[10%] lg:px-[20%] relative">
       <h1 className="text-3xl p-4">Select Time</h1>
@@ -60,24 +65,28 @@ export default function Time({
       <span className="h-fit max-w-full w-fit flex flex-col">
         <WaitList
           headerText="Waiting for time availability:"
-          completionText="All members have provided their availability."
+          completionText={`All members (${members.length}) have provided their availability.`}
           waitingMembers={members.filter((m) => m.times === undefined)}
         />
 
         <hr className="w-full border-b-2 my-1" />
 
-        {members && members.length >= 1 ? (
+        {availableTimeMembers && availableTimeMembers.length >= 1 ? (
           <TimePicker
-            membersTimes={members
-              .map((m) => m.times)
-              .filter((t) => t !== undefined)}
+            membersTimes={availableTimeMembers}
             selectedTimesUseState={selectedTimesUseState}
             setChanged={setChanged}
           />
         ) : (
           <div className="flex flex-col p-1 border-2 border-black rounded-md w-full">
-            <p className="text-center">
+            <p className="text-center flex flex-col">
               No member has provided their available time.
+              <Link
+                href={`/event/${eventId}/participate/time`}
+                className="underline text-blue-500"
+              >
+                Provide your availability
+              </Link>
             </p>
           </div>
         )}

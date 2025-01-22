@@ -256,6 +256,8 @@ export async function setDateTimes(
   dateMaps: Map<string, TimeStateType[]>,
   inProgress: InProgressType
 ) {
+  if (!dateMaps) throw new Error("Please provide date time.");
+
   inProgress.times = false;
   const data = Object.fromEntries(dateMaps);
 

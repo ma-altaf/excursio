@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { FcApproval } from "react-icons/fc";
 
+// NOTE: not being used
+
 export default function JoinSuccess({ eventId }: { eventId: string }) {
   return (
     <div className="p-4 flex flex-col justify-center items-center">

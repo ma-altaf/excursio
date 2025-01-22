@@ -87,14 +87,22 @@ export default function Day({
             }}
             key={`${fullDate}-${time}`}
             className={`border-b-2 border-black h-8 w-12 transition-all relative ${
-              activeStart && "startTime"
+              activeStart ? "startTime" : ""
             }`}
-            style={{
-              backgroundColor: `rgba(137, 232, 148, ${
-                (availableMembers / numMembers) * 255
-              })`,
-            }}
-          ></button>
+          >
+            <div
+              className="w-full h-full"
+              style={{
+                backgroundColor: "rgb(137, 232, 148)",
+                opacity: availableMembers / numMembers,
+              }}
+            ></div>
+            {availableMembers > 0 && (
+              <p className="text-sm absolute bottom-0 right-1">
+                {availableMembers}
+              </p>
+            )}
+          </button>
         );
       })}
     </div>

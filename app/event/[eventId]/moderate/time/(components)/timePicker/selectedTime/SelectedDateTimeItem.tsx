@@ -64,7 +64,9 @@ export default function SelectedDateTimeItem({
             </button>
           </>
         ) : (
-          <p>Select locations to be able to add locations.</p>
+          <p className="border-l-2 border-black flex items-center p-1 w-full">
+            Select locations to be able to add locations.
+          </p>
         )}
 
         <span className="border-l-2 border-black pl-1 flex items-center h-full">

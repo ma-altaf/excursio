@@ -61,4 +61,6 @@ body,
   height: 100%;
   background-color: var(--accent);
   clip-path: polygon(50% 75%, 0 0, 100% 0);
+  pointer-events: none;
+  z-index: 10;
 }
