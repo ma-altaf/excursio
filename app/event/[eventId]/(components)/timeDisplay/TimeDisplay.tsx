@@ -38,7 +38,7 @@ export default function TimeDisplay({
   return (
     <>
       <span className="flex flex-row w-full justify-between items-center">
-        <h2 className="font-bold">Time</h2>
+        <h2 className="font-bold">Times</h2>
 
         {isOwner && (
           <Link

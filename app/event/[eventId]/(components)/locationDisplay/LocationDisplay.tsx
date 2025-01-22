@@ -38,7 +38,7 @@ export default function LocationDisplay({
   return (
     <>
       <span className="flex flex-row w-full justify-between items-center">
-        <h2 className="font-bold">Location</h2>
+        <h2 className="font-bold">Locations</h2>
 
         {isOwner && (
           <Link
