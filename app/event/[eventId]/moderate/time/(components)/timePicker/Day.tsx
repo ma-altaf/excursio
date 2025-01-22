@@ -66,7 +66,8 @@ export default function Day({
       {dateTime.map((v, time) => {
         const availableMembers = membersTimes.reduce(
           (total, m) =>
-            total + (m.get(fullDate)![time] === "available" ? 1 : 0),
+            total +
+            (m.get(fullDate) && m.get(fullDate)![time] === "available" ? 1 : 0),
           0
         );
         const activeStart = selectedTimes?.get(fullDate)?.has(`${time}`);
@@ -83,10 +84,7 @@ export default function Day({
         return (
           <button
             draggable="false"
-            onMouseDown={() => toggleTime(`${time}`, activeStart)}
-            onMouseOver={(e) => {
-              if (e.buttons === 1) toggleTime(`${time}`, activeStart);
-            }}
+            onClick={() => toggleTime(`${time}`, activeStart)}
             key={`${fullDate}-${time}`}
             className={`border-b-2 border-black h-8 w-12 transition-all relative ${
               activeStart ? "startTime" : ""

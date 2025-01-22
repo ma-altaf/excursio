@@ -10,10 +10,11 @@ import {
 import { useEffect, useState } from "react";
 import TimePicker from "./(components)/timePicker/TimePicker";
 import WaitList from "@/shared/components/WaitList";
-import SelectedTime from "./(components)/timePicker/selectedTime/SelectedTime";
+import SelectedTime from "./(components)/selectedTime/SelectedTime";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { TimeStateType } from "@/shared/services/utils";
+import MemberTime from "./(components)/membersTime/MemberTime";
 
 // MODERATE
 // TODO: View users availability + finalize time
@@ -35,6 +36,11 @@ export default function Time({
   const [changed, setChanged] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
+  const [availableMembers, setAvailableMembers] = useState<
+    Map<string, TimeStateType[]>[]
+  >([]);
+  const useStateMembers = useState(new Set<string>());
+  const [membersId] = useStateMembers;
 
   const [selectedTimes] = selectedTimesUseState;
 
@@ -48,6 +54,21 @@ export default function Time({
     };
   }, [eventId]);
 
+  useEffect(() => {
+    if (membersId.size === 0) {
+      setAvailableMembers(
+        members.map((m) => m.times).filter((t) => t !== undefined)
+      );
+    } else {
+      setAvailableMembers(
+        members
+          .filter((el) => membersId.has(el.uid))
+          .map((m) => m.times)
+          .filter((t) => t !== undefined)
+      );
+    }
+  }, [membersId, members]);
+
   function submit(selectedTimes: SelectedTimeMap | undefined) {
     if (!selectedTimes) return setError("Select at least one time slot.");
     setSelectedTimes(eventId, selectedTimes)
@@ -56,10 +77,6 @@ export default function Time({
   }
 
   if (success) redirect(`/event/${eventId}`);
-
-  const availableTimeMembers = members
-    .map((m) => m.times)
-    .filter((t) => t !== undefined);
 
   return (
     <section className="w-full min-h-screen flex flex-col items-center p-2 md:px-[10%] lg:px-[20%] relative">
@@ -77,7 +94,7 @@ export default function Time({
         {times ? (
           <TimePicker
             times={times}
-            membersTimes={availableTimeMembers}
+            membersTimes={availableMembers}
             selectedTimesUseState={selectedTimesUseState}
             setChanged={setChanged}
           />
@@ -94,6 +111,13 @@ export default function Time({
             </p>
           </div>
         )}
+
+        <hr className="w-full border-b-2 my-1" />
+
+        <MemberTime
+          members={members.filter((m) => m.times !== undefined)}
+          useStateMembers={useStateMembers}
+        />
 
         <hr className="w-full border-b-2 my-1" />
 
