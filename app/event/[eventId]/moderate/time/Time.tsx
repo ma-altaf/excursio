@@ -13,15 +13,18 @@ import WaitList from "@/shared/components/WaitList";
 import SelectedTime from "./(components)/timePicker/selectedTime/SelectedTime";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import { TimeStateType } from "@/shared/services/utils";
 
 // MODERATE
 // TODO: View users availability + finalize time
 export default function Time({
   eventId,
+  times,
   selectedLoc,
   selectedTime,
 }: {
   eventId: string;
+  times: Map<string, TimeStateType[]> | undefined;
   selectedLoc: LocationType[] | undefined;
   selectedTime: SelectedTimeMap | undefined;
 }) {
@@ -46,7 +49,7 @@ export default function Time({
   }, [eventId]);
 
   function submit(selectedTimes: SelectedTimeMap | undefined) {
-    if (!selectedTimes) return setError("Select atlease one time.");
+    if (!selectedTimes) return setError("Select at least one time slot.");
     setSelectedTimes(eventId, selectedTimes)
       .then(() => setSuccess(true))
       .catch((e) => setError(e.message));
@@ -71,8 +74,9 @@ export default function Time({
 
         <hr className="w-full border-b-2 my-1" />
 
-        {availableTimeMembers && availableTimeMembers.length >= 1 ? (
+        {times ? (
           <TimePicker
+            times={times}
             membersTimes={availableTimeMembers}
             selectedTimesUseState={selectedTimesUseState}
             setChanged={setChanged}
@@ -80,12 +84,12 @@ export default function Time({
         ) : (
           <div className="flex flex-col p-1 border-2 border-black rounded-md w-full">
             <p className="text-center flex flex-col">
-              No member has provided their available time.
+              Time not setup.
               <Link
-                href={`/event/${eventId}/participate/time`}
+                href={`/event/${eventId}/admin?step=time`}
                 className="underline text-blue-500"
               >
-                Provide your availability
+                Set up the times available
               </Link>
             </p>
           </div>

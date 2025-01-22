@@ -14,6 +14,7 @@ import {
 } from "@/features/events/services/firestore";
 import { redirect } from "next/navigation";
 import WaitList from "@/shared/components/WaitList";
+import Link from "next/link";
 
 export default function Location({ eventId }: { eventId: string }) {
   const [members, setMembers] = useState<MemberType[]>([]);
@@ -97,9 +98,16 @@ export default function Location({ eventId }: { eventId: string }) {
           className="p-button rounded-md bg-accent"
           onClick={() => submit(toVote)}
         >
-          Submit
+          Submit & move to Vote
         </button>
       </span>
+
+      <Link
+        href={`/event/${eventId}/admin?step=location`}
+        className="p-1 bg-gray-100 border-2 border-gray-200 rounded-md underline text-blue-500"
+      >
+        Add selected suggestions as admin
+      </Link>
 
       {error && (
         <p className="p-1 bg-gray-100 border-2 border-gray-200 rounded-md">

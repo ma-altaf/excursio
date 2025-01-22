@@ -1,9 +1,12 @@
 "use client";
 
-import { lazy } from "react";
+import { lazy, useEffect } from "react";
 import { useEventContext } from "./eventProvider";
-import { redirect } from "next/navigation";
-import { EventStepsType } from "@/features/events/services/firestore";
+import { redirect, useSearchParams } from "next/navigation";
+import {
+  EventStepsType,
+  orderedEventSteps,
+} from "@/features/events/services/firestore";
 import UidProtected from "@/shared/components/UidProtected";
 import LoadingCover from "@/shared/components/loading/LoadingCover";
 
@@ -14,7 +17,19 @@ const Location = lazy(() => import("./(steps)/Location"));
 const Contributions = lazy(() => import("./(steps)/Contributions"));
 
 export default function Event() {
-  const { activeSection, eventLoading, eventData } = useEventContext();
+  const searchParams = useSearchParams();
+
+  const { activeSection, eventLoading, eventData, setActiveSection } =
+    useEventContext();
+
+  useEffect(() => {
+    if (
+      searchParams.get("step") &&
+      orderedEventSteps.includes(searchParams.get("step") as EventStepsType)
+    ) {
+      setActiveSection(searchParams.get("step") as EventStepsType);
+    }
+  });
 
   if (eventLoading) return <LoadingCover text="Loading Event." />;
 

@@ -6,6 +6,7 @@ import { SelectedTimeMap } from "@/features/events/services/firestore";
 export default function Time({
   membersTimes,
   selectedTimesUseState,
+  times,
   setChanged,
 }: {
   membersTimes: Map<string, TimeStateType[]>[];
@@ -13,17 +14,17 @@ export default function Time({
     SelectedTimeMap | undefined,
     Dispatch<SetStateAction<SelectedTimeMap | undefined>>
   ];
+  times: Map<string, TimeStateType[]>;
   setChanged: Dispatch<SetStateAction<boolean>>;
 }) {
-  const [dates] = membersTimes;
-
   return (
     <div className="flex flex-row h-full">
-      {sortedGroups([...dates.keys()], (date) =>
+      {sortedGroups([...times.keys()], (date) =>
         Number(date.split("-")[0])
       ).map((v: [number, string[]]) => (
         <Year
           membersTimes={membersTimes}
+          times={times}
           key={v[0]}
           selectedTimesUseState={selectedTimesUseState}
           yearDates={v}

@@ -53,8 +53,9 @@ export default function LocationDisplay({
       <div className="flex w-full px-2">
         {selectedLocations ? (
           <LocationSelected selectedLocations={selectedLocations} />
-        ) : eventData?.locationOpt &&
-          eventData.locationOpt.num_suggestions > 0 ? (
+        ) : (eventData?.locationOpt &&
+            eventData.locationOpt.num_suggestions > 0) ||
+          eventData?.locationOpt?.status === "vote" ? (
           <LocationInProgress
             locationOpt={eventData.locationOpt}
             suggestions={suggestions}

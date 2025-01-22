@@ -9,6 +9,7 @@ export default function Day({
   membersTimes,
   selectedTimesUseState,
   DateDates,
+  times,
   setChanged,
 }: {
   membersTimes: Map<string, TimeStateType[]>[];
@@ -17,6 +18,7 @@ export default function Day({
     Dispatch<SetStateAction<SelectedTimeMap | undefined>>
   ];
   DateDates: [number, string[]];
+  times: Map<string, TimeStateType[]>;
   setChanged: Dispatch<SetStateAction<boolean>>;
 }) {
   const numMembers = membersTimes.length;
@@ -26,7 +28,7 @@ export default function Day({
 
   if (!fullDate) throw new Error("date not found");
 
-  const dateTime = membersTimes[0].get(fullDate);
+  const dateTime = times.get(fullDate);
   const day = new Date(fullDate).getDay();
 
   if (!dateTime) throw new Error("date times not found");
@@ -94,7 +96,7 @@ export default function Day({
               className="w-full h-full"
               style={{
                 backgroundColor: "rgb(137, 232, 148)",
-                opacity: availableMembers / numMembers,
+                opacity: availableMembers / numMembers || 0,
               }}
             ></div>
             {availableMembers > 0 && (

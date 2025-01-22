@@ -59,7 +59,7 @@ export function Item({
           </ul>
         )}
       </span>
-      <p>{comment}</p>
+      <p className="px-1 border-l-2">{comment}</p>
     </div>
   );
 }

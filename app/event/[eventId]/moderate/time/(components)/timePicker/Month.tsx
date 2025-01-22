@@ -11,6 +11,7 @@ export default function Month({
   membersTimes,
   monthDates,
   selectedTimesUseState,
+  times,
   setChanged,
 }: {
   membersTimes: Map<string, TimeStateType[]>[];
@@ -18,6 +19,7 @@ export default function Month({
     SelectedTimeMap | undefined,
     Dispatch<SetStateAction<SelectedTimeMap | undefined>>
   ];
+  times: Map<string, TimeStateType[]>;
   monthDates: [number, string[]];
   setChanged: Dispatch<SetStateAction<boolean>>;
 }) {
@@ -33,6 +35,7 @@ export default function Month({
           (v: [number, string[]]) => (
             <Day
               membersTimes={membersTimes}
+              times={times}
               key={`${month}-${v[0]}`}
               selectedTimesUseState={selectedTimesUseState}
               DateDates={v}

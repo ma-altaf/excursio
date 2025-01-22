@@ -5,11 +5,13 @@ import { SelectedTimeMap } from "@/features/events/services/firestore";
 
 export default function TimePicker({
   membersTimes,
+  times,
   selectedTimesUseState,
   setChanged,
   showGuide = true,
 }: {
   membersTimes: Map<string, TimeStateType[]>[];
+  times: Map<string, TimeStateType[]>;
   selectedTimesUseState: [
     SelectedTimeMap | undefined,
     Dispatch<SetStateAction<SelectedTimeMap | undefined>>
@@ -60,6 +62,7 @@ export default function TimePicker({
           </span>
         </div>
         <Time
+          times={times}
           membersTimes={membersTimes}
           selectedTimesUseState={selectedTimesUseState}
           setChanged={setChanged}

@@ -7,6 +7,7 @@ export default function Year({
   membersTimes,
   yearDates,
   selectedTimesUseState,
+  times,
   setChanged,
 }: {
   membersTimes: Map<string, TimeStateType[]>[];
@@ -15,6 +16,7 @@ export default function Year({
     Dispatch<SetStateAction<SelectedTimeMap | undefined>>
   ];
   yearDates: [number, string[]];
+  times: Map<string, TimeStateType[]>;
   setChanged: Dispatch<SetStateAction<boolean>>;
 }) {
   const [year, dates] = yearDates;
@@ -32,6 +34,7 @@ export default function Year({
               key={`${year}-${v[0]}`}
               selectedTimesUseState={selectedTimesUseState}
               monthDates={v}
+              times={times}
               setChanged={setChanged}
             />
           )
