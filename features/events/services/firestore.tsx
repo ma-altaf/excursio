@@ -4,7 +4,6 @@ import { TimeStateType } from "@/shared/services/utils";
 import {
   addDoc,
   collection,
-  deleteDoc,
   doc,
   DocumentData,
   getDoc,
@@ -523,13 +522,39 @@ export async function deleteMember(
   uid: string,
   displayName: string
 ) {
-  await deleteDoc(doc(db, `events/${eventId}/members/${uid}`));
   await runTransaction(db, async (transaction) => {
+    const member = (
+      await transaction.get(doc(db, `events/${eventId}/members/${uid}`))
+    ).data() as MemberType;
+
+    if (!member) throw new Error("member not found");
+
+    let colItems = (
+      await transaction.get(doc(db, `events/${eventId}/lists/colItems`))
+    ).data() as CollectiveItemsMapType;
+
+    if (colItems) colItems = new Map(Object.entries(colItems));
+
     const properties = (
       await transaction.get(doc(db, `events/${eventId}/members/properties`))
     ).data() as { members: string[] } | undefined;
 
     if (!properties) throw Error("Could not get properties");
+
+    if (member.colItem) {
+      Object.entries(member.colItem).forEach(([title, count]) => {
+        const prev = colItems.get(title);
+
+        if (prev) {
+          colItems.set(title, { ...prev, current: prev.current - count });
+        }
+      });
+
+      transaction.update(
+        doc(db, `events/${eventId}/lists/colItems`),
+        Object.fromEntries(colItems)
+      );
+    }
 
     transaction.delete(doc(db, `events/${eventId}/members/${uid}`));
 
