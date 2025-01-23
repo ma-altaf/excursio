@@ -8,7 +8,7 @@ import { PiSignOutBold } from "react-icons/pi";
 import Link from "next/link";
 import { FaArrowRight } from "react-icons/fa";
 import { useAuthContext } from "@/features/users/components/authProvider";
-import { logOut } from "@/features/users/services/auth";
+import { linkAnomToGoogle, logOut } from "@/features/users/services/auth";
 import {
   getUser,
   updateAbout,
@@ -16,6 +16,7 @@ import {
   updateUsername,
 } from "@/features/users/services/firestore";
 import LoadingCover from "@/shared/components/loading/LoadingCover";
+import { FcGoogle } from "react-icons/fc";
 
 export default function Account() {
   const { authLoading, user } = useAuthContext();
@@ -183,6 +184,17 @@ export default function Account() {
             Update
           </button>
         </span>
+
+        {user && user.isAnonymous && (
+          <button
+            className="mt-3 p-button flex justify-center items-center w-full rounded-md bg-white border-gray-300 border-2"
+            onClick={() => linkAnomToGoogle()}
+          >
+            <FcGoogle className="mr-4 size-5" />
+            <p>Link with Google</p>
+          </button>
+        )}
+
         <hr className="border-black my-3" />
         <Link
           href={`user/${user?.uid}`}

@@ -7,6 +7,7 @@ import {
   sendSignInLinkToEmail,
   isSignInWithEmailLink,
   signInWithEmailLink,
+  linkWithRedirect,
 } from "firebase/auth";
 import { createNewUser } from "./firestore";
 import { app } from "@/shared/services/firebase";
@@ -63,6 +64,12 @@ export async function completeEmailSignUp(): Promise<boolean> {
   }
 
   return false;
+}
+
+export async function linkAnomToGoogle() {
+  if (!auth.currentUser)
+    throw new Error("Sign with an anonymous account first.");
+  await linkWithRedirect(auth.currentUser, new GoogleAuthProvider());
 }
 
 export async function logOut() {
