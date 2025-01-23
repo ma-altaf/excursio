@@ -13,19 +13,19 @@ import {
 } from "firebase/firestore";
 import { uploadProfilePic } from "./storage";
 
-export type providerType = "anonymous" | "email" | "google";
+export type ProviderType = "anonymous" | "email" | "google";
 
 export type UserDetails = {
   username: string;
   imageURL: string;
   about: string;
-  provider: providerType;
+  provider: ProviderType;
   uid: string;
 };
 
 export async function createNewUser(
   userCred: UserCredential,
-  provider: providerType
+  provider: ProviderType
 ) {
   const docRef = doc(db, `users/${userCred.user.uid}`);
 
