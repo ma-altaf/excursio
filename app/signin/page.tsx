@@ -41,7 +41,7 @@ export default function Signin() {
           className="p-button flex justify-center items-center m-2 w-full rounded-md bg-blue-300 border-blue-300 border-2"
         >
           <MdEmail className="mr-4 size-5" />
-          <p>Sign in with Email Link</p>
+          <p>Sign in with Email</p>
         </Link>
 
         <div className="my-2 flex w-full items-center">

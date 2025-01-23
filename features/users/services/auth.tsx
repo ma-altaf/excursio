@@ -8,6 +8,10 @@ import {
   isSignInWithEmailLink,
   signInWithEmailLink,
   linkWithRedirect,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  sendPasswordResetEmail,
+  validatePassword,
 } from "firebase/auth";
 import { createNewUser } from "./firestore";
 import { app } from "@/shared/services/firebase";
@@ -29,8 +33,6 @@ export async function signWithGoogle() {
 }
 
 export async function sendEmailSignLink(email: string, redirectUrl: string) {
-  console.log(email);
-
   const actionCodeSettings = {
     url: `${process.env.NEXT_PUBLIC_URL}/signin/email/completeSignUp?redirectUrl=${redirectUrl}`,
     handleCodeInApp: true,
@@ -38,6 +40,31 @@ export async function sendEmailSignLink(email: string, redirectUrl: string) {
 
   await sendSignInLinkToEmail(auth, email, actionCodeSettings);
   window.localStorage.setItem("emailForSignIn", email);
+}
+
+export async function createuserWithEmail(email: string, password: string) {
+  const passwordStatus = await validatePassword(auth, password);
+
+  if (!passwordStatus.isValid) throw new Error("password policy");
+
+  const userCred = await createUserWithEmailAndPassword(auth, email, password);
+  await createNewUser(userCred, "email");
+  return userCred;
+}
+
+export async function signWithEmail(email: string, password: string) {
+  const passwordStatus = await validatePassword(auth, password);
+
+  if (!passwordStatus.isValid) throw new Error("password policy");
+  await signInWithEmailAndPassword(auth, email, password);
+}
+
+export async function resetPasswordWithEmail(email: string) {
+  const actionCodeSettings = {
+    url: `${process.env.NEXT_PUBLIC_URL}/signin/email?create=false`,
+    handleCodeInApp: true,
+  };
+  await sendPasswordResetEmail(auth, email, actionCodeSettings);
 }
 
 export async function completeEmailSignUp(): Promise<boolean> {
