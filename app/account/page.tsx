@@ -17,6 +17,7 @@ import {
 } from "@/features/users/services/firestore";
 import LoadingCover from "@/shared/components/loading/LoadingCover";
 import { FcGoogle } from "react-icons/fc";
+import { MdEmail } from "react-icons/md";
 
 export default function Account() {
   const { authLoading, user } = useAuthContext();
@@ -186,13 +187,23 @@ export default function Account() {
         </span>
 
         {user && user.isAnonymous && (
-          <button
-            className="mt-3 p-button flex justify-center items-center w-full rounded-md bg-white border-gray-300 border-2"
-            onClick={() => linkAnomToGoogle()}
-          >
-            <FcGoogle className="mr-4 size-5" />
-            <p>Link with Google</p>
-          </button>
+          <div className="p-1 rounded-md bg-gray-100 mt-2 flex flex-col sm:flex-row">
+            <button
+              className="p-button flex justify-center items-center w-full rounded-md bg-white border-gray-300 border-2"
+              onClick={() => linkAnomToGoogle()}
+            >
+              <FcGoogle className="mr-4 size-5" />
+              <p>Link with Google</p>
+            </button>
+            <hr className="size-2" />
+            <Link
+              href={`account/linkEmail`}
+              className="p-button flex justify-center items-center w-full rounded-md bg-blue-300 border-blue-300 border-2"
+            >
+              <MdEmail className="mr-4 size-5" />
+              <p>Sign in with Email</p>
+            </Link>
+          </div>
         )}
 
         <hr className="border-black my-3" />

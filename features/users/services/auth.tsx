@@ -12,9 +12,11 @@ import {
   createUserWithEmailAndPassword,
   sendPasswordResetEmail,
   validatePassword,
+  linkWithCredential,
 } from "firebase/auth";
 import { createNewUser } from "./firestore";
 import { app } from "@/shared/services/firebase";
+import { EmailAuthProvider } from "firebase/auth/web-extension";
 
 export const auth = getAuth(app);
 
@@ -97,6 +99,19 @@ export async function linkAnomToGoogle() {
   if (!auth.currentUser)
     throw new Error("Sign with an anonymous account first.");
   await linkWithRedirect(auth.currentUser, new GoogleAuthProvider());
+}
+
+export async function linkAnomToEmail(email: string, password: string) {
+  if (!auth.currentUser)
+    throw new Error("Sign with an anonymous account first.");
+  const passwordStatus = await validatePassword(auth, password);
+
+  if (!passwordStatus.isValid) throw new Error("password policy");
+
+  await linkWithCredential(
+    auth.currentUser,
+    EmailAuthProvider.credential(email, password)
+  );
 }
 
 export async function logOut() {
