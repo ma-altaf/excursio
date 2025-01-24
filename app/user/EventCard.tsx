@@ -5,7 +5,7 @@ import Link from "next/link";
 const MAX_TEXT_LENGTH = 128;
 
 export default function EventCard({ data }: { data: DocumentData }) {
-  const { eventId, title, description, created_at } = data;
+  const { eventId, title, description, created_time } = data;
   return (
     <Link
       href={`/event/${eventId}`}
@@ -18,8 +18,8 @@ export default function EventCard({ data }: { data: DocumentData }) {
         {description.length > MAX_TEXT_LENGTH && "..."}
       </p>
       <p>
-        Created on: {formatDate(new Date(created_at.toMillis()))}{" "}
-        {formatTime(new Date(created_at.toMillis()))}
+        Created on: {formatDate(new Date(created_time.toMillis()))}{" "}
+        {formatTime(new Date(created_time.toMillis()))}
       </p>
     </Link>
   );

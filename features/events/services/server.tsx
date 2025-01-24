@@ -7,9 +7,10 @@ import {
   getDocs,
   query,
   runTransaction,
+  serverTimestamp,
   where,
 } from "firebase/firestore";
-import { getEvent, getEventSecret, MemberType } from "./firestore";
+import { getEvent, getEventSecret } from "./firestore";
 import { db } from "@/shared/services/firestore";
 import { JoinForm } from "@/app/event/[eventId]/join/JoinForm";
 
@@ -42,12 +43,6 @@ export async function joinEvent(joinForm: JoinForm) {
   )
     throw new Error("Name already taken.");
 
-  const memberData: MemberType = {
-    uid,
-    displayName,
-    active: !needApproval,
-  };
-
   await runTransaction(db, async (transaction) => {
     const properties = (
       await transaction.get(doc(db, `events/${eventId}/members/properties`))
@@ -66,6 +61,12 @@ export async function joinEvent(joinForm: JoinForm) {
       });
     }
 
-    transaction.set(doc(db, `events/${eventId}/members/${uid}`), memberData);
+    // MemberType
+    transaction.set(doc(db, `events/${eventId}/members/${uid}`), {
+      uid,
+      displayName,
+      active: !needApproval,
+      joined_time: serverTimestamp(),
+    });
   });
 }

@@ -4,15 +4,16 @@ import { TimeStateType } from "@/shared/services/utils";
 import {
   addDoc,
   collection,
+  collectionGroup,
   doc,
   DocumentData,
+  DocumentSnapshot,
   getDoc,
   getDocs,
   limit,
   onSnapshot,
   orderBy,
   query,
-  QueryDocumentSnapshot,
   runTransaction,
   serverTimestamp,
   setDoc,
@@ -37,7 +38,7 @@ export type EventType = {
   eventId: string;
   title: string;
   description: string;
-  created_at: Timestamp;
+  created_time: Timestamp;
   visibility: VisibilityType;
   inviteOpt?: InvitationOptType;
   locationOpt?: LocationOptType;
@@ -109,6 +110,7 @@ export type MemberType = {
   uid: string;
   displayName: string;
   active: boolean;
+  joined_time: Timestamp;
   locations?: LocationType[];
   vote?: string;
   times?: Map<string, TimeStateType[]>;
@@ -150,20 +152,20 @@ export async function createEvent(uid: string, title: string) {
     title,
     description: "",
     visibility: "private",
-    created_at: serverTimestamp(),
+    created_time: serverTimestamp(),
   });
 
   const batch = writeBatch(db);
 
   batch.update(eventRef, { eventId: eventRef.id });
 
-  const ownerMemberData: MemberType = {
+  // MemberType
+  batch.set(doc(db, `events/${eventRef.id}/members/${uid}`), {
     active: true,
     displayName: owner.username,
     uid: uid,
-  };
-
-  batch.set(doc(db, `events/${eventRef.id}/members/${uid}`), ownerMemberData);
+    joined_time: serverTimestamp(),
+  });
 
   batch.set(doc(db, `events/${eventRef.id}/members/properties`), {
     members: [owner.username],
@@ -176,31 +178,38 @@ export async function createEvent(uid: string, title: string) {
 
 export async function getEvents(
   uid: string,
-  lastDoc: QueryDocumentSnapshot<DocumentData, DocumentData> | null,
-  count: number,
-  visibility: VisibilityType
+  lastDoc: DocumentSnapshot<DocumentData, DocumentData> | null,
+  count: number
 ) {
-  const eventCollection = collection(db, "events");
+  // const eventCollection = collection(db, "events");
 
   try {
-    return !lastDoc
+    const res = !lastDoc
       ? await getDocs(
           query(
-            eventCollection,
-            where("visibility", "==", visibility),
-            orderBy("created_at", "desc"),
+            collectionGroup(db, "members"),
+            where("uid", "==", uid),
+            orderBy("joined_time", "desc"),
             limit(count)
           )
         )
       : await getDocs(
           query(
-            eventCollection,
-            where("visibility", "==", visibility),
-            orderBy("created_at", "desc"),
+            collectionGroup(db, "members"),
+            where("uid", "==", uid),
+            orderBy("joined_time", "desc"),
             startAfter(lastDoc),
             limit(count)
           )
         );
+
+    const docs = await Promise.all(
+      res.docs.map((eventDoc) =>
+        getDoc(doc(db, `events/${eventDoc.ref.path.split("/")[1]}`))
+      )
+    );
+
+    return { docs, lastSnap: res.docs[res.docs.length - 1] };
   } catch (error) {
     console.log(error);
   }

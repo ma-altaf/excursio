@@ -200,7 +200,7 @@ export default function Account() {
               className="p-button flex justify-center items-center w-full rounded-md bg-blue-300 border-blue-300 border-2"
             >
               <MdEmail className="mr-4 size-5" />
-              <p>Sign in with Email</p>
+              <p>Link with Email</p>
             </Link>
           </div>
         )}

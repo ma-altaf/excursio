@@ -1,7 +1,7 @@
 "use client";
 
 import { getEvents } from "@/features/events/services/firestore";
-import { DocumentData, QueryDocumentSnapshot } from "firebase/firestore";
+import { DocumentData, DocumentSnapshot } from "firebase/firestore";
 import { useCallback, useEffect, useRef, useState } from "react";
 import EventCard from "./EventCard";
 import EventListSkeleton from "./EventListSkeleton";
@@ -10,31 +10,27 @@ export default function PrivateEventList({ uid }: { uid: string }) {
   const NUM_EXCURSIONS: number = 1;
   const [loading, setLoading] = useState(true);
   const [events, setEvents] = useState<
-    QueryDocumentSnapshot<DocumentData, DocumentData>[]
+    DocumentSnapshot<DocumentData, DocumentData>[]
   >([]);
 
-  const lastDocRef =
-    useRef<QueryDocumentSnapshot<DocumentData, DocumentData>>(null);
+  const lastDocRef = useRef<DocumentSnapshot<DocumentData, DocumentData>>(null);
   const loadMoreRef = useRef<HTMLButtonElement>(null);
 
   const fetchPrivateDocs = useCallback(
-    async (
-      lastDoc: QueryDocumentSnapshot<DocumentData, DocumentData> | null
-    ) => {
+    async (lastDoc: DocumentSnapshot<DocumentData, DocumentData> | null) => {
       setLoading(true);
-      const queryDocs = (
-        await getEvents(uid, lastDoc, NUM_EXCURSIONS, "private")
-      )?.docs;
+      const res = await getEvents(uid, lastDoc, NUM_EXCURSIONS);
+      if (!res) return;
 
-      if (queryDocs == undefined) return;
+      const { docs, lastSnap } = res;
 
       setLoading(false);
-      setEvents((prev) => [...prev, ...queryDocs]);
+      setEvents((prev) => [...prev, ...docs]);
 
-      if (queryDocs.length == 0) {
+      if (docs.length == 0) {
         if (loadMoreRef.current) loadMoreRef.current.style.display = "none";
       } else {
-        lastDocRef.current = queryDocs[queryDocs.length - 1];
+        lastDocRef.current = lastSnap;
         if (loadMoreRef.current) loadMoreRef.current.style.display = "block";
       }
     },
@@ -44,23 +40,21 @@ export default function PrivateEventList({ uid }: { uid: string }) {
   useEffect(() => {
     lastDocRef.current = null;
     setLoading(true);
-    getEvents(uid, lastDocRef.current, NUM_EXCURSIONS, "private").then(
-      (querySnap) => {
-        const queryDocs = querySnap?.docs;
+    getEvents(uid, lastDocRef.current, NUM_EXCURSIONS).then((res) => {
+      if (!res) return;
+      const { docs, lastSnap } = res;
+      if (!docs) return;
 
-        if (queryDocs == undefined) return;
+      setLoading(false);
+      setEvents(docs);
 
-        setLoading(false);
-        setEvents(queryDocs);
-
-        if (queryDocs.length == 0) {
-          if (loadMoreRef.current) loadMoreRef.current.style.display = "none";
-        } else {
-          lastDocRef.current = queryDocs[queryDocs.length - 1];
-          if (loadMoreRef.current) loadMoreRef.current.style.display = "block";
-        }
+      if (docs.length == 0) {
+        if (loadMoreRef.current) loadMoreRef.current.style.display = "none";
+      } else {
+        lastDocRef.current = lastSnap;
+        if (loadMoreRef.current) loadMoreRef.current.style.display = "block";
       }
-    );
+    });
   }, [uid]);
 
   return (
@@ -73,7 +67,7 @@ export default function PrivateEventList({ uid }: { uid: string }) {
         ) : (
           events.map((doc) => {
             const data = doc.data();
-            return <EventCard key={data.eventId} data={data} />;
+            if (data) return <EventCard key={data.eventId} data={data} />;
           })
         )}
         {loading && <EventListSkeleton count={NUM_EXCURSIONS} />}
