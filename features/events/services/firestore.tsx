@@ -200,7 +200,6 @@ export async function getEvents(
       ? await getDocs(
           query(
             eventCollection,
-            where("ownerId", "==", uid),
             where("visibility", "==", visibility),
             orderBy("created_at", "desc"),
             limit(count)
@@ -209,7 +208,6 @@ export async function getEvents(
       : await getDocs(
           query(
             eventCollection,
-            where("ownerId", "==", uid),
             where("visibility", "==", visibility),
             orderBy("created_at", "desc"),
             startAfter(lastDoc),

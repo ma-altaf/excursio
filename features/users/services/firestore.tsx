@@ -17,7 +17,7 @@ export type ProviderType = "anonymous" | "email" | "google";
 
 export type UserDetails = {
   username: string;
-  imageURL: string;
+  imageURL?: string;
   about: string;
   provider: ProviderType;
   uid: string;

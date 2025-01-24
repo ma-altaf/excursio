@@ -133,6 +133,7 @@ export default function Account() {
                     const newUsername = username.trim();
                     originalUserDataRef.current!.username = newUsername;
                     setUsername(newUsername);
+                    setUsernameError("");
                     usernameBtnRef.current!.style.display = "none";
                   })
                   .catch((error) => {
@@ -167,8 +168,6 @@ export default function Account() {
           <button
             ref={aboutBtnRef}
             onClick={() => {
-              console.log("about button clicked");
-
               updateAbout(user?.uid, about)
                 .then(() => {
                   const newAbout = about.trim();
