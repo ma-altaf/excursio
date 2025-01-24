@@ -48,13 +48,12 @@ export default function Time() {
       return;
     }
 
-    setDateTimes(eventId, dates, eventData!.inProgress)
+    setDateTimes(eventId, dates)
       .then(() => {
         setEventData((prev) => {
           if (!prev) throw new Error("No event.");
-          const inProgress = { ...eventData!.inProgress, times: false };
 
-          return { ...prev, times: dates, inProgress };
+          return { ...prev, times: dates };
         });
         setActiveSection(orderedEventSteps[3]);
       })
@@ -65,7 +64,6 @@ export default function Time() {
 
   return (
     <section className="w-full min-h-full h-fit flex flex-col justify-center items-center p-1">
-      {eventData?.inProgress.times && <p>In progress</p>}
       <div className="w-full flex flex-col items-center justify-center">
         <span className="w-fit flex flex-col items-center">
           {showDatePicker ? (

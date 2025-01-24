@@ -115,23 +115,17 @@ export default function Contributions() {
     }
 
     Promise.all([
-      uploadContributionOpt(
-        eventData!.eventId,
-        newContributionOpt,
-        eventData!.inProgress
-      ),
+      uploadContributionOpt(eventData!.eventId, newContributionOpt),
       setReqItems(eventData.eventId, reqItems),
       setColItems(eventData.eventId, colItems),
     ])
       .then(() => {
         setEventData((prev) => {
           if (!prev) throw new Error("No event.");
-          const inProgress = { ...eventData!.inProgress, Contributions: false };
 
           return {
             ...prev,
             contributionsOpt: newContributionOpt,
-            inProgress,
             reqItems,
             colItems,
           };
@@ -142,7 +136,6 @@ export default function Contributions() {
 
   return (
     <section className="w-full min-h-full h-fit flex flex-col justify-center items-center p-1">
-      {eventData?.inProgress.contributions && <p>In progress</p>}
       <div className="w-full flex flex-col justify-center">
         <RequiredItems requiredItemsState={requiredItemsState} />
         <hr className="w-full border-1 my-2" />

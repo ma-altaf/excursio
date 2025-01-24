@@ -49,18 +49,12 @@ export default function Invitation() {
   }, [eventData, invitation, secret]);
 
   function updateInvitationOpt(newInvitationOpt: InvitationOptType) {
-    updateInvitation(
-      eventData!.eventId,
-      newInvitationOpt,
-      eventData!.inProgress,
-      secret
-    )
+    updateInvitation(eventData!.eventId, newInvitationOpt, secret)
       .then(() => {
         setEventData((prev) => {
           if (!prev) throw new Error("No event.");
-          const inProgress = { ...eventData!.inProgress, invitation: false };
 
-          return { ...prev, inviteOpt: newInvitationOpt, inProgress };
+          return { ...prev, inviteOpt: newInvitationOpt };
         });
         setActiveSection(orderedEventSteps[2]);
       })
@@ -89,7 +83,6 @@ export default function Invitation() {
 
   return (
     <section className="w-full min-h-full h-fit flex flex-col justify-center p-1">
-      {eventData?.inProgress.invitation && <p>In progress</p>}
       <label htmlFor="unlimitedChk" className="flex flex-row items-center">
         <Toggle
           checked={invitation.limit == Number.MAX_VALUE}

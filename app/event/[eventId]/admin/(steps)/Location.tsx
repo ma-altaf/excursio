@@ -105,22 +105,16 @@ export default function Location() {
     }
 
     Promise.all([
-      uploadLocationOpt(
-        eventData!.eventId,
-        newLocationOpt,
-        eventData!.inProgress
-      ),
+      uploadLocationOpt(eventData!.eventId, newLocationOpt),
       setLocations(eventData.eventId, locationsList),
     ])
       .then(() => {
         setEventData((prev) => {
           if (!prev) throw new Error("No event.");
-          const inProgress = { ...eventData!.inProgress, location: false };
 
           return {
             ...prev,
             locationOpt: newLocationOpt,
-            inProgress,
             locations: locationsList,
           };
         });
@@ -131,7 +125,6 @@ export default function Location() {
 
   return (
     <section className="w-full min-h-full h-fit flex flex-col justify-center items-center p-1">
-      {eventData?.inProgress.times && <p>In progress</p>}
       <div className="w-full flex flex-col justify-center">
         <LocationSuggestions locationsListState={locationsListState} />
 

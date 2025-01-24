@@ -32,20 +32,11 @@ export type EventStepsType =
   | "location"
   | "contributions";
 
-export type InProgressType = {
-  description: boolean;
-  invitation: boolean;
-  times: boolean;
-  location: boolean;
-  contributions: boolean;
-};
-
 export type EventType = {
   ownerId: string;
   eventId: string;
   title: string;
   description: string;
-  inProgress: InProgressType;
   created_at: Timestamp;
   visibility: VisibilityType;
   inviteOpt?: InvitationOptType;
@@ -134,13 +125,6 @@ export const orderedEventSteps: EventStepsType[] = [
   "contributions",
 ];
 
-const EXCURSION_STEPS = {
-  invitation: true,
-  times: true,
-  location: true,
-  contributions: true,
-};
-
 export async function createEvent(uid: string, title: string) {
   if (!title) throw new Error("Title is required.");
 
@@ -167,7 +151,6 @@ export async function createEvent(uid: string, title: string) {
     description: "",
     visibility: "private",
     created_at: serverTimestamp(),
-    inProgress: EXCURSION_STEPS,
   });
 
   const batch = writeBatch(db);
@@ -251,16 +234,12 @@ export async function updateDescription(eventId: string, description: string) {
 export async function updateInvitation(
   eventId: string,
   newInvitationOpt: InvitationOptType,
-  inProgress: InProgressType,
   secret?: string
 ) {
-  inProgress.invitation = false;
-
   const batch = writeBatch(db);
 
   batch.update(doc(db, `events/${eventId}`), {
     inviteOpt: newInvitationOpt,
-    inProgress,
   });
 
   batch.set(doc(db, `events/${eventId}/private/secret`), { secret });
@@ -272,18 +251,13 @@ export async function updateInvitation(
 
 export async function setDateTimes(
   eventId: string,
-  dateMaps: Map<string, TimeStateType[]>,
-  inProgress: InProgressType
+  dateMaps: Map<string, TimeStateType[]>
 ) {
   if (!dateMaps) throw new Error("Please provide date time.");
 
-  inProgress.times = false;
   const data = Object.fromEntries(dateMaps);
 
   await setDoc(doc(db, `events/${eventId}/lists/times`), data);
-  await updateDoc(doc(db, `events/${eventId}`), {
-    inProgress,
-  });
 }
 
 export async function getDateTimes(eventId: string) {
@@ -300,13 +274,10 @@ export async function getDateTimes(eventId: string) {
 
 export async function uploadLocationOpt(
   eventId: string,
-  newLocationOpt: LocationOptType,
-  inProgress: InProgressType
+  newLocationOpt: LocationOptType
 ) {
-  inProgress.location = false;
   await updateDoc(doc(db, `events/${eventId}`), {
     locationOpt: newLocationOpt,
-    inProgress,
   });
 }
 
@@ -331,13 +302,10 @@ export async function getLocations(eventId: string) {
 
 export async function uploadContributionOpt(
   eventId: string,
-  newContributionOpt: ContributionsOptType,
-  inProgress: InProgressType
+  newContributionOpt: ContributionsOptType
 ) {
-  inProgress.contributions = false;
   await updateDoc(doc(db, `events/${eventId}`), {
     contributionsOpt: newContributionOpt,
-    inProgress,
   });
 }
 
