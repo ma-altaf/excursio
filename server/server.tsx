@@ -10,7 +10,10 @@ import {
   serverTimestamp,
   where,
 } from "firebase/firestore";
-import { getEvent, getEventSecret } from "./firestore";
+import {
+  getEvent,
+  getEventSecret,
+} from "../features/events/services/firestore";
 import { db } from "@/shared/services/firestore";
 import { JoinForm } from "@/app/event/[eventId]/join/JoinForm";
 

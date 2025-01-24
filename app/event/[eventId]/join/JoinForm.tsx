@@ -1,6 +1,6 @@
 "use client";
 
-import { joinEvent } from "@/features/events/services/server";
+import { joinEvent } from "@/server/server";
 import { useAuthContext } from "@/features/users/components/authProvider";
 import { signWithAnonymous } from "@/features/users/services/auth";
 import Spinner from "@/shared/components/loading/Spinner";
