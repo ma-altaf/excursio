@@ -46,7 +46,6 @@ export type EventType = {
   title: string;
   description: string;
   inProgress: InProgressType;
-  members: string[];
   created_at: Timestamp;
   visibility: VisibilityType;
   inviteOpt?: InvitationOptType;
@@ -169,7 +168,6 @@ export async function createEvent(uid: string, title: string) {
     visibility: "private",
     created_at: serverTimestamp(),
     inProgress: EXCURSION_STEPS,
-    members: [uid],
   });
 
   const batch = writeBatch(db);
@@ -206,7 +204,6 @@ export async function getEvents(
       ? await getDocs(
           query(
             eventCollection,
-            where("members", "array-contains", uid),
             where("visibility", "==", visibility),
             orderBy("created_at", "desc"),
             limit(count)
@@ -215,7 +212,6 @@ export async function getEvents(
       : await getDocs(
           query(
             eventCollection,
-            where("members", "array-contains", uid),
             where("visibility", "==", visibility),
             orderBy("created_at", "desc"),
             startAfter(lastDoc),
@@ -397,7 +393,7 @@ export async function colItemsSnapShot(
 
 export async function updateColItem(
   eventId: string,
-  membetId: string,
+  memberId: string,
   title: string,
   amount: number
 ) {
@@ -410,7 +406,7 @@ export async function updateColItem(
     ).data() as CollectiveItemsMapType;
 
     const member = (await (
-      await transaction.get(doc(db, `events/${eventId}/members/${membetId}`))
+      await transaction.get(doc(db, `events/${eventId}/members/${memberId}`))
     ).data()) as MemberType;
 
     if (member.colItem && member.colItem[title]) {
@@ -447,7 +443,7 @@ export async function updateColItem(
     member.colItem = { ...member.colItem, [title]: resAmount };
 
     transaction.update(
-      doc(db, `events/${eventId}/members/${membetId}`),
+      doc(db, `events/${eventId}/members/${memberId}`),
       member
     );
   });
@@ -563,10 +559,6 @@ export async function deleteMember(
       await transaction.get(doc(db, `events/${eventId}/members/properties`))
     ).data() as { members: string[] } | undefined;
 
-    const event = (
-      await transaction.get(doc(db, `events/${eventId}`))
-    ).data() as EventType;
-
     if (!properties) throw Error("Could not get properties");
 
     if (member.colItem) {
@@ -588,10 +580,6 @@ export async function deleteMember(
 
     transaction.update(doc(db, `events/${eventId}/members/properties`), {
       members: properties.members.filter((el) => el !== displayName),
-    });
-
-    transaction.update(doc(db, `events/${eventId}`), {
-      members: event.members.filter((mid) => mid !== uid),
     });
   });
 }
