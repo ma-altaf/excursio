@@ -53,10 +53,19 @@ export async function joinEvent(joinForm: JoinForm) {
       await transaction.get(doc(db, `events/${eventId}/members/properties`))
     ).data() as { members: string[] } | undefined;
 
+    const members = (
+      await transaction.get(doc(db, `events/${eventId}`))
+    ).data() as { members: string[] } | undefined;
+
     if (!properties) throw new Error("Could not get event members properties.");
+    if (!members) throw new Error("Could not get event members.");
 
     if (properties.members.length + 1 > limit)
       throw new Error("Event is full, could not add you to the event.");
+
+    members.members.push(uid);
+
+    transaction.update(doc(db, `events/${eventId}`), { members });
 
     if (!needApproval) {
       properties.members.push(displayName);

@@ -1,6 +1,6 @@
 "use client";
 
-import { createExcursion } from "@/features/events/services/firestore";
+import { createEvent } from "@/features/events/services/firestore";
 import { useAuthContext } from "@/features/users/components/authProvider";
 import { eventNavigate } from "@/features/events/components/eventNavigate";
 import Link from "next/link";
@@ -18,7 +18,7 @@ export default function Create() {
   }, [authLoading, user]);
 
   function create(uid: string, title: string) {
-    createExcursion(uid, title)
+    createEvent(uid, title)
       .then((eventRef) => {
         eventNavigate(eventRef.id);
       })
