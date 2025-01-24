@@ -1,8 +1,9 @@
 "use client";
 
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useEventContext } from "../eventProvider";
 import {
+  getEventSecret,
   InvitationOptType,
   orderedEventSteps,
   updateInvitation,
@@ -14,14 +15,24 @@ export default function Invitation() {
   const [invitation, setInvitation] = useState<InvitationOptType>({
     limit: Number.MAX_VALUE,
     needApproval: false,
-    secret: "",
+    secret: false,
   });
   const [limit, setLimit] = useState(10);
   const [changed, setChanged] = useState(false);
+  const prevSecret = useRef("");
+  const [secret, setSecret] = useState("");
 
   useEffect(() => {
     if (eventData!.inviteOpt) {
       setInvitation(eventData!.inviteOpt);
+
+      if (!eventData?.eventId) throw new Error("event does not have an id");
+
+      if (eventData.inviteOpt.secret)
+        getEventSecret(eventData.eventId).then((res) => {
+          setSecret(res);
+          prevSecret.current = res;
+        });
 
       if (eventData!.inviteOpt.limit != Number.MAX_VALUE) {
         setLimit(eventData!.inviteOpt.limit);
@@ -32,16 +43,17 @@ export default function Invitation() {
   useEffect(() => {
     setChanged(
       eventData?.inviteOpt?.needApproval != invitation.needApproval ||
-        eventData?.inviteOpt?.secret != invitation.secret ||
+        prevSecret.current != secret ||
         eventData?.inviteOpt?.limit != invitation.limit
     );
-  }, [eventData, invitation]);
+  }, [eventData, invitation, secret]);
 
   function updateInvitationOpt(newInvitationOpt: InvitationOptType) {
     updateInvitation(
       eventData!.eventId,
       newInvitationOpt,
-      eventData!.inProgress
+      eventData!.inProgress,
+      secret
     )
       .then(() => {
         setEventData((prev) => {
@@ -134,10 +146,16 @@ export default function Invitation() {
       <input
         type="text"
         className="border-2 border-black rounded-md py-1 px-2 outline-accent"
-        value={invitation.secret}
-        onChange={(e) =>
-          setInvitation((prev) => ({ ...prev, secret: e.target.value }))
-        }
+        value={secret}
+        onChange={(e) => {
+          setSecret(() => {
+            setInvitation((prev) => ({
+              ...prev,
+              secret: e.target.value.length > 0,
+            }));
+            return e.target.value;
+          });
+        }}
         placeholder="secret password"
       />
 

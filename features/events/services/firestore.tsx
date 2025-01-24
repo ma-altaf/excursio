@@ -60,6 +60,10 @@ export type EventType = {
 export type InvitationOptType = {
   limit: number;
   needApproval: boolean;
+  secret: boolean;
+};
+
+export type EventPrivateType = {
   secret: string;
 };
 
@@ -225,6 +229,16 @@ export async function getEvent(eventId: string) {
     | undefined;
 }
 
+export async function getEventSecret(eventId: string) {
+  const res = (
+    await getDoc(doc(db, `events/${eventId}/private/secret`))
+  ).data() as EventPrivateType | undefined;
+
+  if (!res) return "";
+
+  return res.secret;
+}
+
 // Edit description
 
 export async function updateDescription(eventId: string, description: string) {
@@ -237,13 +251,21 @@ export async function updateDescription(eventId: string, description: string) {
 export async function updateInvitation(
   eventId: string,
   newInvitationOpt: InvitationOptType,
-  inProgress: InProgressType
+  inProgress: InProgressType,
+  secret?: string
 ) {
   inProgress.invitation = false;
-  await updateDoc(doc(db, `events/${eventId}`), {
+
+  const batch = writeBatch(db);
+
+  batch.update(doc(db, `events/${eventId}`), {
     inviteOpt: newInvitationOpt,
     inProgress,
   });
+
+  batch.set(doc(db, `events/${eventId}/private/secret`), { secret });
+
+  await batch.commit();
 }
 
 // Edit times

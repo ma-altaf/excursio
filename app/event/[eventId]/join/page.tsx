@@ -41,7 +41,7 @@ export default async function Join({
         />
         <p className="ml-1">{userDetails!.username}</p>
       </span>
-      <JoinForm eventId={eventId} requireSecret={inviteOpt.secret.length > 0} />
+      <JoinForm eventId={eventId} requireSecret={inviteOpt.secret} />
     </section>
   );
 }

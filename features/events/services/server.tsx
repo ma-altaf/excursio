@@ -9,7 +9,7 @@ import {
   runTransaction,
   where,
 } from "firebase/firestore";
-import { getEvent, MemberType } from "./firestore";
+import { getEvent, getEventSecret, MemberType } from "./firestore";
 import { db } from "@/shared/services/firestore";
 import { JoinForm } from "@/app/event/[eventId]/join/JoinForm";
 
@@ -24,7 +24,8 @@ export async function joinEvent(joinForm: JoinForm) {
 
   const { secret: reqSecret, needApproval, limit } = inviteOpt;
 
-  if (reqSecret !== secret) throw Error("Incorrect secret phrase.");
+  if (reqSecret && (await getEventSecret(eventId)) !== secret)
+    throw Error("Incorrect secret phrase.");
 
   if ((await getDoc(doc(db, `events/${eventId}/members/${uid}`))).exists())
     throw new Error("you are already a member.");
