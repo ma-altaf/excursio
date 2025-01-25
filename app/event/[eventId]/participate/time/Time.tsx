@@ -7,28 +7,34 @@ import { TimeStateType } from "@/shared/services/utils";
 import DatePicker from "./(components)/datePicker/DatePicker";
 import { useAuthContext } from "@/features/users/components/authProvider";
 import {
+  getDateTimes,
   getMember,
   setMemberTimes,
 } from "@/features/events/services/firestore";
 import { redirect } from "next/navigation";
 import LoadingCover from "@/shared/components/loading/LoadingCover";
+import Spinner from "@/shared/components/loading/Spinner";
 
 // TODO: allow user to participate in adding their availability
-export default function Time({
-  eventId,
-  times,
-}: {
-  eventId: string;
-  times: Map<string, TimeStateType[]>;
-}) {
+export default function Time({ eventId }: { eventId: string }) {
   const { authLoading, user } = useAuthContext();
-  const dateUseState = useState(times);
+  const dateUseState = useState<Map<string, TimeStateType[]>>(new Map());
   const [changed, setChanged] = useState(false);
   const [isDatePicking, setIsDatePicking] = useState(true);
 
   const [dates, setDates] = dateUseState;
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
+
+  useEffect(() => {
+    getDateTimes(eventId)
+      .then((res) => {
+        if (!res) return;
+        setDates(res);
+      })
+      .catch((e) => console.log(e))
+      .finally(() => dates.size === 0 && redirect(`event/${eventId}`));
+  }, [eventId]);
 
   useEffect(() => {
     if (user) {
@@ -49,6 +55,13 @@ export default function Time({
       .then(() => setSuccess(true))
       .catch((e) => setError(e.message));
   }
+
+  if (dates.size === 0)
+    return (
+      <p className="w-full min-h-screen flex flex-col items-center p-2 md:px-[10%] lg:px-[20%]">
+        <Spinner text="Loading dates" />
+      </p>
+    );
 
   return (
     <section className="w-full min-h-screen flex flex-col items-center p-2 md:px-[10%] lg:px-[20%]">

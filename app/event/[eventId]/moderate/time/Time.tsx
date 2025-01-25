@@ -1,6 +1,9 @@
 "use client";
 
 import {
+  getDateTimes,
+  getSelectedTimes,
+  getSetectedLocations,
   LocationType,
   membersSnapShot,
   MemberType,
@@ -18,21 +21,18 @@ import MemberTime from "./(components)/membersTime/MemberTime";
 
 // MODERATE
 // TODO: View users availability + finalize time
-export default function Time({
-  eventId,
-  times,
-  selectedLoc,
-  selectedTime,
-}: {
-  eventId: string;
-  times: Map<string, TimeStateType[]> | undefined;
-  selectedLoc: LocationType[] | undefined;
-  selectedTime: SelectedTimeMap | undefined;
-}) {
-  const [members, setMembers] = useState<MemberType[]>([]);
+export default function Time({ eventId }: { eventId: string }) {
   const selectedTimesUseState = useState<SelectedTimeMap | undefined>(
-    selectedTime
+    undefined
   );
+  const [selectedLoc, setSelectedLoc] = useState<LocationType[] | undefined>(
+    undefined
+  );
+  const [times, setTimes] = useState<Map<string, TimeStateType[]> | undefined>(
+    undefined
+  );
+
+  const [members, setMembers] = useState<MemberType[]>([]);
   const [changed, setChanged] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
@@ -42,17 +42,27 @@ export default function Time({
   const useStateMembers = useState(new Set<string>());
   const [membersId] = useStateMembers;
 
-  const [selectedTimes] = selectedTimesUseState;
+  const [selectedTimes, setSelectedTime] = selectedTimesUseState;
 
   useEffect(() => {
     const unsub = membersSnapShot(eventId, true, (members) => {
       setMembers(members);
     });
 
+    Promise.all([
+      getDateTimes(eventId),
+      getSetectedLocations(eventId),
+      getSelectedTimes(eventId),
+    ]).then(([times, selectedLoc, selectedTime]) => {
+      setTimes(times);
+      setSelectedLoc(selectedLoc);
+      setSelectedTime(selectedTime);
+    });
+
     return () => {
       unsub.then(() => console.log("unsub members."));
     };
-  }, [eventId]);
+  }, [eventId, setSelectedTime]);
 
   useEffect(() => {
     if (membersId.size === 0) {
