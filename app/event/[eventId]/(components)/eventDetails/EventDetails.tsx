@@ -37,7 +37,7 @@ export default function EventDetails({
             href={`/event/${eventId}/join`}
             className="p-button rounded-md bg-accent"
           >
-            Join
+            Join Event
           </Link>
         )}
       </div>

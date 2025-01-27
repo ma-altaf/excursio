@@ -221,16 +221,6 @@ export async function getEvent(eventId: string) {
     | undefined;
 }
 
-export async function getEventSecret(eventId: string) {
-  const res = (
-    await getDoc(doc(db, `events/${eventId}/private/secret`))
-  ).data() as EventPrivateType | undefined;
-
-  if (!res) return "";
-
-  return res.secret;
-}
-
 // Edit description
 
 export async function updateDescription(eventId: string, description: string) {
