@@ -21,7 +21,7 @@ export default async function Page({
     );
 
   const { ownerId, title, description } = eventData;
-  const userDetails = await getUser(ownerId);
+  const ownerDetails = await getUser(ownerId);
 
   return (
     <section className="w-full min-h-screen flex flex-col p-2 md:px-[10%] lg:px-[20%]">
@@ -30,13 +30,13 @@ export default async function Page({
         <span className="flex flex-row items-center my-2">
           <Image
             className="rounded-full size-8 aspect-square object-cover pointer-events-none bg-gray-200"
-            src={userDetails?.imageURL || "/images/profile.jpg"}
+            src={ownerDetails?.imageURL || "/images/profile.jpg"}
             width={64}
             height={64}
             alt="Picture of the author"
             priority
           />
-          <p className="ml-1">{userDetails!.username}</p>
+          <p className="ml-1">{ownerDetails!.username}</p>
         </span>
         <EditBtn ownerId={ownerId} eventId={eventId} />
       </div>

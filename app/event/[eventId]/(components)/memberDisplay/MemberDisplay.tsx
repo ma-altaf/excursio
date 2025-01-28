@@ -36,7 +36,7 @@ export default function MemberDisplay({
         )}
       </span>
 
-      <ul className="max-w-full w-fit px-2 overflow-auto grid grid-rows-1 grid-flow-col gap-1">
+      <ul className="max-w-full w-fit pt-1 px-2 overflow-auto grid grid-rows-1 grid-flow-col gap-1">
         {members.map((el, i) => (
           <li
             className="px-3 rounded-full bg-gray-100 flex flex-row items-center"

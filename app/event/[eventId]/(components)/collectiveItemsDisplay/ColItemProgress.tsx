@@ -29,9 +29,16 @@ export default function ColItemProgress({
   const [contribution, setContribution] = useState(0);
   const [loading, setLoading] = useState(false);
 
-  function contribute(contribution: number) {
+  function contribute(newContribution: number) {
     setLoading(true);
-    updateColItem(eventId, member.uid, title, contribution)
+
+    if (newContribution === contributed) {
+      setIsContributing(false);
+      setLoading(false);
+      return;
+    }
+
+    updateColItem(eventId, member.uid, title, newContribution)
       .then((res) => {
         setContributed(res);
         setIsContributing(false);
@@ -82,7 +89,7 @@ export default function ColItemProgress({
             <input
               defaultValue={contributed}
               min={0}
-              max={amount - current}
+              max={amount - current + contributed}
               className="w-full p-1 mx-1 rounded-md border-2 border-black"
               type="number"
               id={`amount-${title}`}
@@ -101,12 +108,13 @@ export default function ColItemProgress({
       )}
       {contributed > 0 && (
         <button
-          className="bg-green-300 px-2 w-fit rounded-md my-1"
+          className="bg-green-300 px-2 py-1 w-fit rounded-md my-1 flex flex-row items-center"
           onClick={() => {
             setIsContributing((prev) => !prev);
           }}
           title="Update the amount you are contributing"
         >
+          <BiDonateHeart className="size-5 mr-1" />
           <p>
             You are contributing: <b>{contributed}</b> {unit}
           </p>

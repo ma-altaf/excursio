@@ -23,7 +23,11 @@ export default function EventDetails({
 
   useEffect(() => {
     if (!authLoading && user) {
-      getMember(eventId, user.uid).then((res) => setMemberDetails(res));
+      getMember(eventId, user.uid)
+        .then((res) => setMemberDetails(res))
+        .catch((e) => {
+          console.log(`Not a member: ${e.message}`);
+        });
     }
   }, [authLoading, user, eventId]);
 
