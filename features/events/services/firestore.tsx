@@ -181,8 +181,6 @@ export async function getEvents(
   lastDoc: DocumentSnapshot<DocumentData, DocumentData> | null,
   count: number
 ) {
-  // const eventCollection = collection(db, "events");
-
   try {
     const res = !lastDoc
       ? await getDocs(
@@ -679,8 +677,6 @@ export async function setSelectedTimes(
   dateTimesData.forEach((content, date) => {
     data[date] = Object.fromEntries(content);
   });
-
-  console.log(data);
 
   await setDoc(doc(db, `events/${eventId}/lists/selectedTimes`), data);
 }
