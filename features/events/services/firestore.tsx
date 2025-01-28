@@ -675,11 +675,12 @@ export async function setSelectedTimes(
   eventId: string,
   dateTimesData: SelectedTimeMap
 ) {
+  const data: { [dates: string]: { [time: string]: SelectedTimeType } } = {};
   dateTimesData.forEach((content, date) => {
-    // @ts-expect-error converting inner Map to Object
-    dateTimesData.set(date, Object.fromEntries(content));
+    data[date] = Object.fromEntries(content);
   });
-  const data = Object.fromEntries(dateTimesData);
+
+  console.log(data);
 
   await setDoc(doc(db, `events/${eventId}/lists/selectedTimes`), data);
 }
