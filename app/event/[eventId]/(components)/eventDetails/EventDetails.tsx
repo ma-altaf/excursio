@@ -31,7 +31,7 @@ export default function EventDetails({
     return (
       <div className="flex w-full py-12 justify-center items-center">
         {authLoading ? (
-          <Spinner text="Loading user..." />
+          <Spinner text="Loading User..." />
         ) : (
           <Link
             href={`/event/${eventId}/join`}

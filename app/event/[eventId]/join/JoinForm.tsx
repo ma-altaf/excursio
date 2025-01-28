@@ -76,7 +76,7 @@ export default function JoinForm({
   if (authLoading)
     return (
       <section className="flex justify-center items-center w-full min-h-screen">
-        <Spinner text="Loading user..." />
+        <Spinner text="Loading User..." />
       </section>
     );
 

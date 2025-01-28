@@ -18,8 +18,7 @@ export default function DatePicker({
     .keys()
     .map((d) => new Date(d))
     .toArray()
-    .sort()
-    .reverse();
+    .sort();
   const [currDate, setCurrDate] = useState(new Date(sortedDates[0].setDate(1)));
 
   function renderUnits(month: Date) {
