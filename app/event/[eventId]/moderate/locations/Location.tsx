@@ -86,7 +86,7 @@ export default function Location({ eventId }: { eventId: string }) {
 
       <SelectedSuggestions selectedLocations={toVote} onRemove={onRemove} />
 
-      <span className="w-full flex items-center justify-end mt-2">
+      <span className="w-full flex items-center justify-end my-2">
         <button
           className="p-button rounded-md bg-gray-100"
           onClick={() => save(toVote)}

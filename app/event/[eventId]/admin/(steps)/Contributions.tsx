@@ -140,7 +140,7 @@ export default function Contributions() {
         <RequiredItems requiredItemsState={requiredItemsState} />
         <hr className="w-full border-1 my-2" />
         <CollectiveItems collectiveItemsState={collectiveItemsState} />
-        <hr className="w-full border-1 my-2" />
+        {/* <hr className="w-full border-1 my-2" />
         <label htmlFor="transport" className="flex flex-row items-center">
           <Toggle
             checked={requireTransport}
@@ -153,7 +153,7 @@ export default function Contributions() {
             }}
           />
           <p className="ml-4">Require transport contributions.</p>
-        </label>
+        </label> */}
 
         <button
           className="p-button rounded-md bg-accent mt-2"

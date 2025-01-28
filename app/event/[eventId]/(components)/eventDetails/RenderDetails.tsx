@@ -58,8 +58,8 @@ export default function RenderDetails({
 
       <CollItemDisplay eventId={eventId} member={member} />
 
-      <hr className="w-full border-b-1 my-1" />
-      <h2 className="font-bold">Transport</h2>
+      {/* <hr className="w-full border-b-1 my-1" />
+      <h2 className="font-bold">Transport</h2> */}
     </>
   );
 }
