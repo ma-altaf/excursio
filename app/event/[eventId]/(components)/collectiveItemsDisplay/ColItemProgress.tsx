@@ -1,4 +1,4 @@
-"use state";
+"use client";
 
 import React, { useState } from "react";
 import ProgressBar from "@/shared/components/ProgressBar";
