@@ -228,6 +228,16 @@ export async function updateDescription(eventId: string, description: string) {
 
 // Edit invitation
 
+export async function getEventSecret(eventId: string) {
+  const res = (
+    await getDoc(doc(db, `events/${eventId}/private/secret`))
+  ).data() as EventPrivateType | undefined;
+
+  if (!res) return "";
+
+  return res.secret;
+}
+
 export async function updateInvitation(
   eventId: string,
   newInvitationOpt: InvitationOptType,

@@ -3,7 +3,7 @@
 import { useAuthContext } from "@/features/users/components/authProvider";
 import Spinner from "./loading/Spinner";
 import { redirect } from "next/navigation";
-import { getMembers, MemberType } from "@/features/events/services/firestore";
+import { getMember, MemberType } from "@/features/events/services/firestore";
 import { useEffect, useState } from "react";
 
 export default function MemberProtected({
@@ -15,32 +15,32 @@ export default function MemberProtected({
   redirectUrl?: string;
   children: React.ReactNode;
 }) {
-  const [eventMembers, setEventMembers] = useState<MemberType[] | undefined>(
+  const [eventMember, setEventMember] = useState<MemberType | undefined | null>(
     undefined
   );
 
   const { authLoading, user } = useAuthContext();
 
   useEffect(() => {
-    getMembers(eventId, true)
+    if (!user) return;
+    getMember(eventId, user.uid)
       .then((res) => {
-        setEventMembers(res);
+        setEventMember(res);
       })
       .catch((e) => {
         console.log(e.message);
-        setEventMembers([]);
+        setEventMember(null);
       });
-  }, [eventId]);
+  }, [eventId, eventMember, user]);
 
-  if (authLoading || !eventMembers)
+  if (authLoading || eventMember == undefined)
     return (
       <section className="flex justify-center items-center w-full min-h-screen">
         <Spinner text="Loading..." />
       </section>
     );
 
-  if (user && eventMembers.map((m) => m.uid).indexOf(user.uid) >= 0)
-    return <>{children}</>;
+  if (user && eventMember.active) return <>{children}</>;
 
   redirect(redirectUrl);
 }

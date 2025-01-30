@@ -20,10 +20,10 @@ export default function SuggestedLocations({
   return (
     <div className="flex flex-col p-1 border-2 border-black rounded-md w-full">
       <p>Suggestions:</p>
-      <ul className="flex flex-col mt-1">
+      <ul className="grid gap-1 grid-flow-row mt-1">
         {membersSuggestion.map((member, i) => (
           <li
-            className="flex flex-col px-2 py-1 bg-gray-100 rounded-md"
+            className="flex flex-col px-2 py-1 rounded-md border-2 border-black"
             key={i}
           >
             <b>{member.displayName}:</b>

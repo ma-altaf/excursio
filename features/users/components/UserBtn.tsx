@@ -18,6 +18,11 @@ export default function UserBtn() {
     }
   }, [authLoading, user, userDetails]);
 
+  if (authLoading)
+    return (
+      <div className="w-24 h-10 rounded-md bg-gray-200 animate-pulse"></div>
+    );
+
   return userDetails ? (
     <Link
       href={`/user/${user?.uid}`}
