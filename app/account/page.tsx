@@ -83,7 +83,7 @@ export default function Account() {
         >
           <Image
             className="rounded-full aspect-square w-48 object-cover pointer-events-none bg-gray-200"
-            src={profilePic || "/images/profile.jpg"}
+            src={profilePic || "/images/user_pp.webp"}
             width={640}
             height={640}
             alt="Picture of the author"

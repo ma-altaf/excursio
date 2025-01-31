@@ -30,7 +30,7 @@ export default function UserBtn() {
     >
       <p className="m-1">{userDetails?.username}</p>
       <Image
-        src={`${userDetails?.imageURL || "/images/profile.jpg"}`}
+        src={`${userDetails?.imageURL || "/images/user_pp.webp"}`}
         width={64}
         height={64}
         alt="user profile"

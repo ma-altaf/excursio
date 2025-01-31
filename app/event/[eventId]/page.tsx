@@ -30,7 +30,7 @@ export default async function Page({
         <span className="flex flex-row items-center my-2">
           <Image
             className="rounded-full size-8 aspect-square object-cover pointer-events-none bg-gray-200"
-            src={ownerDetails?.imageURL || "/images/profile.jpg"}
+            src={ownerDetails?.imageURL || "/images/user_pp.webp"}
             width={64}
             height={64}
             alt="Picture of the author"

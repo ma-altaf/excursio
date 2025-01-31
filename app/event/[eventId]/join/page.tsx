@@ -33,7 +33,7 @@ export default async function Join({
       <span className="mt-2 flex flex-row items-center">
         <Image
           className="rounded-full size-8 aspect-square object-cover pointer-events-none bg-gray-200"
-          src={userDetails?.imageURL || "/images/profile.jpg"}
+          src={userDetails?.imageURL || "/images/user_pp.webp"}
           width={64}
           height={64}
           alt="Picture of the author"

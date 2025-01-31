@@ -9,8 +9,6 @@ import admin from "firebase-admin";
 import { getFirestore } from "firebase-admin/firestore";
 import { cert } from "firebase-admin/app";
 
-console.log("--------------------server--------------------");
-
 const app = admin.initializeApp({
   credential: cert({
     projectId: process.env.PROJECT_ID,
