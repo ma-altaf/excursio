@@ -11,12 +11,13 @@ import {
   getMember,
   setMemberTimes,
 } from "@/features/events/services/firestore";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import LoadingCover from "@/shared/components/loading/LoadingCover";
 import Spinner from "@/shared/components/loading/Spinner";
 
 // TODO: allow user to participate in adding their availability
 export default function Time({ eventId }: { eventId: string }) {
+  const router = useRouter();
   const { authLoading, user } = useAuthContext();
   const dateUseState = useState<Map<string, TimeStateType[]>>(new Map());
   const [changed, setChanged] = useState(false);
@@ -47,7 +48,10 @@ export default function Time({ eventId }: { eventId: string }) {
 
   if (authLoading) return <LoadingCover />;
 
-  if (!user || success) redirect(`/event/${eventId}`);
+  if (!user || success) {
+    router.replace(`/event/${eventId}`);
+    return <></>;
+  }
 
   function submit(availableTimes: Map<string, TimeStateType[]>) {
     setMemberTimes(eventId, user!.uid, availableTimes)

@@ -19,6 +19,13 @@ const app = admin.initializeApp({
 
 const adb = getFirestore(app);
 
+if (process.env.NEXT_PUBLIC_ENV_TYPE === "emulator") {
+  adb.settings({
+    host: "127.0.0.1:8080",
+    ssl: false,
+  });
+}
+
 export async function getEvent(eventId: string) {
   return (await adb.doc(`events/${eventId}`).get()).data() as
     | EventType
@@ -35,21 +42,25 @@ async function getEventSecret(eventId: string) {
   return res.secret;
 }
 
+function resError(message: string) {
+  return { message };
+}
+
 export async function joinEvent(joinForm: JoinForm) {
   const { eventId, uid, displayName, secret } = joinForm;
   const eventInfo = await getEvent(eventId);
-  if (!eventInfo) throw Error("Event not found");
+  if (!eventInfo) return resError("Event not found");
 
   const { inviteOpt } = eventInfo;
-  if (!inviteOpt) throw Error("Event not setup yet.");
+  if (!inviteOpt) return resError("Event not setup yet.");
 
   const { secret: reqSecret, needApproval, limit } = inviteOpt;
 
   if (reqSecret && (await getEventSecret(eventId)) !== secret)
-    throw Error("Incorrect secret phrase.");
+    return resError("Incorrect secret phrase.");
 
   if ((await adb.doc(`events/${eventId}/members/${uid}`).get()).exists)
-    throw new Error("you are already a member.");
+    return resError("you are already a member.");
 
   if (
     !(
@@ -59,17 +70,17 @@ export async function joinEvent(joinForm: JoinForm) {
         .get()
     ).empty
   )
-    throw new Error("Name already taken.");
+    return resError("Name already taken.");
 
   await adb.runTransaction(async (transaction) => {
     const properties = (
       await transaction.get(adb.doc(`events/${eventId}/members/properties`))
     ).data() as { members: string[] } | undefined;
 
-    if (!properties) throw new Error("Could not get event members properties.");
+    if (!properties) return resError("Could not get event members properties.");
 
     if (properties.members.length + 1 > limit)
-      throw new Error("Event is full, could not add you to the event.");
+      return resError("Event is full, could not add you to the event.");
 
     if (!needApproval) {
       properties.members.push(displayName);

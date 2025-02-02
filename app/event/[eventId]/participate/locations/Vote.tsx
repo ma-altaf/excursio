@@ -9,12 +9,13 @@ import {
 } from "@/features/events/services/firestore";
 import { useAuthContext } from "@/features/users/components/authProvider";
 import LoadingCover from "@/shared/components/loading/LoadingCover";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import VoteItems from "./(components)/VoteItems";
 import ViewPoll from "./ViewPoll";
 
 export default function Vote({ eventId }: { eventId: string }) {
+  const router = useRouter();
   const { authLoading, user } = useAuthContext();
   const [locationChoices, setLocationChoices] = useState<VoteLocationType[]>(
     []
@@ -39,7 +40,10 @@ export default function Vote({ eventId }: { eventId: string }) {
 
   if (authLoading) return <LoadingCover />;
 
-  if (!user) redirect(`/event/${eventId}`);
+  if (!user) {
+    router.replace(`/event/${eventId}`);
+    return <></>;
+  }
 
   function submit(title: string) {
     if (!title) {

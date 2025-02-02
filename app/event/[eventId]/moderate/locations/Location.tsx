@@ -12,11 +12,12 @@ import {
   updateLocationOptStatus,
   VoteLocationType,
 } from "@/features/events/services/firestore";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import WaitList from "@/shared/components/WaitList";
 import Link from "next/link";
 
 export default function Location({ eventId }: { eventId: string }) {
+  const router = useRouter();
   const [members, setMembers] = useState<MemberType[]>([]);
   const [toVote, setToVote] = useState<VoteLocationType[]>([]);
   const [error, setError] = useState("");
@@ -62,7 +63,10 @@ export default function Location({ eventId }: { eventId: string }) {
       .catch((e) => setError(e.message));
   }
 
-  if (success) redirect(`/event/${eventId}`);
+  if (success) {
+    router.push(`/event/${eventId}`);
+    return <></>;
+  }
 
   return (
     <section className="w-full min-h-screen flex flex-col items-center p-2 md:px-[10%] lg:px-[20%]">

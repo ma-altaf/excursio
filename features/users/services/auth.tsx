@@ -13,6 +13,7 @@ import {
   sendPasswordResetEmail,
   validatePassword,
   linkWithCredential,
+  connectAuthEmulator,
 } from "firebase/auth";
 import { createNewUser, ProviderType } from "./firestore";
 import { app } from "@/shared/services/firebase";
@@ -21,6 +22,11 @@ import { doc, updateDoc } from "firebase/firestore";
 import { db } from "@/shared/services/firestore";
 
 export const auth = getAuth(app);
+
+if (process.env.NEXT_PUBLIC_ENV_TYPE === "emulator") {
+  // Point to the Auth emulator running on localhost.
+  connectAuthEmulator(auth, "http://127.0.0.1:9099");
+}
 
 export async function signWithAnonymous() {
   const userCred = await signInAnonymously(auth);

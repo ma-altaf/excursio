@@ -2,7 +2,7 @@
 
 import { useAuthContext } from "@/features/users/components/authProvider";
 import Spinner from "./loading/Spinner";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function UidProtected({
   uid,
@@ -13,6 +13,7 @@ export default function UidProtected({
   redirectUrl?: string;
   children: React.ReactNode;
 }) {
+  const router = useRouter();
   const { authLoading, user } = useAuthContext();
 
   if (authLoading)
@@ -24,5 +25,5 @@ export default function UidProtected({
 
   if (user && user.uid === uid) return <>{children}</>;
 
-  redirect(redirectUrl);
+  router.replace(redirectUrl);
 }

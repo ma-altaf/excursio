@@ -2,7 +2,7 @@ import "./globals.css";
 import { Roboto } from "next/font/google";
 import AuthContextProvider from "@/features/users/components/authProvider";
 
-export const roboto = Roboto({ weight: ["400", "700"], subsets: ["latin"] });
+const roboto = Roboto({ weight: ["400", "700"], subsets: ["latin"] });
 
 export default function RootLayout({
   children,

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { DocumentData } from "firebase/firestore";
 import { PiSignOutBold } from "react-icons/pi";
@@ -20,6 +20,7 @@ import { FcGoogle } from "react-icons/fc";
 import { MdEmail } from "react-icons/md";
 
 export default function Account() {
+  const router = useRouter();
   const { authLoading, user } = useAuthContext();
   const [loading, setLoading] = useState(true);
   const [username, setUsername] = useState("");
@@ -38,22 +39,22 @@ export default function Account() {
     }
 
     if (!user) {
-      redirect("/signin");
+      router.replace("/signin");
+    } else {
+      getUser(user.uid)
+        .then((userData) => {
+          if (!userData) {
+            router.replace("/signin");
+          }
+          setLoading(false);
+          originalUserDataRef.current = userData;
+          setUsername(userData?.username || "");
+          setAbout(userData?.about || "");
+          setProfilePic(userData?.imageURL || "");
+        })
+        .catch((e) => console.log(e));
     }
-
-    getUser(user.uid)
-      .then((userData) => {
-        if (!userData) {
-          redirect("/signin");
-        }
-        setLoading(false);
-        originalUserDataRef.current = userData;
-        setUsername(userData?.username || "");
-        setAbout(userData?.about || "");
-        setProfilePic(userData?.imageURL || "");
-      })
-      .catch((e) => console.log(e));
-  }, [user, authLoading]);
+  }, [user, authLoading, router]);
 
   if (loading) return <LoadingCover text="Loading User..." />;
 

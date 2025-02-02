@@ -13,10 +13,11 @@ import {
 } from "@/features/events/services/firestore";
 import LoadingCover from "@/shared/components/loading/LoadingCover";
 import WaitList from "@/shared/components/WaitList";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import SelectedLocationsList from "./(components)/SelectedLocationsList";
 
 export default function SelectLocations({ eventId }: { eventId: string }) {
+  const router = useRouter();
   const [polls, setPolls] = useState<VoteLocationType[]>([]);
   const [members, setMembers] = useState<MemberType[]>([]);
   const [locations, setLocations] = useState<LocationType[]>([]);
@@ -42,7 +43,10 @@ export default function SelectLocations({ eventId }: { eventId: string }) {
     };
   }, [eventId]);
 
-  if (success) redirect(`/event/${eventId}`);
+  if (success) {
+    router.push(`/event/${eventId}`);
+    return <></>;
+  }
 
   const length = members.length;
 

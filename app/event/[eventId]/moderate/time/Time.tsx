@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 import TimePicker from "./(components)/timePicker/TimePicker";
 import WaitList from "@/shared/components/WaitList";
 import SelectedTime from "./(components)/selectedTime/SelectedTime";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { TimeStateType } from "@/shared/services/utils";
 import MemberTime from "./(components)/membersTime/MemberTime";
@@ -32,6 +32,7 @@ export default function Time({ eventId }: { eventId: string }) {
     undefined
   );
 
+  const router = useRouter();
   const [members, setMembers] = useState<MemberType[]>([]);
   const [changed, setChanged] = useState(false);
   const [error, setError] = useState("");
@@ -86,7 +87,10 @@ export default function Time({ eventId }: { eventId: string }) {
       .catch((e) => setError(e.message));
   }
 
-  if (success) redirect(`/event/${eventId}`);
+  if (success) {
+    router.push(`/event/${eventId}`);
+    return <></>;
+  }
 
   return (
     <section className="w-full min-h-screen flex flex-col items-center p-2 md:px-[10%] lg:px-[20%] relative">

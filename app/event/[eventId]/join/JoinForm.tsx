@@ -5,7 +5,7 @@ import { useAuthContext } from "@/features/users/components/authProvider";
 import { signWithAnonymous } from "@/features/users/services/auth";
 import Spinner from "@/shared/components/loading/Spinner";
 import Link from "next/link";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export type JoinForm = {
@@ -22,6 +22,7 @@ export default function JoinForm({
   eventId: string;
   requireSecret: boolean;
 }) {
+  const router = useRouter();
   const { authLoading, user } = useAuthContext();
   const [error, setError] = useState("");
   const [joinForm, setJoinForm] = useState<JoinForm>({
@@ -52,22 +53,26 @@ export default function JoinForm({
 
     if (formData.uid !== "") {
       joinEvent(formData)
-        .then(() => {
+        .then((res) => {
+          if (res?.message) return setError(res.message);
           setSuccess(true);
         })
         .catch((e) => {
-          setError(e.message);
+          console.log(e.message);
+          setError("Server error");
         });
     } else {
       signWithAnonymous().then((userCred) => {
         const { uid } = userCred.user;
         formData.uid = uid;
         joinEvent(formData)
-          .then(() => {
+          .then((res) => {
+            if (res?.message) return setError(res.message);
             setSuccess(true);
           })
           .catch((e) => {
-            setError(e.message);
+            console.log(e.message);
+            setError("Server error");
           });
       });
     }
@@ -80,7 +85,10 @@ export default function JoinForm({
       </section>
     );
 
-  if (success) return redirect(`/event/${eventId}`);
+  if (success) {
+    router.replace(`/event/${eventId}`);
+    return <></>;
+  }
 
   return (
     <form className="flex flex-col w-full">

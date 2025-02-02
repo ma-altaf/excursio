@@ -1,5 +1,7 @@
-import { roboto } from "@/app/layout";
 import { PollType } from "@/features/events/services/firestore";
+import { Roboto } from "next/font/google";
+
+const roboto = Roboto({ weight: ["400", "700"], subsets: ["latin"] });
 
 export default function PollItem({
   length,

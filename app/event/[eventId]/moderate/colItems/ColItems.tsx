@@ -1,6 +1,5 @@
 "use client";
 
-import { roboto } from "@/app/layout";
 import {
   CollectiveItemsMapType,
   CollectiveItemsType,
@@ -9,7 +8,10 @@ import {
   MemberType,
 } from "@/features/events/services/firestore";
 import ProgressBar from "@/shared/components/ProgressBar";
+import { Roboto } from "next/font/google";
 import { useEffect, useState } from "react";
+
+const roboto = Roboto({ weight: ["400", "700"], subsets: ["latin"] });
 
 export default function ColItems({ eventId }: { eventId: string }) {
   const [colItems, setColItems] = useState<CollectiveItemsMapType>(new Map());

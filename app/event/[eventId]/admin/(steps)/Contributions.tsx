@@ -1,3 +1,5 @@
+"use client";
+
 import {
   CollectiveItemsMapType,
   ContributionsOptType,
@@ -10,12 +12,12 @@ import {
 } from "@/features/events/services/firestore";
 import { useEffect, useState } from "react";
 import { useEventContext } from "../eventProvider";
-import Toggle from "@/shared/components/Toggle";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import RequiredItems from "./(components)/requiredItems/RequiredItems";
 import CollectiveItems from "./(components)/collectiveItems/CollectiveItems";
 
 export default function Contributions() {
+  const router = useRouter();
   const { eventData, setEventData } = useEventContext();
   const requiredItemsState = useState<RequiredItemsType[]>([]);
   const collectiveItemsState = useState<CollectiveItemsMapType>(new Map());
@@ -25,7 +27,7 @@ export default function Contributions() {
     });
   const [changed, setChanged] = useState(false);
 
-  const { requireTransport } = contributionsOpt;
+  // const { requireTransport } = contributionsOpt;
   const [requiredItemsList, setRequiredItemsList] = requiredItemsState;
   const [collectiveItemsList, setCollectiveItemsList] = collectiveItemsState;
 
@@ -110,8 +112,8 @@ export default function Contributions() {
     }
 
     if (!changed) {
-      redirect(`/event/${eventData.eventId}`);
-      return;
+      router.push(`/event/${eventData.eventId}`);
+      return <></>;
     }
 
     Promise.all([

@@ -1,5 +1,7 @@
-import { roboto } from "@/app/layout";
+import { Roboto } from "next/font/google";
 import { PollType } from "./Poll";
+
+const roboto = Roboto({ weight: ["400", "700"], subsets: ["latin"] });
 
 export default function PollItem({
   length,

@@ -2,18 +2,19 @@
 
 import { linkAnomToEmail } from "@/features/users/services/auth";
 import Link from "next/link";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaArrowLeft, FaLink } from "react-icons/fa6";
 
 export default function Email() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [success, setSuccess] = useState(false);
   const [status, setStatus] = useState("");
   const [error, setError] = useState("");
 
-  if (success) redirect(`/account`);
+  if (success) router.replace(`/account`);
 
   function linkAccount(email: string, password: string) {
     if (email === "") return setError("Email is required");

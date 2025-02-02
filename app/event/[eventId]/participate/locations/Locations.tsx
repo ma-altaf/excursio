@@ -1,7 +1,7 @@
 "use client";
 
 import { useAuthContext } from "@/features/users/components/authProvider";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Suggestion from "./Suggestion";
 import LoadingCover from "@/shared/components/loading/LoadingCover";
 
@@ -12,11 +12,15 @@ export default function Locations({
   eventId: string;
   num_suggestions: number;
 }) {
+  const router = useRouter();
   const { authLoading, user } = useAuthContext();
 
   if (authLoading) <LoadingCover />;
 
-  if (!user) redirect(`event/${eventId}`);
+  if (!user) {
+    router.replace(`event/${eventId}`);
+    return <></>;
+  }
 
   const { uid } = user;
 

@@ -2,7 +2,7 @@
 
 import { useAuthContext } from "@/features/users/components/authProvider";
 import Spinner from "./loading/Spinner";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { getMember, MemberType } from "@/features/events/services/firestore";
 import { useEffect, useState } from "react";
 
@@ -15,6 +15,7 @@ export default function MemberProtected({
   redirectUrl?: string;
   children: React.ReactNode;
 }) {
+  const router = useRouter();
   const [eventMember, setEventMember] = useState<MemberType | undefined | null>(
     undefined
   );
@@ -42,5 +43,5 @@ export default function MemberProtected({
 
   if (user && eventMember.active) return <>{children}</>;
 
-  redirect(redirectUrl);
+  router.replace(redirectUrl);
 }

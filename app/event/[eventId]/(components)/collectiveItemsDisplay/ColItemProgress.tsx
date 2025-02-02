@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import ProgressBar from "@/shared/components/ProgressBar";
-import { roboto } from "@/app/layout";
 import {
   CollectiveItemsType,
   MemberType,
@@ -11,6 +10,9 @@ import {
 import Spinner from "@/shared/components/loading/Spinner";
 import { BiDonateHeart } from "react-icons/bi";
 import { IoClose } from "react-icons/io5";
+import { Roboto } from "next/font/google";
+
+const roboto = Roboto({ weight: ["400", "700"], subsets: ["latin"] });
 
 export default function ColItemProgress({
   colItemData,

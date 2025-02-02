@@ -2,7 +2,7 @@ import { storage } from "@/shared/services/storage";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 
 export function uploadProfilePic(uid: string, file: File) {
-  const userProfilePicRef = ref(storage, `images/profilePic/user-${uid}.jpg`);
+  const userProfilePicRef = ref(storage, `images/profilePic/${uid}`);
   const uploadTask = uploadBytesResumable(userProfilePicRef, file);
 
   return new Promise((resolve, reject) => {
