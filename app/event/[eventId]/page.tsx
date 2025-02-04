@@ -1,5 +1,5 @@
 import { getEvent } from "@/features/events/services/firestore";
-import EditBtn from "./EditBtn";
+import EventBtns from "./EventBtns";
 
 import EventDetails from "./(components)/eventDetails/EventDetails";
 import { getUser } from "@/features/users/services/firestore";
@@ -38,7 +38,7 @@ export default async function Page({
           />
           <p className="ml-1">{ownerDetails!.username}</p>
         </span>
-        <EditBtn ownerId={ownerId} eventId={eventId} />
+        <EventBtns ownerId={ownerId} eventId={eventId} />
       </div>
       <p>{description}</p>
 
