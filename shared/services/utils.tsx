@@ -14,12 +14,6 @@ export function formatDate(date: Date) {
   }).format(date);
 }
 
-export function formatTime(date: Date) {
-  return new Intl.DateTimeFormat("en-CA", {
-    timeStyle: "short",
-  }).format(date);
-}
-
 export function resetTime(date: Date) {
   date.setHours(0, 0, 0, 0);
   return date;

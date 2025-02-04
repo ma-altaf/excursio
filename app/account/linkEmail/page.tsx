@@ -3,7 +3,7 @@
 import { linkAnomToEmail } from "@/features/users/services/auth";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaArrowLeft, FaLink } from "react-icons/fa6";
 
 export default function Email() {
@@ -14,7 +14,9 @@ export default function Email() {
   const [status, setStatus] = useState("");
   const [error, setError] = useState("");
 
-  if (success) router.replace(`/account`);
+  useEffect(() => {
+    if (success) router.replace(`/account`);
+  }, [success, router]);
 
   function linkAccount(email: string, password: string) {
     if (email === "") return setError("Email is required");

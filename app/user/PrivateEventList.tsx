@@ -59,7 +59,7 @@ export default function PrivateEventList({ uid }: { uid: string }) {
 
   return (
     <section className="w-full flex flex-col">
-      <div className="flex flex-col">
+      <div className="grid grid-flow-row gap-2 py-2">
         {!loading && events.length == 0 ? (
           <div className="w-full flex justify-center items-center py-20">
             <p>No excursions.</p>
@@ -75,7 +75,7 @@ export default function PrivateEventList({ uid }: { uid: string }) {
       <button
         ref={loadMoreRef}
         onClick={() => fetchPrivateDocs(lastDocRef.current)}
-        className="p-button rounded-md bg-gray-200 border-2 m-3 hidden"
+        className="p-button rounded-md bg-gray-200 border-2 mx-2 mb-2 hidden"
       >
         Load more
       </button>

@@ -66,7 +66,7 @@ export default function NewSuggestion({
               setLocationData((prev) => ({ ...prev, link: e.target.value }))
             }
             className="border-2 border-black rounded-md py-1 px-2 outline-accent"
-            placeholder={process.env.NEXT_PUBLIC_URL}
+            placeholder="https://www.twitch.tv/"
           />
         </span>
       ) : (

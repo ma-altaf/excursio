@@ -39,6 +39,12 @@ export default function JoinForm({
     }
   }, [authLoading, user]);
 
+  useEffect(() => {
+    if (success) {
+      router.replace(`/event/${eventId}`);
+    }
+  }, [success, router, eventId]);
+
   function submit(formData: JoinForm) {
     const errors = [];
 
@@ -84,11 +90,6 @@ export default function JoinForm({
         <Spinner text="Loading User..." />
       </section>
     );
-
-  if (success) {
-    router.replace(`/event/${eventId}`);
-    return <></>;
-  }
 
   return (
     <form className="flex flex-col w-full">
@@ -143,7 +144,7 @@ export default function JoinForm({
         <p className="w-fit px-2 py-1 mt-4 mx-auto rounded-md bg-gray-100 border-2 border-gray-200">
           Continue with Guest account. (
           <Link
-            className="text-blue-500 underline"
+            className="text-blue-600 hover:text-blue-800 visited:text-purple-600 underline"
             href={`/signin?origin=event/${eventId}/join`}
           >
             Create Account

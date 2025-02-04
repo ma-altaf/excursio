@@ -7,7 +7,7 @@ import {
 } from "@/features/users/services/auth";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaArrowLeft, FaUserPlus } from "react-icons/fa6";
 import { IoLogIn } from "react-icons/io5";
 
@@ -23,7 +23,11 @@ export default function Email() {
   const [status, setStatus] = useState("");
   const [error, setError] = useState("");
 
-  if (success) router.push(`/${redirectUrl}`);
+  useEffect(() => {
+    if (success) {
+      router.push(`/${redirectUrl}`);
+    }
+  }, [router, success, redirectUrl]);
 
   function createAccount(email: string, password: string) {
     if (email === "") return setError("Email is required");
@@ -159,7 +163,7 @@ export default function Email() {
                   setError("");
                   setIsCreate(false);
                 }}
-                className="text-blue-500 underline"
+                className="text-blue-600 hover:text-blue-800 visited:text-purple-600 underline"
               >
                 Log In
               </button>
@@ -172,7 +176,7 @@ export default function Email() {
                   setError("");
                   setIsCreate(true);
                 }}
-                className="text-blue-500 underline"
+                className="text-blue-600 hover:text-blue-800 visited:text-purple-600 underline"
               >
                 Create Account
               </button>
@@ -185,7 +189,7 @@ export default function Email() {
               onClick={() => {
                 resetPassword(email);
               }}
-              className="text-blue-500 underline"
+              className="text-blue-600 hover:text-blue-800 visited:text-purple-600 underline"
             >
               Send Reset password
             </button>

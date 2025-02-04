@@ -113,7 +113,6 @@ export default function Contributions() {
 
     if (!changed) {
       router.push(`/event/${eventData.eventId}`);
-      return <></>;
     }
 
     Promise.all([

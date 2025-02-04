@@ -43,10 +43,11 @@ export default function SelectLocations({ eventId }: { eventId: string }) {
     };
   }, [eventId]);
 
-  if (success) {
-    router.push(`/event/${eventId}`);
-    return <></>;
-  }
+  useEffect(() => {
+    if (success) {
+      router.push(`/event/${eventId}`);
+    }
+  }, [router, eventId, success]);
 
   const length = members.length;
 

@@ -18,6 +18,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { TimeStateType } from "@/shared/services/utils";
 import MemberTime from "./(components)/membersTime/MemberTime";
+import { FaArrowLeft } from "react-icons/fa";
 
 // MODERATE
 // TODO: View users availability + finalize time
@@ -80,6 +81,12 @@ export default function Time({ eventId }: { eventId: string }) {
     }
   }, [membersId, members]);
 
+  useEffect(() => {
+    if (success) {
+      router.push(`/event/${eventId}`);
+    }
+  }, [router, eventId, success]);
+
   function submit(selectedTimes: SelectedTimeMap | undefined) {
     if (!selectedTimes) return setError("Select at least one time slot.");
     setSelectedTimes(eventId, selectedTimes)
@@ -87,14 +94,18 @@ export default function Time({ eventId }: { eventId: string }) {
       .catch((e) => setError(e.message));
   }
 
-  if (success) {
-    router.push(`/event/${eventId}`);
-    return <></>;
-  }
-
   return (
     <section className="w-full min-h-screen flex flex-col items-center p-2 md:px-[10%] lg:px-[20%] relative">
-      <h1 className="text-3xl p-4">Select Time</h1>
+      <span className="m-4 w-full relative flex justify-center items-center">
+        <Link
+          href={`/event/${eventId}`}
+          className="absolute -translate-y-1/2 top-1/2 left-2 px-2 py-1 bg-gray-100 rounded-md flex flex-row items-center"
+        >
+          <FaArrowLeft className="mr-2 size-3" />
+          Back
+        </Link>
+        <h1 className="text-3xl">Select Time</h1>
+      </span>
 
       <span className="h-fit max-w-full w-fit flex flex-col">
         <WaitList
@@ -118,7 +129,7 @@ export default function Time({ eventId }: { eventId: string }) {
               Time not setup.
               <Link
                 href={`/event/${eventId}/admin?step=time`}
-                className="underline text-blue-500"
+                className="underline text-blue-600 hover:text-blue-800 visited:text-purple-600"
               >
                 Set up the times available
               </Link>

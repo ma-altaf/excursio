@@ -9,7 +9,7 @@ export default async function UserHeader({ uid }: { uid: string }) {
 
   return (
     <section className="w-full">
-      <div className="flex flex-col w-full md:flex-row p-4 items-center">
+      <div className="flex flex-col w-full md:flex-row p-4 pb-1 md:pb-4 items-center">
         <Image
           className="rounded-full aspect-square w-48 object-cover"
           src={user!.imageURL || "/images/user_pp.webp"}
@@ -26,7 +26,7 @@ export default async function UserHeader({ uid }: { uid: string }) {
         </div>
       </div>
 
-      <hr className="border-gray-200 mt-2 w-full" />
+      <hr className="border-gray-200 w-full" />
     </section>
   );
 }
