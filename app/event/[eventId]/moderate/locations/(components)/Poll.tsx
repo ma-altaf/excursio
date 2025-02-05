@@ -18,6 +18,7 @@ export default function Poll({
   toggleLocation: (title: string) => void;
 }) {
   const votedLength = polls.reduce((total, m) => total + m.vote, 0);
+  const longestTitle = Math.max(...polls.map((el) => el.title.length));
 
   return (
     <div className="w-full flex flex-col items-end">
@@ -33,7 +34,7 @@ export default function Poll({
               title={`${active ? "Remove" : "Add"}: ${poll.title}`}
               onClick={() => toggleLocation(poll.title)}
             >
-              <PollItem length={length} poll={poll} />
+              <PollItem textLen={longestTitle} length={length} poll={poll} />
               {active && (
                 <IoCheckmark className="absolute top-0 right-0 h-full size-5 mr-2" />
               )}

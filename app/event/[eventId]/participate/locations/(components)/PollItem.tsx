@@ -6,15 +6,20 @@ const roboto = Roboto({ weight: ["400", "700"], subsets: ["latin"] });
 export default function PollItem({
   length,
   poll,
+  textLen,
 }: {
   length: number;
   poll: PollType;
+  textLen: number;
 }) {
   const { title, vote } = poll;
 
   return (
     <div className="flex flex-row">
-      <span className="p-1 border-r-2 border-b-2 border-black">
+      <span
+        className="p-1 border-r-2 border-b-2 border-black"
+        style={{ minWidth: `${textLen}ch` }}
+      >
         <pre className={`${roboto.className} antialiased`}>{title}</pre>
       </span>
       <div className="w-full relative border-b-2 border-black">

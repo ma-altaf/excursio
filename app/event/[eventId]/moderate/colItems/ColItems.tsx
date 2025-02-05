@@ -98,7 +98,12 @@ function ColItemsItem({
           {members
             .sort((m1, m2) => m2.colItem![title] - m1.colItem![title])
             .map((m) => (
-              <MemberContibution title={title} key={m.uid} member={m} />
+              <MemberContibution
+                title={title}
+                key={m.uid}
+                member={m}
+                amount={amount}
+              />
             ))}
         </ul>
       )}
@@ -109,14 +114,20 @@ function ColItemsItem({
 function MemberContibution({
   title,
   member,
+  amount,
 }: {
   title: string;
   member: MemberType;
+  amount: number;
 }) {
   const { displayName, colItem } = member;
 
   return (
-    <div className="my-1 px-1 rounded-md border-2 border-black flex flex-row items-center justify-between">
+    <div className="my-1 px-1 rounded-md border-2 border-black flex flex-row items-center justify-between relative overflow-hidden">
+      <div
+        className="absolute top-0 left-0 h-full bg-accent -z-10"
+        style={{ width: `${(colItem![title] / amount) * 100}%` }}
+      ></div>
       <p>{displayName}</p>
       <p>{colItem![title]}</p>
     </div>

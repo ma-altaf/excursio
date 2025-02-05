@@ -36,6 +36,8 @@ export default function ViewPoll({ eventId }: { eventId: string }) {
 
   if (length <= 0) return <LoadingCover text="Loading polls..." />;
 
+  const longestTitle = Math.max(...polls.map((el) => el.title.length));
+
   return (
     <section className="w-full min-h-screen flex flex-col items-center p-2 md:px-[10%] lg:px-[20%]">
       <span className="m-4 w-full relative flex justify-center items-center">
@@ -50,7 +52,7 @@ export default function ViewPoll({ eventId }: { eventId: string }) {
       </span>
 
       <div className="w-full my-auto">
-        <Poll polls={polls} length={length} />
+        <Poll textLen={longestTitle} polls={polls} length={length} />
       </div>
     </section>
   );
