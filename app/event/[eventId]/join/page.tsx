@@ -2,6 +2,7 @@ import { getEvent } from "@/features/events/services/firestore";
 import { getUser } from "@/features/users/services/firestore";
 import JoinForm from "./JoinForm";
 import Image from "next/image";
+import { redirect } from "next/navigation";
 
 export default async function Join({
   params,
@@ -10,12 +11,9 @@ export default async function Join({
 }) {
   const { eventId } = await params;
   const eventData = await getEvent(eventId);
-  if (!eventData)
-    return (
-      <section className="flex flex-col justify-center items-center w-full min-h-screen">
-        <h1>Could not found event.</h1>
-      </section>
-    );
+
+  if (!eventData) return redirect("/event/error");
+
   const { ownerId, title, inviteOpt } = eventData;
 
   if (!inviteOpt)
