@@ -18,7 +18,7 @@ export default function PollItem({
     <div className="flex flex-row">
       <span
         className="p-1 border-r-2 border-b-2 border-black"
-        style={{ minWidth: `${textLen}ch` }}
+        style={{ minWidth: `${textLen}em` }}
       >
         <pre className={`${roboto.className} antialiased`}>{title}</pre>
       </span>
