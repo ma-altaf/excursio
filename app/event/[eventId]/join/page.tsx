@@ -3,6 +3,7 @@ import { getUser } from "@/features/users/services/firestore";
 import JoinForm from "./JoinForm";
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import NotSetup from "./notSetup";
 
 export default async function Join({
   params,
@@ -16,12 +17,7 @@ export default async function Join({
 
   const { ownerId, title, inviteOpt } = eventData;
 
-  if (!inviteOpt)
-    return (
-      <section className="flex flex-col justify-center items-center w-full min-h-screen">
-        <h1>Event not setup yet.</h1>
-      </section>
-    );
+  if (!inviteOpt) return <NotSetup />;
 
   const userDetails = await getUser(ownerId);
 

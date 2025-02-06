@@ -21,6 +21,7 @@ export default function Home() {
           Create Excursion
         </Link>
       </section>
+
       <footer className="w-full p-2">
         <p className="text-center">
           Developed by{" "}
