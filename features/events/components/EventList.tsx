@@ -28,7 +28,7 @@ export default function EventList({ uid }: { uid: string }) {
     ) => {
       setLoading(true);
       const res = await getEvents(uid, lastDoc, NUM_EXCURSIONS);
-      if (!res) return;
+      if (!res) return setLoading(false);
 
       const { docs, lastSnap } = res;
 
@@ -48,21 +48,25 @@ export default function EventList({ uid }: { uid: string }) {
   useEffect(() => {
     lastDocRef.current = null;
     setLoading(true);
-    getEvents(uid, lastDocRef.current, NUM_EXCURSIONS).then((res) => {
-      if (!res) return;
-      const { docs, lastSnap } = res;
-      if (!docs) return;
+    getEvents(uid, lastDocRef.current, NUM_EXCURSIONS)
+      .then((res) => {
+        if (!res) return;
+        const { docs, lastSnap } = res;
+        if (!docs) return;
 
-      setLoading(false);
-      setEvents(docs);
+        setEvents(docs);
 
-      if (docs.length == 0) {
-        if (loadMoreRef.current) loadMoreRef.current.style.display = "none";
-      } else {
-        lastDocRef.current = lastSnap;
-        if (loadMoreRef.current) loadMoreRef.current.style.display = "block";
-      }
-    });
+        if (docs.length == 0) {
+          if (loadMoreRef.current) loadMoreRef.current.style.display = "none";
+        } else {
+          lastDocRef.current = lastSnap;
+          if (loadMoreRef.current) loadMoreRef.current.style.display = "block";
+        }
+      })
+      .catch(() => {
+        console.log("No event found.");
+      })
+      .finally(() => setLoading(false));
   }, [uid, visibility]);
 
   return (

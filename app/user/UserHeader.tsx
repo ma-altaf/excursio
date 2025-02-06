@@ -12,7 +12,7 @@ export default async function UserHeader({ uid }: { uid: string }) {
       <div className="flex flex-col w-full md:flex-row p-4 pb-1 md:pb-4 items-center">
         <Image
           className="rounded-full aspect-square w-48 object-cover"
-          src={user!.imageURL || "/images/user_pp.webp"}
+          src={user?.imageURL || "/images/user_pp.webp"}
           width={640}
           height={640}
           alt="Picture of the author"

@@ -181,36 +181,32 @@ export async function getEvents(
   lastDoc: DocumentSnapshot<DocumentData, DocumentData> | null,
   count: number
 ) {
-  try {
-    const res = !lastDoc
-      ? await getDocs(
-          query(
-            collectionGroup(db, "members"),
-            where("uid", "==", uid),
-            orderBy("joined_time", "desc"),
-            limit(count)
-          )
+  const res = !lastDoc
+    ? await getDocs(
+        query(
+          collectionGroup(db, "members"),
+          where("uid", "==", uid),
+          orderBy("joined_time", "desc"),
+          limit(count)
         )
-      : await getDocs(
-          query(
-            collectionGroup(db, "members"),
-            where("uid", "==", uid),
-            orderBy("joined_time", "desc"),
-            startAfter(lastDoc),
-            limit(count)
-          )
-        );
-
-    const docs = await Promise.all(
-      res.docs.map((eventDoc) =>
-        getDoc(doc(db, `events/${eventDoc.ref.path.split("/")[1]}`))
       )
-    );
+    : await getDocs(
+        query(
+          collectionGroup(db, "members"),
+          where("uid", "==", uid),
+          orderBy("joined_time", "desc"),
+          startAfter(lastDoc),
+          limit(count)
+        )
+      );
 
-    return { docs, lastSnap: res.docs[res.docs.length - 1] };
-  } catch (error) {
-    console.log(error);
-  }
+  const docs = await Promise.all(
+    res.docs.map((eventDoc) =>
+      getDoc(doc(db, `events/${eventDoc.ref.path.split("/")[1]}`))
+    )
+  );
+
+  return { docs, lastSnap: res.docs[res.docs.length - 1] };
 }
 
 export async function getEvent(eventId: string) {
