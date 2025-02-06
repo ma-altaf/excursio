@@ -1,12 +1,10 @@
 import Image from "next/image";
-import { getUser } from "@/features/users/services/firestore";
+import { UserDetails } from "@/features/users/services/firestore";
 import { lazy } from "react";
 
 const AccountPanel = lazy(() => import("./AccountPanel"));
 
-export default async function UserHeader({ uid }: { uid: string }) {
-  const user = await getUser(uid);
-
+export default async function UserHeader({ user }: { user: UserDetails }) {
   return (
     <section className="w-full">
       <div className="flex flex-col w-full md:flex-row p-4 pb-1 md:pb-4 items-center">
@@ -22,7 +20,7 @@ export default async function UserHeader({ uid }: { uid: string }) {
         <div className="p-2 md:ml-8 w-full">
           <p className="font-bold text-lg">{user?.username}</p>
           <p className="my-2 mb-6">{user?.about}</p>
-          <AccountPanel uid={uid} />
+          <AccountPanel uid={user.uid} />
         </div>
       </div>
 

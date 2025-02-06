@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import User from "./User";
+import { getUser } from "@/features/users/services/firestore";
+import { notFound } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "User",
@@ -12,5 +14,11 @@ export default async function Page({
   params: Promise<{ uid: string }>;
 }) {
   const { uid } = await params;
-  return <User uid={uid} />;
+  const user = await getUser(uid);
+
+  if (!user) notFound();
+
+  metadata.title = user.username;
+
+  return <User user={user} />;
 }

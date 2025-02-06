@@ -1,5 +1,5 @@
 import MemberProtected from "@/shared/components/MemberProtected";
-import { redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 
 export default async function layout({
   params,
@@ -10,7 +10,7 @@ export default async function layout({
 }) {
   const { eventId } = await params;
 
-  if (!eventId) redirect("/error");
+  if (!eventId) notFound();
 
   return (
     <MemberProtected eventId={eventId} redirectUrl={`/event/${eventId}`}>

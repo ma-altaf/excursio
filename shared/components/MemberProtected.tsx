@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 
 export default function MemberProtected({
   eventId,
-  redirectUrl = "/error",
+  redirectUrl = "/",
   children,
 }: {
   eventId: string;

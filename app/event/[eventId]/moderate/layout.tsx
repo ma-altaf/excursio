@@ -1,6 +1,6 @@
 import { getEvent } from "@/features/events/services/firestore";
 import UidProtected from "@/shared/components/UidProtected";
-import { redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 
 export default async function layout({
   params,
@@ -12,7 +12,7 @@ export default async function layout({
   const { eventId } = await params;
   const eventData = await getEvent(eventId);
 
-  if (!eventData) redirect("/error");
+  if (!eventData) notFound();
 
   const { ownerId } = eventData;
 

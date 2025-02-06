@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 
 export default function UidProtected({
   uid,
-  redirectUrl = "/error",
+  redirectUrl = "/",
   children,
 }: {
   uid: string;

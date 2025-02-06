@@ -2,7 +2,7 @@
 
 import { lazy, useEffect } from "react";
 import { useEventContext } from "./eventProvider";
-import { useRouter, useSearchParams } from "next/navigation";
+import { notFound, useSearchParams } from "next/navigation";
 import {
   EventStepsType,
   orderedEventSteps,
@@ -19,7 +19,6 @@ const Location = lazy(() => import("./(steps)/Location"));
 const Contributions = lazy(() => import("./(steps)/Contributions"));
 
 export default function Admin() {
-  const router = useRouter();
   const searchParams = useSearchParams();
 
   const { activeSection, eventLoading, eventData, setActiveSection } =
@@ -36,10 +35,7 @@ export default function Admin() {
 
   if (eventLoading) return <LoadingCover text="Loading Event." />;
 
-  if (!eventData) {
-    router.replace("/event/error");
-    return <></>;
-  }
+  if (!eventData) notFound();
 
   const { eventId, title, ownerId } = eventData;
 

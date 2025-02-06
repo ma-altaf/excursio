@@ -4,7 +4,7 @@ import EventBtns from "./EventBtns";
 import EventDetails from "./(components)/eventDetails/EventDetails";
 import { getUser } from "@/features/users/services/firestore";
 import Image from "next/image";
-import { redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 
 export default async function Page({
   params,
@@ -14,7 +14,7 @@ export default async function Page({
   const { eventId } = await params;
   const eventData = await getEvent(eventId);
 
-  if (!eventData) return redirect("/event/error");
+  if (!eventData) notFound();
 
   const { ownerId, title, description } = eventData;
   const ownerDetails = await getUser(ownerId);
