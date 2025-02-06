@@ -15,6 +15,8 @@ import LoadingCover from "@/shared/components/loading/LoadingCover";
 import WaitList from "@/shared/components/WaitList";
 import { useRouter } from "next/navigation";
 import SelectedLocationsList from "./(components)/SelectedLocationsList";
+import Link from "next/link";
+import { FaArrowLeft } from "react-icons/fa";
 
 export default function SelectLocations({ eventId }: { eventId: string }) {
   const router = useRouter();
@@ -81,7 +83,15 @@ export default function SelectLocations({ eventId }: { eventId: string }) {
 
   return (
     <section className="w-full min-h-screen flex flex-col items-center p-2 md:px-[10%] lg:px-[20%]">
-      <h1 className="text-3xl p-4">Select Locations</h1>
+      <span className="m-4 w-full flex justify-center items-center">
+        <Link
+          href={`/event/${eventId}`}
+          className="p-3 bg-gray-100 rounded-md flex flex-row items-center"
+        >
+          <FaArrowLeft className="size-4" />
+        </Link>
+        <h1 className="text-3xl w-full text-center">Select Locations</h1>
+      </span>
 
       <WaitList
         headerText="Waiting for vote:"

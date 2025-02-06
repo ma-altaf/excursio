@@ -33,15 +33,14 @@ export default function ColItems({ eventId }: { eventId: string }) {
 
   return (
     <section className="w-full min-h-screen flex flex-col items-center p-2 md:px-[10%] lg:px-[20%]">
-      <span className="m-4 w-full relative flex justify-center items-center">
+      <span className="m-4 w-full flex justify-center items-center">
         <Link
           href={`/event/${eventId}`}
-          className="absolute -translate-y-1/2 top-1/2 left-2 px-2 py-1 bg-gray-100 rounded-md flex flex-row items-center"
+          className="p-3 bg-gray-100 rounded-md flex flex-row items-center"
         >
-          <FaArrowLeft className="mr-2 size-3" />
-          Back
+          <FaArrowLeft className="size-4" />
         </Link>
-        <h1 className="text-3xl">Moderate Contributions</h1>
+        <h1 className="text-3xl w-full text-center">Moderate Contributions</h1>
       </span>
 
       <ul className="w-full">
