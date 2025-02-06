@@ -71,17 +71,17 @@ export default function Time({ eventId }: { eventId: string }) {
 
   return (
     <section className="w-full min-h-screen flex flex-col items-center p-2 md:px-[10%] lg:px-[20%]">
-      <span className="m-4 w-full flex justify-center items-center">
-        <Link
-          href={`/event/${eventId}`}
-          className="p-3 bg-gray-100 rounded-md flex flex-row items-center"
-        >
-          <FaArrowLeft className="size-3" />
-        </Link>
-        <h1 className="text-3xl w-full text-center">Time</h1>
-      </span>
-
       <span className="w-fit">
+        <span className="my-4 w-full flex justify-center items-center">
+          <Link
+            href={`/event/${eventId}`}
+            className="p-3 bg-gray-100 rounded-md flex flex-row items-center"
+          >
+            <FaArrowLeft className="size-3" />
+          </Link>
+          <h1 className="text-3xl w-full text-center">Time</h1>
+        </span>
+
         {isDatePicking ? (
           <DatePicker dateUseState={dateUseState} setChanged={setChanged} />
         ) : (
