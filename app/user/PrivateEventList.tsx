@@ -7,7 +7,7 @@ import EventCard from "./EventCard";
 import EventListSkeleton from "./EventListSkeleton";
 
 export default function PrivateEventList({ uid }: { uid: string }) {
-  const NUM_EXCURSIONS: number = 1;
+  const NUM_EXCURSIONS: number = 4;
   const [loading, setLoading] = useState(true);
   const [events, setEvents] = useState<
     DocumentSnapshot<DocumentData, DocumentData>[]

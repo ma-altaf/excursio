@@ -42,7 +42,7 @@ export default function Create() {
           setTitle(e.currentTarget.value);
         }}
         className="border-2 border-black rounded-md p-2 outline-accent"
-        placeholder="Team Excusion - 01/01/2025"
+        placeholder="Team Excursion - 01/01/2025"
         required
       />
       {eventStatus && (

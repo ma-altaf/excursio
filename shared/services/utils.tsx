@@ -58,6 +58,12 @@ export function sortedGroups(
   return [...res.entries()].sort((a, b) => a[0] - b[0]);
 }
 
+export type StepsType = {
+  title: string;
+  description: string;
+  vidURL: string;
+};
+
 // export function datesToDateMap(dates: Map<string, boolean[]>) {
 //   const res: DateMap = new Map(new Map(new Map()));
 
