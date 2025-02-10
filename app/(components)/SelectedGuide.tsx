@@ -7,7 +7,7 @@ const selectedSteps: StepsType[] = [
   {
     title: "Location",
     description: "Type a unique title for the event and click on create.",
-    vidURL: "",
+    vidURL: "/videos/create excursion.mp4",
   },
   {
     title: "Time",
@@ -52,8 +52,14 @@ export default function SelectedGuide() {
           ))}
         </span>
         <div className="w-full flex flex-col rounded-md border-t-2 border-black p-2">
-          <p>{description}</p>
-          <div className="rounded-md bg-gray-100">{vidURL}</div>
+          <p className="mb-2">{description}</p>
+          <video
+            src={vidURL}
+            muted
+            loop
+            controls
+            className="rounded-md object-cover w-full border-black border-2"
+          />
         </div>
       </div>
     </>

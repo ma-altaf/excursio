@@ -14,10 +14,6 @@ export default function StepItem({
         index % 2 ? "md:flex-row-reverse" : "md:flex-row"
       }`}
     >
-      <div className="w-full h-fit flex justify-center items-center">
-        <div className="w-32 h-32 bg-gray-100 rounded-md">{vidURL}</div>
-      </div>
-
       <span className="flex flex-col w-full">
         <span className="flex flex-col">
           <span className="flex flex-row items-center">
@@ -29,6 +25,16 @@ export default function StepItem({
           <p className="ml-10">{description}</p>
         </span>
       </span>
+
+      <div className="w-full h-fit flex justify-center items-center p-2">
+        <video
+          src={vidURL}
+          muted
+          loop
+          controls
+          className="rounded-md object-cover border-black border-2 w-full"
+        />
+      </div>
     </div>
   );
 }

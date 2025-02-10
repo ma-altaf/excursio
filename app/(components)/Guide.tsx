@@ -7,17 +7,17 @@ const steps: StepsType[] = [
     title: "Create Event",
     description:
       "Create an account/sign in. Click on Create Excursion and type a unique title for the event and click on create.",
-    vidURL: "",
+    vidURL: "/videos/create excursion.mp4",
   },
   {
     title: "Set Event Properties",
     description: "Set your desired properties for the event.",
-    vidURL: "",
+    vidURL: "/videos/excursion setting.mp4",
   },
   {
     title: "Share Link",
     description: "Copy the link and share it with the members.",
-    vidURL: "",
+    vidURL: "/videos/share link.mp4",
   },
 ];
 
