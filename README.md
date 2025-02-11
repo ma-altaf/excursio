@@ -2,13 +2,15 @@
 
 Excursion planning ~~and management~~. (Management features not implemented for MVP)
 
-Allow users to plan unofficial excursion. Main features:
+Allow users to plan unofficial excursions.
 
-**time availablity table:** facilitate and streamline communication of time availabilty within members of the excursion.
+Main features:
 
-**location suggestion & voting:** Allow members to suggest their desired locations to go to and voting to choose the most popular option.
+- **time availablity table:** facilitate and streamline communication of time availabilty within members of the excursion.
 
-**Contribution:** members can contribute to the items that is of interest for the excursion.
+- **location suggestion & voting:** Allow members to suggest their desired locations to go to and voting to choose the most popular option.
+
+- **Contribution:** members can contribute to the items that is of interest for the excursion.
 
 ## Library used
 
