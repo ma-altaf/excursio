@@ -6,18 +6,25 @@ import { useState } from "react";
 const selectedSteps: StepsType[] = [
   {
     title: "Location",
-    description: "Type a unique title for the event and click on create.",
-    vidURL: "/videos/create excursion.mp4",
+    description: `Organizer add suggestions. 
+    All members participate in providing suggestions.
+    Organizer then select the locations to be voted on.
+    All members vote on the location they wish to go to.
+    Organizer then finalizes the locations.`,
+    vidURL: "/videos/locations.mp4",
   },
   {
     title: "Time",
-    description: "Set your desired properties for the event.",
-    vidURL: "",
+    description: `Organizer set the time open for the excursion. 
+    All members provide their available time.
+    Organizer then finalizes the time for the event.`,
+    vidURL: "/videos/time.mp4",
   },
   {
     title: "Contribution",
-    description: "Copy the link and share it with the members.",
-    vidURL: "",
+    description: `Organizer set the items to contribute to.
+    All members contribute to the items.`,
+    vidURL: "/videos/contribution.mp4",
   },
 ];
 
