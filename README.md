@@ -1,6 +1,6 @@
 # Excursio
 
-Excursion planning ~~and management~~. (Management features not implemented for MVP)
+Excursion planning and management.
 
 Allow users to plan unofficial excursions.
 
