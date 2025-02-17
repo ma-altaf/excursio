@@ -11,7 +11,7 @@ import { cert } from "firebase-admin/app";
 
 const app = admin.initializeApp({
   credential: cert({
-    projectId: process.env.PROJECT_ID,
+    projectId: process.env.NEXT_PUBLIC_PROJECT_ID,
     clientEmail: process.env.CLIENT_EMAIL,
     privateKey: String(process.env.PRIVATE_KEY).replace(/\\n/gm, "\n"),
   }),
