@@ -1,3 +1,4 @@
+import VideoPopUp from "@/shared/components/VideoPopUp";
 import { StepsType } from "@/shared/services/utils";
 
 export default function StepItem({
@@ -26,15 +27,7 @@ export default function StepItem({
         </span>
       </span>
 
-      <div className="w-full h-fit flex justify-center items-center p-2">
-        <video
-          src={vidURL}
-          muted
-          loop
-          controls
-          className="rounded-md object-cover border-black border-2 w-full"
-        />
-      </div>
+      <VideoPopUp url={vidURL} />
     </div>
   );
 }
