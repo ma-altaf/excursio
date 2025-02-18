@@ -5,16 +5,18 @@ import Link from "next/link";
 import { LocationType } from "@/features/events/services/firestore";
 import Toggle from "@/shared/components/Toggle";
 
+const emptyLocData: LocationType = {
+  title: "",
+  isOnline: false,
+  link: "",
+};
+
 export default function NewSuggestion({
   onSubmit,
 }: {
   onSubmit: (locationData: LocationType) => string;
 }) {
-  const [locationData, setLocationData] = useState<LocationType>({
-    title: "",
-    isOnline: false,
-    link: "",
-  });
+  const [locationData, setLocationData] = useState<LocationType>(emptyLocData);
 
   const [error, setError] = useState("");
 
@@ -25,6 +27,16 @@ export default function NewSuggestion({
       setError("");
     }
   }, [locationData]);
+
+  function addLoc(locationData: LocationType) {
+    const res = onSubmit(locationData);
+
+    if (res) {
+      setError(res);
+    } else {
+      setLocationData(emptyLocData);
+    }
+  }
 
   return (
     <div className="flex flex-col border-2 border-black rounded-md p-2">
@@ -99,9 +111,7 @@ export default function NewSuggestion({
 
       <button
         className="p-button w-full rounded-md bg-gray-200 mt-2 hover:bg-gray-300"
-        onClick={() => {
-          setError(onSubmit(locationData));
-        }}
+        onClick={() => addLoc(locationData)}
       >
         Add
       </button>

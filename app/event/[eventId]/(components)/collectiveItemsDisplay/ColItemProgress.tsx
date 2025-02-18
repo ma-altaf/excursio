@@ -28,7 +28,7 @@ export default function ColItemProgress({
   const [contributed, setContributed] = useState(
     (member.colItem && member.colItem[title]) || 0
   );
-  const [contribution, setContribution] = useState(0);
+  const [contribution, setContribution] = useState(contributed);
   const [loading, setLoading] = useState(false);
 
   function contribute(newContribution: number) {
@@ -89,13 +89,13 @@ export default function ColItemProgress({
           <span className="w-full flex flex-row items-center p-1 justify-between">
             <label htmlFor={`amount-${title}`}>Amount:</label>
             <input
-              defaultValue={contributed}
+              value={String(contribution)}
               min={0}
               max={amount - current + contributed}
               className="w-full p-1 mx-1 rounded-md border-2 border-black"
               type="number"
               id={`amount-${title}`}
-              onChange={(e) => setContribution(e.target.valueAsNumber)}
+              onChange={(e) => setContribution(e.target.valueAsNumber || 0)}
             />
             <button
               onClick={() => {

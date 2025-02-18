@@ -3,17 +3,20 @@
 import { CollectiveItemsType } from "@/features/events/services/firestore";
 import { useEffect, useState } from "react";
 
+const emptyColItem: CollectiveItemsType = {
+  title: "",
+  amount: 1,
+  unit: "",
+  current: 0,
+};
+
 export default function NewCollectiveItem({
   onSubmit,
 }: {
   onSubmit: (colItemData: CollectiveItemsType) => string;
 }) {
-  const [colItemData, setColItemData] = useState<CollectiveItemsType>({
-    title: "",
-    amount: 1,
-    unit: "",
-    current: 0,
-  });
+  const [colItemData, setColItemData] =
+    useState<CollectiveItemsType>(emptyColItem);
 
   const [error, setError] = useState("");
 
@@ -24,6 +27,16 @@ export default function NewCollectiveItem({
       setError("");
     }
   }, [colItemData]);
+
+  function addColItem(colItemData: CollectiveItemsType) {
+    const res = onSubmit(colItemData);
+
+    if (res) {
+      setError(res);
+    } else {
+      setColItemData(emptyColItem);
+    }
+  }
 
   return (
     <div className="flex flex-col border-2 border-black rounded-md p-2">
@@ -47,14 +60,16 @@ export default function NewCollectiveItem({
             type="number"
             id="amount"
             name="amount"
-            value={amount}
+            value={String(amount)}
             min={1}
-            onChange={(e) =>
+            onChange={(e) => {
               setColItemData((prev) => ({
                 ...prev,
                 amount: Number(e.target.value),
-              }))
-            }
+              }));
+
+              console.log(Number(e.target.value));
+            }}
             className="border-2 border-black rounded-md py-1 px-2 outline-accent"
             placeholder="How many we need"
           />
@@ -78,9 +93,7 @@ export default function NewCollectiveItem({
 
       <button
         className="p-button w-full rounded-md bg-gray-200 mt-2 hover:bg-gray-300"
-        onClick={() => {
-          setError(onSubmit(colItemData));
-        }}
+        onClick={() => addColItem(colItemData)}
       >
         Add
       </button>

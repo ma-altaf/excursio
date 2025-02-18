@@ -3,14 +3,17 @@
 import { RequiredItemsType } from "@/features/events/services/firestore";
 import { useEffect, useState } from "react";
 
+const emptyReqItem: RequiredItemsType = {
+  title: "",
+};
+
 export default function NewRequiredItem({
   onSubmit,
 }: {
   onSubmit: (reqItemData: RequiredItemsType) => string;
 }) {
-  const [reqItemData, setReqItemData] = useState<RequiredItemsType>({
-    title: "",
-  });
+  const [reqItemData, setReqItemData] =
+    useState<RequiredItemsType>(emptyReqItem);
 
   const [error, setError] = useState("");
 
@@ -21,6 +24,16 @@ export default function NewRequiredItem({
       setError("");
     }
   }, [reqItemData]);
+
+  function addReqItem(reqItemData: RequiredItemsType) {
+    const res = onSubmit(reqItemData);
+
+    if (res) {
+      setError(res);
+    } else {
+      setReqItemData(emptyReqItem);
+    }
+  }
 
   return (
     <div className="flex flex-col border-2 border-black rounded-md p-2">
@@ -39,9 +52,7 @@ export default function NewRequiredItem({
 
       <button
         className="p-button w-full rounded-md bg-gray-200 mt-2 hover:bg-gray-300"
-        onClick={() => {
-          setError(onSubmit(reqItemData));
-        }}
+        onClick={() => addReqItem(reqItemData)}
       >
         Add
       </button>
