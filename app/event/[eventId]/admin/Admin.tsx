@@ -59,7 +59,7 @@ export default function Admin() {
   return (
     <UidProtected uid={ownerId} redirectUrl={`/event/${eventId}`}>
       <main className="w-full min-h-screen flex flex-col items-center md:px-[10%] lg:px-[20%]">
-        <div className="h-[10vh] items-center justify-center flex flex-row w-full">
+        <div className="h-[10vh] items-center justify-center flex flex-row w-full px-1">
           <Link
             href={`/event/${eventId}`}
             className="p-3 bg-gray-100 rounded-md flex flex-row items-center"

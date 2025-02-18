@@ -45,8 +45,8 @@ export default function RangedDateToggle({
   }
 
   return (
-    <div className="flex flex-col p-2 rounded-md border-2 border-black my-2 items-center max-w-[360px]">
-      <span className="flex flex-row items-center justify-between mb-1">
+    <div className="flex flex-col p-2 w-full sm:w-fit rounded-md border-2 border-black my-2 items-center max-w-[360px]">
+      <span className="flex flex-col sm:flex-row sm:items-center justify-between mb-1 w-full">
         <span className="flex flex-col items-start">
           <label htmlFor="startTime">
             <b>From:</b>
@@ -71,7 +71,7 @@ export default function RangedDateToggle({
             }}
           />
         </span>
-        <FaArrowRightLong className="size-4 sm:size-5 mx-2 sm:mx-4" />
+        <FaArrowRightLong className="size-4 sm:size-5 mx-auto rotate-90 sm:mx-4 sm:rotate-0" />
         <span className="flex flex-col items-start">
           <label htmlFor="endTime">
             <b>To:</b>
