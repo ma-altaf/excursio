@@ -50,9 +50,9 @@ export default function DatePicker({
   return (
     <div className="flex flex-col w-fit rounded-md border-2 border-black">
       <DateHeader currDate={currDate} setCurrDate={setCurrDate} />
-      <div className="p-1 grid grid-cols-7">
+      <div className="p-1 grid grid-cols-7 gap-1 sm:gap-2">
         {namedDays.map((d) => (
-          <div className="flex justify-center items-center px-1" key={d}>
+          <div className="flex justify-center items-center" key={d}>
             {d.substring(0, 3)}
           </div>
         ))}

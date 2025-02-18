@@ -57,9 +57,9 @@ export default function DatePicker({
         minDate={sortedDates[0]}
         maxDate={sortedDates[sortedDates.length - 1]}
       />
-      <div className="p-1 grid grid-cols-7">
+      <div className="p-1 grid grid-cols-7 gap-1 sm:gap-2">
         {namedDays.map((d) => (
-          <div className="flex justify-center items-center px-1" key={d}>
+          <div className="flex justify-center items-center" key={d}>
             {d.substring(0, 3)}
           </div>
         ))}

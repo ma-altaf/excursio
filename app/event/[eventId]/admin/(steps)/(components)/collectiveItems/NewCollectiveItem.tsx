@@ -40,7 +40,7 @@ export default function NewCollectiveItem({
         placeholder="Contribute so we can have..."
       />
 
-      <span className="w-full flex flex-row items-center p-1">
+      <span className="w-full flex flex-col sm:flex-row items-center py-1">
         <span className="flex flex-col w-full">
           <label htmlFor="amount">Amount:</label>
           <input
@@ -59,7 +59,7 @@ export default function NewCollectiveItem({
             placeholder="How many we need"
           />
         </span>
-        <hr className="w-4" />
+        <hr className="w-4 h-1" />
         <span className="flex flex-col w-full">
           <label htmlFor="unit">Unit:</label>
           <input

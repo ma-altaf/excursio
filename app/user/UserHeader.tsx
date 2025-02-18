@@ -24,7 +24,7 @@ export default async function UserHeader({ user }: { user: UserDetails }) {
         </div>
       </div>
 
-      <hr className="border-gray-200 w-full" />
+      <hr className="border-gray-200 mx-2 md:mx-0" />
     </section>
   );
 }

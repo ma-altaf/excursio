@@ -71,7 +71,7 @@ export default function RangedDateToggle({
             }}
           />
         </span>
-        <FaArrowRightLong className="size-5 mx-4" />
+        <FaArrowRightLong className="size-4 sm:size-5 mx-2 sm:mx-4" />
         <span className="flex flex-col items-start">
           <label htmlFor="endTime">
             <b>To:</b>

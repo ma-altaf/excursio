@@ -19,8 +19,9 @@ export default function Home() {
           height={150}
         />
         <h1 className="font-bold text-5xl my-2 uppercase">Excursio</h1>
-        <p className="text-2xl mb-1">Excursion planning and management</p>
-        <p className="max-w-full md:max-w-[80%] lg:max-w-[50%]"></p>
+        <p className="text-2xl text-center">
+          Excursion planning and management
+        </p>
         <Link href="/create" className="rounded-md mt-8 p-button bg-accent">
           Create Excursion
         </Link>
