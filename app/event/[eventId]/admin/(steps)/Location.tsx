@@ -20,6 +20,7 @@ export default function Location() {
   const [limit, setLimit] = useState(1);
   const locationsListState = useState<VoteLocationType[]>([]);
   const [changed, setChanged] = useState(false);
+  const [error, setError] = useState("");
 
   const [locationsList, setLocationsList] = locationsListState;
 
@@ -104,6 +105,15 @@ export default function Location() {
       throw new Error("no event ID");
     }
 
+    if (newLocationOpt.num_suggestions == 0 && locationsList.length == 0) {
+      setError(
+        "Please, either add at least one location or allow users to suggest locations."
+      );
+      return;
+    } else {
+      setError("");
+    }
+
     Promise.all([
       uploadLocationOpt(eventData!.eventId, newLocationOpt),
       setLocations(eventData.eventId, locationsList),
@@ -168,6 +178,10 @@ export default function Location() {
         >
           {changed ? "Submit" : "Next"}
         </button>
+
+        {error && (
+          <p className="mt-2 py-1 px-2 bg-red-300 rounded-md">{error}</p>
+        )}
 
         {changed && (
           <p className="mt-2 py-1 px-2 bg-gray-100 rounded-md border-2 border-gray-200">

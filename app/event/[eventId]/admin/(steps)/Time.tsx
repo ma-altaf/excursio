@@ -17,6 +17,7 @@ export default function Time() {
   const [showDatePicker, setShowDatePicker] = useState(true);
   const dateUseState = useState<Map<string, TimeStateType[]>>(new Map());
   const [changed, setChanged] = useState(false);
+  const [error, setError] = useState("");
 
   const [dates, setDates] = dateUseState;
 
@@ -39,6 +40,10 @@ export default function Time() {
       setDates(structuredClone(eventData?.times));
     }
   }, [eventData]);
+
+  useEffect(() => {
+    if (error && dates.size > 0) setError("");
+  }, [dates]);
 
   function uploadDateTime() {
     const eventId = eventData?.eventId;
@@ -72,7 +77,13 @@ export default function Time() {
               <DatePicker dateUseState={dateUseState} setChanged={setChanged} />
               <span className="w-full flex flex-row justify-end mt-2">
                 <button
-                  onClick={() => setShowDatePicker(false)}
+                  onClick={() => {
+                    if (dates.size > 0) {
+                      setShowDatePicker(false);
+                    } else {
+                      setError("Please, select atleast one day.");
+                    }
+                  }}
                   className="p-button rounded-md bg-accent"
                 >
                   Next
@@ -99,6 +110,11 @@ export default function Time() {
             </>
           )}
         </span>
+
+        {error && (
+          <p className="mt-2 py-1 px-2 bg-red-300 rounded-md">{error}</p>
+        )}
+
         {changed && (
           <p className="mt-2 py-1 px-2 bg-gray-100 rounded-md border-2 border-gray-200">
             *Unsubmitted Changes, please submit your changes to save them.
