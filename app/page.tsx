@@ -13,6 +13,7 @@ export default function Home() {
       </nav>
       <section className="flex flex-col justify-center items-center w-full h-screen p-3">
         <Image
+          priority
           src="/images/logo-512x512.png"
           alt="Logo"
           width={150}

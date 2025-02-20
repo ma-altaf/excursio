@@ -6,16 +6,22 @@ import { eventNavigate } from "@/features/events/components/eventNavigate";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { getUser } from "@/features/users/services/firestore";
 
 export default function Create() {
   const router = useRouter();
   const { authLoading, user } = useAuthContext();
   const [title, setTitle] = useState("");
+  const [username, setUsername] = useState("");
   const [eventStatus, setEventStatus] = useState("");
   const origin = useSearchParams().get("origin") || "";
 
   useEffect(() => {
     if (!authLoading && !user) router.replace("/signin");
+    if (user)
+      getUser(user.uid).then((res) => {
+        if (res) setUsername(res?.username);
+      });
   }, [authLoading, user, router]);
 
   function create(uid: string, title: string) {
@@ -45,12 +51,13 @@ export default function Create() {
         placeholder="Team Excursion - 01/01/2025"
         required
       />
+
       {eventStatus && (
-        <p className="p-button bg-gray-200 w-full rounded-md mt-4">
+        <p className="p-button bg-gray-200 w-full rounded-md mt-2">
           {eventStatus}
         </p>
       )}
-      <span className="w-full flex flex-row justify-end my-4">
+      <span className="w-full flex flex-row justify-end my-2">
         <Link
           href={`/${origin}`}
           className="p-button rounded-md bg-gray-200 mr-2"
@@ -64,6 +71,17 @@ export default function Create() {
           Create Excursion
         </button>
       </span>
+      <div className="p-button bg-gray-100 w-full rounded-md">
+        Your username for this event will be <b>{username}</b>. If you want to
+        change it{" "}
+        <Link
+          href="./account"
+          className="underline text-blue-600 hover:text-blue-800 visited:text-purple-600"
+        >
+          go to account
+        </Link>{" "}
+        page.
+      </div>
     </section>
   );
 }
