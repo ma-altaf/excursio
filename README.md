@@ -4,6 +4,8 @@ Excursion planning and management.
 
 Allow users to plan unofficial excursions.
 
+https://github.com/user-attachments/assets/1f51fd19-b667-4846-bb8b-6bcababe3d9b
+
 Main features:
 
 - **time availablity table:** facilitate and streamline communication of time availabilty within members of the excursion.
