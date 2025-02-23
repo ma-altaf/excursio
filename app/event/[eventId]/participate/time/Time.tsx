@@ -71,7 +71,7 @@ export default function Time({ eventId }: { eventId: string }) {
 
   return (
     <section className="w-full min-h-screen flex flex-col items-center p-2 md:px-[10%] lg:px-[20%]">
-      <span className="w-fit">
+      <span className="w-fit max-w-full">
         <span className="my-4 w-full flex justify-center items-center">
           <Link
             href={`/event/${eventId}`}

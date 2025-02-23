@@ -71,7 +71,7 @@ export default function Suggestion({
 
   return (
     <section className="w-full min-h-screen flex flex-col p-2 md:px-[10%] lg:px-[20%]">
-      <span className="m-4 w-full flex justify-center items-center">
+      <span className="my-4 w-full flex justify-center items-center">
         <Link
           href={`/event/${eventId}`}
           className="p-3 bg-gray-100 rounded-md flex flex-row items-center"

@@ -70,7 +70,7 @@ export default function Time() {
   return (
     <section className="w-full min-h-full h-fit flex flex-col justify-center items-center p-1">
       <div className="w-full flex flex-col items-center justify-center">
-        <span className="w-fit flex flex-col items-center">
+        <span className="w-fit flex flex-col items-center max-w-full">
           {showDatePicker ? (
             <>
               <RangedDateToggle dateUseState={dateUseState} />

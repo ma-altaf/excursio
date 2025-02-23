@@ -31,6 +31,7 @@ export default function JoinForm({
     secret: "",
     uid: "",
   });
+  const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
@@ -45,7 +46,21 @@ export default function JoinForm({
     }
   }, [success, router, eventId]);
 
+  function joinRequest(formData: JoinForm) {
+    joinEvent(formData)
+      .then((res) => {
+        if (res?.message) return setError(res.message);
+        setSuccess(true);
+      })
+      .catch((e) => {
+        console.log(e.message);
+        setError("Server error");
+        setLoading(false);
+      });
+  }
+
   function submit(formData: JoinForm) {
+    setLoading(true);
     const errors = [];
 
     if (formData.displayName.length <= 0) errors.push("Name is required.");
@@ -54,32 +69,17 @@ export default function JoinForm({
 
     if (errors.length != 0) {
       setError(errors.join(" | "));
+      setLoading(false);
       return;
     }
 
     if (formData.uid !== "") {
-      joinEvent(formData)
-        .then((res) => {
-          if (res?.message) return setError(res.message);
-          setSuccess(true);
-        })
-        .catch((e) => {
-          console.log(e.message);
-          setError("Server error");
-        });
+      joinRequest(formData);
     } else {
       signWithAnonymous().then((userCred) => {
         const { uid } = userCred.user;
         formData.uid = uid;
-        joinEvent(formData)
-          .then((res) => {
-            if (res?.message) return setError(res.message);
-            setSuccess(true);
-          })
-          .catch((e) => {
-            console.log(e.message);
-            setError("Server error");
-          });
+        joinRequest(formData);
       });
     }
   }
@@ -124,15 +124,22 @@ export default function JoinForm({
           />
         </>
       )}
-      <input
-        className="mt-4 mx-auto p-button rounded-md bg-accent w-fit cursor-pointer"
-        type="submit"
-        value="Join"
-        onClick={(e) => {
-          e.preventDefault();
-          submit(joinForm);
-        }}
-      />
+
+      {loading ? (
+        <span className="mt-4">
+          <Spinner text="Joining..." size="2rem" marginTop="0.5rem" />
+        </span>
+      ) : (
+        <input
+          className="mt-4 mx-auto p-button rounded-md bg-accent w-fit cursor-pointer"
+          type="submit"
+          value="Join"
+          onClick={(e) => {
+            e.preventDefault();
+            submit(joinForm);
+          }}
+        />
+      )}
 
       {error && (
         <p className="px-2 py-1 mt-4 rounded-md bg-gray-100 border-2 border-gray-200">

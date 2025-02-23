@@ -9,7 +9,7 @@ import admin from "firebase-admin";
 import { getFirestore } from "firebase-admin/firestore";
 import { cert } from "firebase-admin/app";
 
-const app = admin.initializeApp({
+const adminApp = admin.initializeApp({
   credential: cert({
     projectId: process.env.NEXT_PUBLIC_PROJECT_ID,
     clientEmail: process.env.CLIENT_EMAIL,
@@ -17,7 +17,7 @@ const app = admin.initializeApp({
   }),
 });
 
-const adb = getFirestore(app);
+const adb = getFirestore(adminApp);
 
 if (process.env.NEXT_PUBLIC_ENV_TYPE === "emulator") {
   adb.settings({

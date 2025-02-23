@@ -49,7 +49,7 @@ export default function Invitation() {
   }, [eventData, invitation, secret]);
 
   function updateInvitationOpt(newInvitationOpt: InvitationOptType) {
-    updateInvitation(eventData!.eventId, newInvitationOpt, secret)
+    updateInvitation(eventData!.eventId, newInvitationOpt, secret.trim())
       .then(() => {
         setEventData((prev) => {
           if (!prev) throw new Error("No event.");
