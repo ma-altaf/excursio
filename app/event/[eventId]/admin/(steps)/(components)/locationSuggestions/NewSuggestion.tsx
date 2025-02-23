@@ -40,7 +40,7 @@ export default function NewSuggestion({
 
   return (
     <div className="flex flex-col border-2 border-black rounded-md p-2">
-      <label htmlFor="title">Title:</label>
+      <label htmlFor="title">Where to meet:</label>
       <input
         type="text"
         id="title"
@@ -83,7 +83,7 @@ export default function NewSuggestion({
         </span>
       ) : (
         <span className="flex flex-col">
-          <label htmlFor="link">Location:</label>
+          <label htmlFor="link">Location on map:</label>
           <input
             type="text"
             id="link"

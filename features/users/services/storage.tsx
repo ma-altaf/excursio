@@ -23,3 +23,11 @@ export function uploadProfilePic(uid: string, file: File) {
     );
   });
 }
+
+export async function getImgURL(uid: string) {
+  try {
+    return await getDownloadURL(ref(storage, `images/profilePic/${uid}`));
+  } catch {
+    return "/images/user_pp.webp";
+  }
+}

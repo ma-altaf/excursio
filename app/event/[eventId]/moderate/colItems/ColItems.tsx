@@ -1,5 +1,6 @@
 "use client";
 
+import { myFont } from "@/app/layout";
 import {
   CollectiveItemsMapType,
   CollectiveItemsType,
@@ -8,12 +9,9 @@ import {
   MemberType,
 } from "@/features/events/services/firestore";
 import ProgressBar from "@/shared/components/ProgressBar";
-import { Roboto } from "next/font/google";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
-
-const roboto = Roboto({ weight: ["400", "700"], subsets: ["latin"] });
 
 export default function ColItems({ eventId }: { eventId: string }) {
   const [colItems, setColItems] = useState<CollectiveItemsMapType>(new Map());
@@ -82,7 +80,7 @@ function ColItemsItem({
         </span>
         <span className="w-full flex flex-col items-end mt-1">
           <ProgressBar current={current} total={amount} />
-          <pre className={`${roboto.className} antialiased text-sm`}>
+          <pre className={`${myFont.className} antialiased text-sm`}>
             {current}/{amount} {unit}
           </pre>
         </span>

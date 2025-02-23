@@ -3,6 +3,7 @@
 import {
   EventPrivateType,
   EventType,
+  MemberInListType,
 } from "../features/events/services/firestore";
 import { JoinForm } from "@/app/event/[eventId]/join/JoinForm";
 import admin from "firebase-admin";
@@ -75,7 +76,7 @@ export async function joinEvent(joinForm: JoinForm) {
   await adb.runTransaction(async (transaction) => {
     const properties = (
       await transaction.get(adb.doc(`events/${eventId}/members/properties`))
-    ).data() as { members: string[] } | undefined;
+    ).data() as { members: MemberInListType[] } | undefined;
 
     if (!properties) return resError("Could not get event members properties.");
 
@@ -83,7 +84,7 @@ export async function joinEvent(joinForm: JoinForm) {
       return resError("Event is full, could not add you to the event.");
 
     if (!needApproval) {
-      properties.members.push(displayName);
+      properties.members.push({ displayName, uid });
 
       transaction.update(adb.doc(`events/${eventId}/members/properties`), {
         members: properties.members,

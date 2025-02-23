@@ -117,6 +117,8 @@ export type MemberType = {
   colItem?: { [title: string]: number };
 };
 
+export type MemberInListType = Pick<MemberType, "displayName" | "uid">;
+
 export type PollType = { title: string; vote: number };
 
 export const orderedEventSteps: EventStepsType[] = [
@@ -168,7 +170,7 @@ export async function createEvent(uid: string, title: string) {
   });
 
   batch.set(doc(db, `events/${eventRef.id}/members/properties`), {
-    members: [owner.username],
+    members: [{ displayName: owner.username, uid }],
   });
 
   await batch.commit();
@@ -474,9 +476,10 @@ export async function getMember(eventId: string, uid: string) {
 export async function getMembersList(eventId: string) {
   const res = (
     await getDoc(doc(db, `events/${eventId}/members/properties`))
-  ).data();
+  ).data() as { members: MemberInListType[] };
   if (!res) throw new Error("Failed to retrieve members properties.");
-  return res.members as string[];
+
+  return res.members;
 }
 
 export async function getMembers(eventId: string, active = false) {
@@ -528,7 +531,7 @@ export async function deleteMember(
 
     const properties = (
       await transaction.get(doc(db, `events/${eventId}/members/properties`))
-    ).data() as { members: string[] } | undefined;
+    ).data() as { members: MemberInListType[] } | undefined;
 
     if (!properties) throw Error("Could not get properties");
 
@@ -550,7 +553,9 @@ export async function deleteMember(
     transaction.delete(doc(db, `events/${eventId}/members/${uid}`));
 
     transaction.update(doc(db, `events/${eventId}/members/properties`), {
-      members: properties.members.filter((el) => el !== displayName),
+      members: properties.members.filter(
+        (el) => el.displayName !== displayName
+      ),
     });
   });
 }
@@ -563,7 +568,7 @@ export async function acceptMember(
   await runTransaction(db, async (transaction) => {
     const properties = (
       await transaction.get(doc(db, `events/${eventId}/members/properties`))
-    ).data() as { members: string[] } | undefined;
+    ).data() as { members: MemberInListType[] } | undefined;
 
     if (!properties) throw Error("Could not get properties");
 
@@ -571,7 +576,7 @@ export async function acceptMember(
       active: true,
     });
 
-    properties.members.push(displayName);
+    properties.members.push({ displayName, uid });
 
     transaction.update(doc(db, `events/${eventId}/members/properties`), {
       members: properties.members,
@@ -641,12 +646,12 @@ export async function submitVote(
 
 export async function membersListSnapShot(
   eventId: string,
-  callback: (names: string[]) => void
+  callback: (names: MemberInListType[]) => void
 ) {
   return onSnapshot(doc(db, `events/${eventId}/members/properties`), (res) => {
     const data = res.data();
     if (!data) throw new Error("Failed to retrieve members properties.");
-    callback(data.members as string[]);
+    callback(data.members as MemberInListType[]);
   });
 }
 

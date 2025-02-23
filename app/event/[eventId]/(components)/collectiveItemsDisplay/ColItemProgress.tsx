@@ -10,9 +10,7 @@ import {
 import Spinner from "@/shared/components/loading/Spinner";
 import { BiDonateHeart } from "react-icons/bi";
 import { IoClose } from "react-icons/io5";
-import { Roboto } from "next/font/google";
-
-const roboto = Roboto({ weight: ["400", "700"], subsets: ["latin"] });
+import { myFont } from "@/app/layout";
 
 export default function ColItemProgress({
   colItemData,
@@ -62,7 +60,7 @@ export default function ColItemProgress({
             userAmount={contributed}
             total={amount}
           />
-          <pre className={`${roboto.className} antialiased text-sm`}>
+          <pre className={`${myFont.className} antialiased text-sm`}>
             {current}/{amount} {unit}
           </pre>
         </span>

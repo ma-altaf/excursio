@@ -1,9 +1,12 @@
 "use client";
 
-import { getMembersList } from "@/features/events/services/firestore";
+import {
+  getMembersList,
+  MemberInListType,
+} from "@/features/events/services/firestore";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { PiCrownSimpleFill } from "react-icons/pi";
+import MembersBtn from "./MembersBtn";
 
 export default function MemberDisplay({
   isOwner,
@@ -12,7 +15,7 @@ export default function MemberDisplay({
   isOwner: boolean;
   eventId: string;
 }) {
-  const [members, setMembers] = useState<string[]>([]);
+  const [members, setMembers] = useState<MemberInListType[]>([]);
 
   useEffect(() => {
     getMembersList(eventId).then((res) => setMembers(res));
@@ -36,17 +39,7 @@ export default function MemberDisplay({
         )}
       </span>
 
-      <ul className="max-w-full w-fit pt-1 px-2 overflow-auto grid grid-rows-1 grid-flow-col gap-1">
-        {members.map((el, i) => (
-          <li
-            className="px-3 rounded-full bg-gray-100 flex flex-row items-center"
-            key={i}
-          >
-            {i == 0 && <PiCrownSimpleFill className="mr-1 -ml-1" />}
-            <p>{el}</p>
-          </li>
-        ))}
-      </ul>
+      <MembersBtn members={members} />
     </div>
   );
 }
