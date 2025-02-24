@@ -35,7 +35,7 @@ export default function TimePicker({
           showGuide && "border-t-2"
         } border-black flex flex-row overflow-auto`}
       >
-        <div className="h-full">
+        <div className="h-full sticky left-0 bg-background z-50 w-14">
           <div
             className=" border-b-2 border-r-2 border-black"
             style={{ height: "7rem" }}

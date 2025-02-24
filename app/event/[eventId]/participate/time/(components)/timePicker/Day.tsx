@@ -52,10 +52,10 @@ export default function Day({
 
   return (
     <div className="flex flex-col border-r-2 border-black h-full">
-      <p className="h-12 px-1 border-black border-b-2 flex flex-col justify-center items-center">
+      <div className="h-12 px-1 border-black border-b-2 flex flex-col justify-center items-center sticky top-16 bg-background z-40">
         <b>{namedDays[day].substring(0, 3)}</b>
         {date}
-      </p>
+      </div>
       {dateTime.map((v, i) => {
         if (v === "disable") {
           return (
