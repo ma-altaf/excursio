@@ -86,6 +86,7 @@ export default function Day({
             draggable="false"
             onClick={() => toggleTime(`${time}`, activeStart)}
             key={`${fullDate}-${time}`}
+            title={`${activeStart ? "Remove" : "Select"}: ${fullDate}`}
             className={`border-b-2 border-black h-8 w-12 transition-all relative ${
               activeStart ? "startTime" : ""
             }`}
