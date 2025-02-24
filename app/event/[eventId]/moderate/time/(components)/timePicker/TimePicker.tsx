@@ -43,7 +43,7 @@ export default function TimePicker({
       >
         <div className="h-full sticky left-0 bg-background z-50 w-14">
           <div
-            className=" border-b-2 border-r-2 border-black"
+            className=" border-b-2 border-r-2 border-black sticky top-0 bg-background"
             style={{ height: "7rem" }}
           >
             {/* spacer */}

@@ -27,6 +27,10 @@ export default function TimePicker({
           <p>
             <b>Click + Drag:</b> toggle time cells on hover.
           </p>
+
+          <p className="w-fit rounded-md flex flex-row bg-accent px-1 border-black border-2">
+            Colored cells denotes selected cells.
+          </p>
         </div>
       )}
 
@@ -37,7 +41,7 @@ export default function TimePicker({
       >
         <div className="h-full sticky left-0 bg-background z-50 w-14">
           <div
-            className=" border-b-2 border-r-2 border-black"
+            className=" border-b-2 border-r-2 border-black sticky top-0 bg-background"
             style={{ height: "7rem" }}
           >
             {/* spacer */}
