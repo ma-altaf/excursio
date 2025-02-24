@@ -36,7 +36,7 @@ export default function NewRequiredItem({
   }
 
   return (
-    <div className="flex flex-col border-2 border-black rounded-md p-2">
+    <div className="flex flex-col border-2 border-black rounded-md p-1">
       <label htmlFor="title">Title:</label>
       <input
         type="text"

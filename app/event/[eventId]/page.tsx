@@ -21,7 +21,7 @@ export default async function Page({
   const ownerDetails = await getUser(ownerId);
 
   return (
-    <section className="w-full min-h-screen h-[200vh] flex flex-col p-2 md:px-[10%] lg:px-[20%]">
+    <section className="w-full min-h-screen flex flex-col p-2 md:px-[10%] lg:px-[20%]">
       <div className="flex flex-col justify-center items-center w-full mb-4">
         <h1 className="text-3xl pt-4">{title}</h1>
         <span className="flex flex-row items-center my-2">

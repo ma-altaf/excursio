@@ -20,7 +20,7 @@ export default function LocationInProgress({
     <span className="w-full flex flex-col">
       <span>
         {suggestions ? (
-          <ul className="flex flex-col w-full mt-1 border-2 border-black rounded-md px-2 py-1">
+          <ul className="grid grid-flow-row gap-1 w-full mt-1 border-2 border-black rounded-md p-1">
             <p>Your suggestions:</p>
             {suggestions.map((el, i) => (
               <SelectedLocationItems key={i} location={el} />

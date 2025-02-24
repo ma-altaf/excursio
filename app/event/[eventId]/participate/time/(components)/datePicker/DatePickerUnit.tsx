@@ -35,11 +35,11 @@ export default function DateUnit({
   }
 
   return (
-    <span className="flex justify-center items-center p-1 w-full">
+    <span className="flex justify-center items-center w-full">
       {disabled ? (
         <div
           draggable="false"
-          className="flex justify-center items-center rounded-md size-14 bg-gray-100 text-gray-300 select-none"
+          className="flex justify-center items-center rounded-md size-[10vw] sm:size-14 bg-gray-100 text-gray-300 select-none"
         >
           {date.getDate()}
         </div>

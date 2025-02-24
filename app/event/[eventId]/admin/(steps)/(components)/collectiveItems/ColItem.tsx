@@ -11,7 +11,7 @@ export default function ColItem({
   const { title, amount, unit } = colItemData;
 
   return (
-    <div className="bg-gray-100 p-1 rounded-md my-1 flex flex-row justify-between">
+    <div className="bg-gray-100 p-1 rounded-md flex flex-row justify-between">
       <span className="flex flex-col">
         <p>{title}</p>
         <p>

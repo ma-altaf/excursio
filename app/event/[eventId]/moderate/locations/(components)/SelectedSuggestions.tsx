@@ -9,12 +9,12 @@ export default function SelectedSuggestions({
   onRemove: (title: string) => void;
 }) {
   return (
-    <div className="flex flex-col p-1 border-2 border-black rounded-md w-full">
+    <div className="flow flex-col p-1 border-2 border-black rounded-md w-full">
       <p>Selected suggestions:</p>
       {selectedLocations.length === 0 ? (
         <p className="text-center">No suggestion selected.</p>
       ) : (
-        <ul>
+        <ul className="grid grid-flow-row gap-1">
           {selectedLocations.map((loc, i) => (
             <RemovableLocItem
               key={i}

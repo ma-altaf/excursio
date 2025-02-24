@@ -23,7 +23,7 @@ export default function WaitingMembers({ eventId }: { eventId: string }) {
   }, [eventId]);
 
   return (
-    <ul className="flex flex-col w-full p-1 rounded-md border-2">
+    <ul className="grid grid-flow-row gap-1 w-full p-1 rounded-md border-2">
       <h2 className="font-bold">Waitlist:</h2>
       {members.map((member) => (
         <li key={member.uid}>
@@ -44,7 +44,7 @@ function WaitlistItem({
 }) {
   const { displayName, uid } = member;
   return (
-    <div className="py-1 px-2 my-1 flex flex-row justify-between items-center rounded-md border-2">
+    <div className="py-1 px-2 flex flex-row justify-between items-center rounded-md border-2">
       <p>{displayName}</p>
       <span className="flex flex-row">
         <button

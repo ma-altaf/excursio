@@ -13,7 +13,7 @@ export default function MembersBtn({
 }: {
   members: MemberInListType[];
 }) {
-  const minifiedSize = 5;
+  const minifiedSize = 3;
   const [membersImgURL, setMembersImgURL] = useState<string[]>([]);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -22,7 +22,6 @@ export default function MembersBtn({
       if (members.length <= 0) return;
 
       async function populateMembers(count: number) {
-        // do not request the images if already requested
         const imgUrlReq = [];
 
         for (let i = 0; i < Math.min(count, members.length); i++) {
@@ -41,10 +40,6 @@ export default function MembersBtn({
     },
     [isOpen, members, membersImgURL.length]
   );
-
-  useEffect(() => {
-    console.log(membersImgURL);
-  }, [membersImgURL]);
 
   return isOpen ? (
     <div className="mt-1 w-full h-fit flex flex-row-reverse p-1 border-2 border-black rounded-md">

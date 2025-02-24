@@ -13,7 +13,7 @@ export default function LocationItem({
   const { title, isOnline, link } = locationData;
 
   return (
-    <div className="bg-gray-100 p-1 rounded-md my-1 flex flex-row justify-between">
+    <div className="bg-gray-100 p-1 rounded-md flex flex-row justify-between">
       <span>
         <p className="font-bold">{title}</p>
         {link &&

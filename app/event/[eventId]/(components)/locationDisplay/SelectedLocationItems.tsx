@@ -10,7 +10,7 @@ export default function SelectedLocationItems({
 }) {
   const { title, isOnline, link } = location;
   return (
-    <div className="bg-gray-100 px-2 py-1 w-full rounded-md my-1 flex flex-col justify-between">
+    <div className="bg-gray-100 px-2 py-1 w-full rounded-md flex flex-col justify-between">
       <p className="font-bold">{title}</p>
       {link &&
         (isOnline ? (

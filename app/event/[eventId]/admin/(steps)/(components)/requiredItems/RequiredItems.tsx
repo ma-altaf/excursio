@@ -44,7 +44,7 @@ export default function RequiredItems({
     <div className="flex flex-col">
       <h2 className="font-bold text-center mb-2">Add required items</h2>
       <NewRequiredItem onSubmit={reqItemSubmit} />
-      <div className="flex flex-col overflow-auto p-2 rounded-md border-2 border-black mt-2">
+      <div className="grid grid-flow-row gap-1 overflow-auto p-1 rounded-md border-2 border-black mt-2">
         {requiredItemsList.length == 0 ? (
           <p className="text-center">No required items to bring.</p>
         ) : (

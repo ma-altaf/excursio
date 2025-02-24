@@ -50,7 +50,7 @@ export default function LocationDisplay({
         )}
       </span>
 
-      <div className="flex w-full px-2">
+      <div className="flex w-full p-1">
         {selectedLocations ? (
           <LocationSelected selectedLocations={selectedLocations} />
         ) : (eventData?.locationOpt &&

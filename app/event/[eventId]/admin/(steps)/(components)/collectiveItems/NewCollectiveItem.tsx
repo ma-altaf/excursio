@@ -39,7 +39,7 @@ export default function NewCollectiveItem({
   }
 
   return (
-    <div className="flex flex-col border-2 border-black rounded-md p-2">
+    <div className="flex flex-col border-2 border-black rounded-md p-1">
       <label htmlFor="colItemtitle">Title:</label>
       <input
         type="text"
@@ -53,7 +53,7 @@ export default function NewCollectiveItem({
         placeholder="Contribute so we can have..."
       />
 
-      <span className="w-full flex flex-col sm:flex-row items-center py-1">
+      <span className="w-full flex flex-col sm:flex-row items-center pt-1">
         <span className="flex flex-col w-full">
           <label htmlFor="amount">Amount:</label>
           <input

@@ -60,7 +60,7 @@ export default function CollectiveItems({
         Add items to contribute collectively
       </h2>
       <NewCollectiveItem onSubmit={colItemSubmit} />
-      <div className="flex flex-col overflow-auto p-2 rounded-md border-2 border-black mt-2">
+      <div className="grid grid-flow-row gap-1 overflow-auto p-1 rounded-md border-2 border-black mt-2">
         {collectiveItemsList?.size == 0 ? (
           <p className="text-center">No collective items to contribute.</p>
         ) : (

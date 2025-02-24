@@ -14,7 +14,7 @@ export default function SelectedSuggestions({
       {selectedLocations.length === 0 ? (
         <p className="text-center">No location selected.</p>
       ) : (
-        <ul>
+        <ul className="grid grid-flow-row gap-1">
           {selectedLocations.map((loc, i) => (
             <RemovableLocItem key={i} locationData={loc} onRemove={onRemove} />
           ))}

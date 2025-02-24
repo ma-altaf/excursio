@@ -61,6 +61,11 @@ export default function Location({ eventId }: { eventId: string }) {
   }
 
   function submit(toVote: VoteLocationType[]) {
+    if (toVote.length <= 0) {
+      setError("Please, select at least one location.");
+      return;
+    }
+
     setLocations(eventId, toVote)
       .then(() => {
         updateLocationOptStatus(eventId, "vote")
@@ -124,7 +129,7 @@ export default function Location({ eventId }: { eventId: string }) {
       </Link>
 
       {error && (
-        <p className="p-1 bg-gray-100 border-2 border-gray-200 rounded-md">
+        <p className="mt-2 p-1 bg-gray-100 border-2 border-gray-200 rounded-md">
           {error}
         </p>
       )}

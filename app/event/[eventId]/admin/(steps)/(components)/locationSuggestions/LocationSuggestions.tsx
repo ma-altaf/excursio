@@ -49,7 +49,7 @@ export default function LocationSuggestions({
     <div className="flex flex-col">
       <h2 className="font-bold text-center mb-2">Add your suggestions</h2>
       <NewSuggestion onSubmit={locationSubmit} />
-      <div className="flex flex-col overflow-auto p-2 rounded-md border-2 border-black mt-2">
+      <div className="grid grid-flow-row gap-1 overflow-auto p-1 rounded-md border-2 border-black mt-2">
         {locationsList.length == 0 ? (
           <p className="text-center">You have no suggestions.</p>
         ) : (

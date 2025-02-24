@@ -13,7 +13,7 @@ export default function VoteItems({
   const { title, isOnline, link } = item.location;
   return (
     <div
-      className={`py-1 px-2 m-1 flex flex-col items-start transition-colors ${
+      className={`py-1 px-2 flex flex-col items-start transition-colors ${
         active ? "bg-accent" : "bg-gray-100"
       } rounded-md`}
     >

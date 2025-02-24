@@ -77,7 +77,7 @@ export default function Vote({ eventId }: { eventId: string }) {
 
       <p>Make a selection to vote for.</p>
 
-      <ul className="my-2 flex flex-col w-full border-2 border-black rounded-md p-1">
+      <ul className="my-2 grid grid-flow-row gap-1 w-full border-2 border-black rounded-md p-1">
         {locationChoices.map((item, i) => (
           <button onClick={() => setIndex(i)} key={i}>
             <VoteItems item={item} active={i === index} />

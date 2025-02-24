@@ -92,7 +92,7 @@ export default function Suggestion({
         />
       )}
 
-      <div className="flex flex-col overflow-auto p-2 rounded-md border-2 border-black mt-2">
+      <div className="grid grid-flow-row gap-1 overflow-auto p-1 rounded-md border-2 border-black mt-2">
         {suggestionsList.length == 0 ? (
           <p className="text-center">You have no suggestions.</p>
         ) : (
