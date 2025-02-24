@@ -23,7 +23,7 @@ export default function ViewPoll({ eventId }: { eventId: string }) {
     });
 
     const namesSnap = membersListSnapShot(eventId, (res) => {
-      setNames(res);
+      setNames(res.map((el) => el.displayName));
     });
 
     return () => {
