@@ -1,6 +1,5 @@
 "use client";
 
-import { myFont } from "@/app/layout";
 import {
   CollectiveItemsMapType,
   CollectiveItemsType,
@@ -9,6 +8,7 @@ import {
   MemberType,
 } from "@/features/events/services/firestore";
 import ProgressBar from "@/shared/components/ProgressBar";
+import { myFont } from "@/shared/services/utils";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";

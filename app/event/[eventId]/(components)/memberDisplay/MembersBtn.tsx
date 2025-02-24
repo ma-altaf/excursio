@@ -3,10 +3,10 @@ import Image from "next/image";
 import { MemberInListType } from "@/features/events/services/firestore";
 import { useEffect, useState } from "react";
 import { getImgURL } from "@/features/users/services/storage";
-import { myFont } from "@/app/layout";
 import Link from "next/link";
 import { IoClose } from "react-icons/io5";
 import { MdExpandMore } from "react-icons/md";
+import { myFont } from "@/shared/services/utils";
 
 export default function MembersBtn({
   members,

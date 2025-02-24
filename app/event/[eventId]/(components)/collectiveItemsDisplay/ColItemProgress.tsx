@@ -10,7 +10,7 @@ import {
 import Spinner from "@/shared/components/loading/Spinner";
 import { BiDonateHeart } from "react-icons/bi";
 import { IoClose } from "react-icons/io5";
-import { myFont } from "@/app/layout";
+import { myFont } from "@/shared/services/utils";
 
 export default function ColItemProgress({
   colItemData,

@@ -1,3 +1,7 @@
+import { Roboto } from "next/font/google";
+
+export const myFont = Roboto({ weight: ["400", "700"], subsets: ["latin"] });
+
 export type TimeStateType = "disable" | "enable" | "available";
 
 export type DateMap = Map<number, Map<number, Map<number, TimeStateType[]>>>;
