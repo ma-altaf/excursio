@@ -32,7 +32,7 @@ export default function MemberProtected({
         console.log(e.message);
         setEventMember(null);
       });
-  }, [eventId, eventMember, user]);
+  }, [eventId, user]);
 
   if (authLoading || eventMember == undefined)
     return (
