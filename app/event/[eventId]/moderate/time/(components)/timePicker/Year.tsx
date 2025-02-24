@@ -23,9 +23,9 @@ export default function Year({
 
   return (
     <div className="flex flex-col border-r-2 border-black h-full">
-      <p className="h-8 px-1 border-black border-b-2 border-r-4 flex justify-center items-center">
-        {year}
-      </p>
+      <div className="h-8 px-1 border-black border-b-2 border-r-4 flex justify-center items-center">
+        <p className="sticky right-1 left-1">{year}</p>
+      </div>
       <div className="flex flex-row h-full">
         {sortedGroups(dates, (date) => Number(date.split("-")[1])).map(
           (v: [number, string[]]) => (
