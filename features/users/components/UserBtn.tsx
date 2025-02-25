@@ -16,7 +16,7 @@ export default function UserBtn() {
     if (!authLoading && user) {
       getUser(user.uid).then((res) => setUserDetails(res));
     }
-  }, [authLoading, user, userDetails]);
+  }, [authLoading, user]);
 
   if (authLoading)
     return (

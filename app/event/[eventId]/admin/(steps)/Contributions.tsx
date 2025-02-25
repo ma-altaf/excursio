@@ -32,15 +32,13 @@ export default function Contributions() {
   const [collectiveItemsList, setCollectiveItemsList] = collectiveItemsState;
 
   useEffect(() => {
-    if (!eventData) {
-      throw new Error("No event data");
+    if (!eventData) return;
+
+    if (eventData.contributionsOpt) {
+      setContributionsOpt(eventData.contributionsOpt);
     }
 
-    if (eventData!.contributionsOpt) {
-      setContributionsOpt(eventData!.contributionsOpt);
-    }
-
-    if (eventData?.reqItems) {
+    if (eventData.reqItems) {
       setRequiredItemsList(structuredClone(eventData?.reqItems));
     } else {
       getReqItems(eventData?.eventId).then((res) => {
@@ -52,10 +50,10 @@ export default function Contributions() {
       });
     }
 
-    if (eventData?.colItems) {
-      setCollectiveItemsList(structuredClone(eventData?.colItems));
+    if (eventData.colItems) {
+      setCollectiveItemsList(structuredClone(eventData.colItems));
     } else {
-      getColItems(eventData?.eventId).then((res) => {
+      getColItems(eventData.eventId).then((res) => {
         setEventData((prev) => {
           if (!prev) throw new Error("No event.");
 

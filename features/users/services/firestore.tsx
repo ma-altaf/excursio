@@ -41,6 +41,8 @@ export async function createNewUser(
 }
 
 export async function getUser(uid: string) {
+  console.count("request for user");
+
   return (await getDoc(doc(db, `users/${uid}`))).data() as
     | UserDetails
     | undefined;
@@ -71,8 +73,6 @@ export async function updateUsername(
 }
 
 export async function updateAbout(uid: string | undefined, newAbout: string) {
-  console.log("updateAbout called");
-
   newAbout = newAbout.trim();
 
   if (!uid) throw new Error(`No uid provided: ${uid}`);

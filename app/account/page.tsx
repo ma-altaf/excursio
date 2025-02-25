@@ -22,10 +22,12 @@ import { MdEmail } from "react-icons/md";
 export default function Account() {
   const router = useRouter();
   const { authLoading, user } = useAuthContext();
-  const [loading, setLoading] = useState(true);
-  const [username, setUsername] = useState("");
-  const [about, setAbout] = useState("");
-  const [profilePic, setProfilePic] = useState("");
+  const [userData, setUserData] = useState({
+    loading: true,
+    username: "",
+    about: "",
+    profilePic: "",
+  });
   const originalUserDataRef = useRef<DocumentData>(undefined);
   const usernameBtnRef = useRef<HTMLButtonElement>(null);
   const aboutBtnRef = useRef<HTMLButtonElement>(null);
@@ -46,15 +48,20 @@ export default function Account() {
           if (!userData) {
             router.replace("/signin");
           }
-          setLoading(false);
+
           originalUserDataRef.current = userData;
-          setUsername(userData?.username || "");
-          setAbout(userData?.about || "");
-          setProfilePic(userData?.imageURL || "");
+          setUserData({
+            loading: false,
+            username: userData?.username || "",
+            about: userData?.about || "",
+            profilePic: userData?.imageURL || "",
+          });
         })
         .catch((e) => console.log(e));
     }
   }, [user, authLoading, router]);
+
+  const { loading, username, about, profilePic } = userData;
 
   if (loading) return <LoadingCover text="Loading User..." />;
 
@@ -72,7 +79,10 @@ export default function Account() {
           onChange={(event) => {
             if (event.target.files) {
               updateProfilePic(user?.uid, event.target.files[0]).then(() => {
-                setProfilePic(URL.createObjectURL(event.target.files![0]));
+                setUserData((prev) => ({
+                  ...prev,
+                  profilePic: URL.createObjectURL(event.target.files![0]),
+                }));
               });
             }
           }}
@@ -109,7 +119,10 @@ export default function Account() {
                   if (usernameError) {
                     setUsernameError("");
                   }
-                  setUsername(e.target.value);
+                  setUserData((prev) => ({
+                    ...prev,
+                    username: e.target.value,
+                  }));
                   if (e.target.value == originalUserDataRef.current?.username) {
                     usernameBtnRef.current!.style.display = "none";
                   } else {
@@ -133,7 +146,7 @@ export default function Account() {
                   .then(() => {
                     const newUsername = username.trim();
                     originalUserDataRef.current!.username = newUsername;
-                    setUsername(newUsername);
+                    setUserData((prev) => ({ ...prev, username: newUsername }));
                     setUsernameError("");
                     usernameBtnRef.current!.style.display = "none";
                   })
@@ -157,7 +170,7 @@ export default function Account() {
             name="about"
             value={about}
             onChange={(e) => {
-              setAbout(e.target.value);
+              setUserData((prev) => ({ ...prev, about: e.target.value }));
               if (e.target.value == originalUserDataRef.current?.about) {
                 aboutBtnRef.current!.style.display = "none";
               } else {
@@ -173,7 +186,8 @@ export default function Account() {
                 .then(() => {
                   const newAbout = about.trim();
                   originalUserDataRef.current!.about = newAbout;
-                  setAbout(newAbout);
+                  setUserData((prev) => ({ ...prev, about: newAbout }));
+
                   aboutBtnRef.current!.style.display = "none";
                 })
                 .catch((error) => {

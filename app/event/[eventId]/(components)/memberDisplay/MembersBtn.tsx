@@ -38,7 +38,7 @@ export default function MembersBtn({
         populateMembers(minifiedSize);
       }
     },
-    [isOpen, members, membersImgURL.length]
+    [isOpen, members]
   );
 
   return isOpen ? (

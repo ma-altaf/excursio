@@ -20,7 +20,7 @@ export default function CompleteSignUp() {
         setSignUpStatus("Failed to sign up. This link might be expired.");
       }
     })();
-  });
+  }, []);
 
   return (
     <section className="flex justify-center items-center w-full min-h-screen">

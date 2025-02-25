@@ -22,8 +22,10 @@ export default function Time() {
   const [dates, setDates] = dateUseState;
 
   useEffect(() => {
-    if (!eventData?.times) {
-      getDateTimes(eventData!.eventId)
+    if (!eventData) return;
+
+    if (!eventData.times) {
+      getDateTimes(eventData.eventId)
         .then((data) => {
           if (!data) throw new Error("Counld not get dates.");
           setEventData((prev) => {
@@ -36,7 +38,7 @@ export default function Time() {
         .catch((e) => console.log(e));
     }
 
-    if (eventData?.times) {
+    if (eventData.times) {
       setDates(structuredClone(eventData?.times));
     }
   }, [eventData]);

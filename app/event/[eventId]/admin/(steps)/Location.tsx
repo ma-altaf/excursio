@@ -25,22 +25,20 @@ export default function Location() {
   const [locationsList, setLocationsList] = locationsListState;
 
   useEffect(() => {
-    if (!eventData) {
-      throw new Error("No event data");
-    }
+    if (!eventData) return;
 
-    if (eventData!.locationOpt) {
-      setLocationOpt(eventData!.locationOpt);
+    if (eventData.locationOpt) {
+      setLocationOpt(eventData.locationOpt);
 
-      if (eventData!.locationOpt.num_suggestions != 0) {
-        setLimit(eventData!.locationOpt.num_suggestions);
+      if (eventData.locationOpt.num_suggestions != 0) {
+        setLimit(eventData.locationOpt.num_suggestions);
       }
     }
 
-    if (eventData?.locations) {
-      setLocationsList(structuredClone(eventData?.locations));
+    if (eventData.locations) {
+      setLocationsList(structuredClone(eventData.locations));
     } else {
-      getLocations(eventData?.eventId).then((res) => {
+      getLocations(eventData.eventId).then((res) => {
         setEventData((prev) => {
           if (!prev) throw new Error("No event.");
 
@@ -51,10 +49,11 @@ export default function Location() {
   }, [eventData]);
 
   useEffect(() => {
+    if (!eventData) return;
+
     setChanged(() => {
       if (
-        eventData?.locationOpt?.num_suggestions !=
-          locationOpt.num_suggestions ||
+        eventData.locationOpt?.num_suggestions != locationOpt.num_suggestions ||
         !eventData.locations ||
         eventData.locations.length != locationsList.length
       )
