@@ -16,10 +16,14 @@ export default function DatePicker({
   const [dates, setDates] = dateUseState;
   const sortedDates = dates
     .keys()
-    .map((d) => new Date(d))
+    .map((d) => new Date(new Date(d).setHours(24)))
     .toArray()
-    .sort();
-  const [currDate, setCurrDate] = useState(new Date(sortedDates[0].setDate(1)));
+    .sort((a, b) => a.getTime() - b.getTime());
+
+  const [currDate, setCurrDate] = useState(
+    // creates a copy of the array with inner new Date
+    new Date(new Date(sortedDates[0]).setDate(1))
+  );
 
   function renderUnits(month: Date) {
     const firstDayIndex = month.getDay();
