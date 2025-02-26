@@ -13,7 +13,6 @@ import {
 } from "@/features/events/services/firestore";
 import { useRouter } from "next/navigation";
 import LoadingCover from "@/shared/components/loading/LoadingCover";
-import Spinner from "@/shared/components/loading/Spinner";
 import Link from "next/link";
 import { FaArrowLeft } from "react-icons/fa";
 
@@ -30,31 +29,27 @@ export default function Time({ eventId }: { eventId: string }) {
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
-    getDateTimes(eventId)
-      .then((res) => {
-        if (!res) return;
-        setDates(res);
-      })
-      .catch((e) => console.log(e));
-  }, [eventId, setDates]);
+    if (!user) return;
 
-  useEffect(() => {
-    if (user) {
-      getMember(eventId, user.uid)
-        .then((res) => {
-          if (res?.times) setDates(res.times);
-        })
-        .catch((e) => console.log(e.message));
-    }
+    Promise.all([getDateTimes(eventId), getMember(eventId, user.uid)])
+      .then(([eventDates, member]) => {
+        if (eventDates && member?.times) {
+          // match the user's dates with the current event dates
+          eventDates.forEach(
+            (_, k) =>
+              member.times?.get(k) && eventDates.set(k, member.times.get(k)!)
+          );
+        }
+        if (eventDates) return setDates(eventDates);
+      })
+      .catch((e) => console.log(e.message));
   }, [eventId, setDates, user]);
 
   useEffect(() => {
     if (!authLoading && (!user || success)) {
       router.replace(`/event/${eventId}`);
     }
-  }, [authLoading, user, eventId, success, router]);
-
-  if (authLoading) return <LoadingCover />;
+  }, [eventId, authLoading, user, success, router]);
 
   function submit(availableTimes: Map<string, TimeStateType[]>) {
     setMemberTimes(eventId, user!.uid, availableTimes)
@@ -62,12 +57,8 @@ export default function Time({ eventId }: { eventId: string }) {
       .catch((e) => setError(e.message));
   }
 
-  if (dates.size === 0)
-    return (
-      <div className="w-full min-h-screen flex flex-col items-center p-2 md:px-[10%] lg:px-[20%]">
-        <Spinner text="Loading dates" />
-      </div>
-    );
+  if (authLoading) return <LoadingCover />;
+  if (dates.size === 0) return <LoadingCover text="Loading dates..." />;
 
   return (
     <section className="w-full min-h-screen flex flex-col items-center p-2 md:px-[10%] lg:px-[20%]">

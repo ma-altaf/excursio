@@ -41,8 +41,6 @@ export async function createNewUser(
 }
 
 export async function getUser(uid: string) {
-  console.count("request for user");
-
   return (await getDoc(doc(db, `users/${uid}`))).data() as
     | UserDetails
     | undefined;

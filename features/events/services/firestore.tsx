@@ -268,7 +268,7 @@ export async function setDateTimes(
 export async function getDateTimes(eventId: string) {
   const dateTime = (
     await getDoc(doc(db, `events/${eventId}/lists/times`))
-  ).data() as { [date: string]: TimeStateType[] };
+  ).data() as { [date: string]: TimeStateType[] } | undefined;
 
   if (!dateTime) return undefined;
 
