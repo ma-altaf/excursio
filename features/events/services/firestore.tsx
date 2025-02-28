@@ -378,9 +378,9 @@ export async function updateColItem(
       await transaction.get(doc(db, `events/${eventId}/lists/colItems`))
     ).data() as CollectiveItemsMapType;
 
-    const member = (await (
+    const member = (
       await transaction.get(doc(db, `events/${eventId}/members/${memberId}`))
-    ).data()) as MemberType;
+    ).data() as MemberType;
 
     if (member.colItem && member.colItem[title]) {
       prevAmount = member.colItem[title];
@@ -396,8 +396,8 @@ export async function updateColItem(
     collItem.current -= prevAmount;
 
     if (collItem.current + amount > collItem.amount) {
-      collItem.current = collItem.amount;
       resAmount = collItem.amount - collItem.current;
+      collItem.current = collItem.amount;
     } else {
       collItem.current += amount;
     }
