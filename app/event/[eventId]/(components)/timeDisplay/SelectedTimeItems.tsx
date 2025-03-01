@@ -50,7 +50,7 @@ export function Item({
         <p className="flex items-center font-bold">{time}:00</p>
         {locations && (
           <ul className="ml-1 px-1 border-l-2 border-black max-w-full w-fit grid grid-flow-col gap-1 overflow-auto">
-            <p>locations:</p>
+            <p>location{locations.length > 1 && "s"}:</p>
             {locations.map(({ title }, i) => (
               <p key={i} className="px-1 w-fit rounded-md bg-gray-100">
                 {title}

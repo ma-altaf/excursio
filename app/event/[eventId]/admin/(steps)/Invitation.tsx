@@ -128,7 +128,7 @@ export default function Invitation() {
             }));
           }}
         />
-        <p className="ml-4">Need approval from organizer</p>
+        <p className="ml-4">Need approval from the organizer</p>
       </label>
 
       <hr className="w-full border-1 my-2" />

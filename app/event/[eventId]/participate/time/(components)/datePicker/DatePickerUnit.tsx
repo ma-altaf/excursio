@@ -53,7 +53,7 @@ export default function DateUnit({
           disabled={disabled}
           className={`flex justify-center items-center transition-colors select-none ${
             isActive ? "bg-accent" : "bg-gray-200"
-          } rounded-md size-14 border-black hover:border-2`}
+          } rounded-md size-[10vw] sm:size-14 border-black hover:border-2`}
         >
           {date.getDate()}
         </button>

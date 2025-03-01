@@ -21,7 +21,7 @@ export default function LocationInProgress({
       <span>
         {suggestions ? (
           <ul className="grid grid-flow-row gap-1 w-full mt-1 border-2 border-black rounded-md p-1">
-            <p>Your suggestions:</p>
+            <p>Your suggestion{suggestions.length > 1 && "s"}:</p>
             {suggestions.map((el, i) => (
               <SelectedLocationItems key={i} location={el} />
             ))}
@@ -40,7 +40,7 @@ export default function LocationInProgress({
         </Link>
       ) : (
         <p className="mt-1 p-1 rounded-md bg-gray-100 border-2 border-gray-200 text-center">
-          Wait for organizer to move to voting stage.
+          Wait for the organizer to move to voting stage.
         </p>
       )}
     </span>

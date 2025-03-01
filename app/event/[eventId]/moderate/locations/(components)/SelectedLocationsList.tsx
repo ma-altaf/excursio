@@ -10,7 +10,7 @@ export default function SelectedSuggestions({
 }) {
   return (
     <div className="flex flex-col p-1 border-2 border-black rounded-md w-full">
-      <p>Selected locations:</p>
+      <p>Selected location{selectedLocations.length > 1 && "s"}:</p>
       {selectedLocations.length === 0 ? (
         <p className="text-center">No location selected.</p>
       ) : (

@@ -64,7 +64,9 @@ export default function CollectiveItems({
         {collectiveItemsList?.size == 0 ? (
           <p className="text-center">No collective items to contribute.</p>
         ) : (
-          <p>Collective contribution items:</p>
+          <p>
+            Collective contribution item{collectiveItemsList.size > 1 && "s"}:
+          </p>
         )}
 
         {collectiveItemsList

@@ -19,7 +19,7 @@ export default function SuggestedLocations({
 
   return (
     <div className="flex flex-col p-1 border-2 border-black rounded-md w-full">
-      <p>Suggestions:</p>
+      <p>Suggestion{membersSuggestion.length > 1 && "s"}:</p>
       <ul className="grid grid-flow-row gap-1 mt-1">
         {membersSuggestion.map((member, i) => (
           <li

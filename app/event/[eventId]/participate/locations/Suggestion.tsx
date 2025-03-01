@@ -96,7 +96,7 @@ export default function Suggestion({
         {suggestionsList.length == 0 ? (
           <p className="text-center">You have no suggestions.</p>
         ) : (
-          <p>Suggestions:</p>
+          <p>Suggestion{suggestionsList.length > 1 && "s"}:</p>
         )}
 
         {suggestionsList.map((locationData, i) => (

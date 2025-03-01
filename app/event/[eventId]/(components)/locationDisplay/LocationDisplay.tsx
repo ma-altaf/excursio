@@ -63,8 +63,8 @@ export default function LocationDisplay({
           />
         ) : (
           <p>
-            Not setup, wait for orginizer to setup location suggestions or set
-            the locations.
+            Not setup, wait for the orginizer to setup location suggestions or
+            set the locations.
           </p>
         )}
       </div>

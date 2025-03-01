@@ -51,7 +51,7 @@ export default function EventDetails({
     return (
       <div className="flex w-full py-12 justify-center items-center">
         <p className="px-2 py-1 rounded-md bg-gray-100 border-2 border-gray-200">
-          Please wait for organizer to approve you.
+          Please wait for the organizer to approve you.
         </p>
       </div>
     );

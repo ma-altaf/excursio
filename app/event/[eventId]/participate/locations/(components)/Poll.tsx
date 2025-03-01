@@ -20,7 +20,7 @@ export default function Poll({
         ))}
       </ul>
       <p>
-        Members voting: {votedLength} out of {length}
+        Members voted: {votedLength} out of {length}
       </p>
     </div>
   );

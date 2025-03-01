@@ -147,7 +147,7 @@ export async function createEvent(uid: string, title: string) {
   }
   const owner = await getUser(uid);
 
-  if (!owner) throw new Error("organizer does not exist.");
+  if (!owner) throw new Error("Organizer does not exist.");
 
   const eventRef = await addDoc(collection(db, "events"), {
     ownerId: uid,

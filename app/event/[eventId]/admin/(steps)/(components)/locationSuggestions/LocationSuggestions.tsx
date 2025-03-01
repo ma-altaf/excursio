@@ -53,7 +53,7 @@ export default function LocationSuggestions({
         {locationsList.length == 0 ? (
           <p className="text-center">You have no suggestions.</p>
         ) : (
-          <p>Suggestions:</p>
+          <p>Suggestion{locationsList.length > 1 && "s"}:</p>
         )}
 
         {locationsList.map((locationData, i) => (

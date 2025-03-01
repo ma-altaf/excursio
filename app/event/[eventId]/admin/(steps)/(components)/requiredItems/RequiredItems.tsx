@@ -48,7 +48,7 @@ export default function RequiredItems({
         {requiredItemsList.length == 0 ? (
           <p className="text-center">No required items to bring.</p>
         ) : (
-          <p>Required items:</p>
+          <p>Required item{requiredItemsList.length > 1 && "s"}:</p>
         )}
 
         {requiredItemsList.map((reqItemData, i) => (

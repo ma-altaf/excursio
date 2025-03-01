@@ -156,7 +156,7 @@ export default function Location() {
         {locationOpt.num_suggestions != 0 && (
           <>
             <label htmlFor="limit">
-              Maximum number of suggestion per member:
+              Maximum number of suggestions per member:
             </label>
             <input
               type="number"

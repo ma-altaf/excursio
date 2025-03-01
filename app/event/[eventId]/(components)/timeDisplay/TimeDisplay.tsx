@@ -57,8 +57,8 @@ export default function TimeDisplay({
           <TimeInProgress eventId={eventId} />
         ) : (
           <p>
-            Not setup, wait for orginizer to setup time participation or set the
-            times.
+            Not setup, wait for the orginizer to setup time participation or set
+            the times.
           </p>
         )}
       </div>
