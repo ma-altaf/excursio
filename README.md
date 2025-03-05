@@ -2,7 +2,7 @@
 
 Excursion planning and management.
 
-https://github.com/user-attachments/assets/1f51fd19-b667-4846-bb8b-6bcababe3d9b
+https://github.com/user-attachments/assets/558cba68-67bf-4fef-bdb2-42ead64b76c8
 
 Main features:
 
