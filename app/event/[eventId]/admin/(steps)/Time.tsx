@@ -75,7 +75,10 @@ export default function Time() {
         <span className="w-fit flex flex-col items-center max-w-full">
           {showDatePicker ? (
             <>
-              <RangedDateToggle dateUseState={dateUseState} />
+              <RangedDateToggle
+                dateUseState={dateUseState}
+                setChanged={setChanged}
+              />
               <DatePicker dateUseState={dateUseState} setChanged={setChanged} />
               <span className="w-full flex flex-row justify-end mt-2">
                 <button

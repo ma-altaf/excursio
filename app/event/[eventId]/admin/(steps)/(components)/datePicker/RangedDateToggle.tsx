@@ -11,11 +11,13 @@ import { FaArrowRightLong } from "react-icons/fa6";
 
 export default function RangedDateToggle({
   dateUseState,
+  setChanged,
 }: {
   dateUseState: [
     Map<string, TimeStateType[]>,
     Dispatch<SetStateAction<Map<string, TimeStateType[]>>>
   ];
+  setChanged: Dispatch<SetStateAction<boolean>>;
 }) {
   const [startDate, setStartDate] = useState<Date>(resetTime(new Date()));
   const [endDate, setEndDate] = useState<Date | undefined>(undefined);
@@ -42,6 +44,8 @@ export default function RangedDateToggle({
       }
       return new Map(prev);
     });
+
+    setChanged(true);
   }
 
   return (
