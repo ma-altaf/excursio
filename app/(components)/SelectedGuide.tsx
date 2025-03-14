@@ -1,6 +1,7 @@
 "use client";
 
 import { StepsType } from "@/shared/services/utils";
+import { getAnalytics, logEvent } from "firebase/analytics";
 import { useState } from "react";
 
 const selectedSteps: StepsType[] = [
@@ -61,6 +62,13 @@ export default function SelectedGuide() {
         <div className="w-full flex flex-col rounded-md border-t-2 border-black p-2">
           <p className="mb-2">{description}</p>
           <video
+            onPlay={(event) => {
+              // 0.1 since videos don't start from exactly 0
+              if (event.currentTarget.currentTime <= 0.1) {
+                const analytics = getAnalytics();
+                logEvent(analytics, vidURL);
+              }
+            }}
             src={vidURL}
             muted
             loop

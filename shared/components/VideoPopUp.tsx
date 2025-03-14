@@ -1,5 +1,6 @@
 "use client";
 
+import { getAnalytics, logEvent } from "firebase/analytics";
 import { useEffect, useRef } from "react";
 
 export default function VideoPopUp({ url }: { url: string }) {
@@ -7,19 +8,22 @@ export default function VideoPopUp({ url }: { url: string }) {
 
   useEffect(() => {
     if (!videoRef.current) return;
+    const videoElement = videoRef.current;
 
-    const screenListerner = (videoRef.current.onfullscreenchange = () => {
+    const screenListerner = (videoElement.onfullscreenchange = () => {
       if (!document.fullscreenElement) {
-        videoRef.current!.pause();
-        videoRef.current!.currentTime = 0;
+        videoElement!.pause();
+        videoElement!.currentTime = 0;
+      } else {
+        const analytics = getAnalytics();
+        logEvent(analytics, "url");
       }
     });
 
-    return videoRef.current.removeEventListener(
-      "fullscreenchange",
-      screenListerner
-    );
-  }, [videoRef]);
+    return () => {
+      videoElement?.removeEventListener("fullscreenchange", screenListerner);
+    };
+  }, [videoRef, url]);
 
   return (
     <>
