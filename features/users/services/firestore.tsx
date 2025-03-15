@@ -33,7 +33,8 @@ export async function createNewUser(
     // create document
     await setDoc(docRef, {
       uid: userCred.user.uid,
-      username: userCred.user.uid,
+      username:
+        provider === "google" ? userCred.user.displayName : userCred.user.uid,
       about: "Hey, I am on Excursio!",
       provider: provider,
     });
