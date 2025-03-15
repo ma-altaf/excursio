@@ -20,6 +20,8 @@ export default async function Page({
   const { ownerId, title, description } = eventData;
   const ownerDetails = await getUser(ownerId);
 
+  if (!ownerDetails) notFound();
+
   return (
     <section className="w-full min-h-screen flex flex-col p-2 md:px-[10%] lg:px-[20%]">
       <div className="flex flex-col justify-center items-center w-full mb-4">

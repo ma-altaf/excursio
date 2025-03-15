@@ -21,6 +21,8 @@ export default async function Join({
 
   const userDetails = await getUser(ownerId);
 
+  if (!userDetails) notFound();
+
   return (
     <section className="w-full min-h-screen flex flex-col justify-center items-center p-2 md:px-[10%] lg:px-[20%]">
       <h1 className="text-3xl p-2">{title}</h1>
