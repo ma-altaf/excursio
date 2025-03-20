@@ -23,7 +23,7 @@ https://github.com/user-attachments/assets/558cba68-67bf-4fef-bdb2-42ead64b76c8
 
 Requirements:
 
-- Nodejs
+- Nodejs (download from https://nodejs.org/en)
 
 Steps:
 
