@@ -48,10 +48,14 @@ Steps:
 16. Click on the link in the terminal to open the page in your browser.
 17. Create your account and click on 'Go to user page', in your console (shortcut <kbd>ctrl</kbd> + <kbd>shift</kbd> + <kbd>j</kbd>), click on the link within the console log `FirebaseError: The query requires an index. You can create it here: link` and save the index.
 
+(optional)
+
 18. To get user profile pictures, need to enable storage bucket, which requries upgrading the project to Blaze.
-    or use the firebase emulator for free.
+
+    or use **Firebase Emulators for free**.
+
 19. To use the emulator in .env file set NEXT_PUBLIC_ENV_TYPE to emulator.
-20. Using fireabase cli in the terminal (`npm install -g firebase-tools`), log in with the same account used within firebase console.
+20. Using firebase cli in the terminal (`npm install -g firebase-tools`), log in with the same account used in firebase console.
 21. Then run `firebase init`, choosing the options:
     1. Firestore
     2. Storage
