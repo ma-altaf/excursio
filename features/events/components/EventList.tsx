@@ -63,8 +63,8 @@ export default function EventList({ uid }: { uid: string }) {
           if (loadMoreRef.current) loadMoreRef.current.style.display = "block";
         }
       })
-      .catch(() => {
-        console.log("No event found.");
+      .catch((e) => {
+        console.log(e);
       })
       .finally(() => setLoading(false));
   }, [uid, visibility]);
