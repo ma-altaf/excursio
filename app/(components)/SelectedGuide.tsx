@@ -35,11 +35,12 @@ export default function SelectedGuide() {
 
   const { description, vidURL } = selectedSteps[activeStep];
 
-  async function updateStep(stepNumber: number) {
+  function updateStep(stepNumber: number) {
     contentRef.current?.classList.add("scaleFade");
-    await sleep(175);
-    setActiveStep(stepNumber);
-    contentRef.current?.classList.remove("scaleFade");
+    sleep(175).then(() => {
+      setActiveStep(stepNumber);
+      contentRef.current?.classList.remove("scaleFade");
+    });
   }
 
   return (
