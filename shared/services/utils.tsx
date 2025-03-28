@@ -10,10 +10,6 @@ export const today = resetTime(new Date());
 
 export const fullDay = new Array<TimeStateType>(24).fill("enable");
 
-export function sleep(ms: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
 export function formatDate(date: Date) {
   return new Intl.DateTimeFormat("en-CA", {
     day: "2-digit",

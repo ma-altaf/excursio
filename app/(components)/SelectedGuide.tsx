@@ -2,7 +2,7 @@
 
 import { StepsType } from "@/shared/services/utils";
 import { getAnalytics, logEvent } from "firebase/analytics";
-import { useRef, useState } from "react";
+import { useState } from "react";
 
 const selectedSteps: StepsType[] = [
   {
@@ -30,20 +30,9 @@ const selectedSteps: StepsType[] = [
 ];
 
 export default function SelectedGuide() {
-  const contentRef = useRef<HTMLSpanElement>(null);
   const [activeStep, setActiveStep] = useState(0);
 
   const { description, vidURL } = selectedSteps[activeStep];
-
-  function updateStep(stepNumber: number) {
-    // contentRef.current?.classList.add("scaleFade");
-
-    setActiveStep(stepNumber);
-    // sleep(175).then(() => {
-    //   setActiveStep(stepNumber);
-    //   contentRef.current?.classList.remove("scaleFade");
-    // });
-  }
 
   return (
     <>
@@ -61,7 +50,7 @@ export default function SelectedGuide() {
           {selectedSteps.map(({ title }, i) => (
             <button
               key={i}
-              onClick={() => updateStep(i)}
+              onClick={() => setActiveStep(i)}
               className={`p-button rounded-md w-full transition-all ${
                 i == activeStep ? "bg-accent" : "bg-gray-100"
               }`}
@@ -71,23 +60,21 @@ export default function SelectedGuide() {
           ))}
         </span>
         <div className="w-full flex flex-col rounded-md border-t-2 border-black p-2">
-          <span ref={contentRef} className={`duration-150`}>
-            <p className="mb-2">{description}</p>
-            <video
-              onPlay={(event) => {
-                // 0.1 since videos don't start from exactly 0
-                if (event.currentTarget.currentTime <= 0.1) {
-                  const analytics = getAnalytics();
-                  logEvent(analytics, vidURL);
-                }
-              }}
-              src={vidURL}
-              muted
-              loop
-              controls
-              className="rounded-md object-cover w-full border-black border-2"
-            />
-          </span>
+          <p className="mb-2">{description}</p>
+          <video
+            onPlay={(event) => {
+              // 0.1 since videos don't start from exactly 0
+              if (event.currentTarget.currentTime <= 0.1) {
+                const analytics = getAnalytics();
+                logEvent(analytics, vidURL);
+              }
+            }}
+            src={vidURL}
+            muted
+            loop
+            controls
+            className="rounded-md object-cover w-full border-black border-2"
+          />
         </div>
       </div>
     </>
