@@ -1,6 +1,6 @@
 "use client";
 
-import { sleep, StepsType } from "@/shared/services/utils";
+import { StepsType } from "@/shared/services/utils";
 import { getAnalytics, logEvent } from "firebase/analytics";
 import { useRef, useState } from "react";
 
@@ -36,11 +36,13 @@ export default function SelectedGuide() {
   const { description, vidURL } = selectedSteps[activeStep];
 
   function updateStep(stepNumber: number) {
-    contentRef.current?.classList.add("scaleFade");
-    sleep(175).then(() => {
-      setActiveStep(stepNumber);
-      contentRef.current?.classList.remove("scaleFade");
-    });
+    // contentRef.current?.classList.add("scaleFade");
+
+    setActiveStep(stepNumber);
+    // sleep(175).then(() => {
+    //   setActiveStep(stepNumber);
+    //   contentRef.current?.classList.remove("scaleFade");
+    // });
   }
 
   return (
