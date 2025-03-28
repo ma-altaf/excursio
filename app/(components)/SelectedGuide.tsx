@@ -1,8 +1,8 @@
 "use client";
 
-import { StepsType } from "@/shared/services/utils";
+import { sleep, StepsType } from "@/shared/services/utils";
 import { getAnalytics, logEvent } from "firebase/analytics";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 const selectedSteps: StepsType[] = [
   {
@@ -30,9 +30,17 @@ const selectedSteps: StepsType[] = [
 ];
 
 export default function SelectedGuide() {
+  const contentRef = useRef<HTMLSpanElement>(null);
   const [activeStep, setActiveStep] = useState(0);
 
   const { description, vidURL } = selectedSteps[activeStep];
+
+  async function updateStep(stepNumber: number) {
+    contentRef.current?.classList.add("scaleFade");
+    await sleep(175);
+    setActiveStep(stepNumber);
+    contentRef.current?.classList.remove("scaleFade");
+  }
 
   return (
     <>
@@ -50,7 +58,7 @@ export default function SelectedGuide() {
           {selectedSteps.map(({ title }, i) => (
             <button
               key={i}
-              onClick={() => setActiveStep(i)}
+              onClick={() => updateStep(i)}
               className={`p-button rounded-md w-full transition-all ${
                 i == activeStep ? "bg-accent" : "bg-gray-100"
               }`}

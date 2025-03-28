@@ -28,7 +28,7 @@ export default function VideoPopUp({ url }: { url: string }) {
   return (
     <>
       <div
-        className="w-full h-fit flex justify-center items-center p-2 relative cursor-pointer"
+        className="group w-full h-fit flex justify-center items-center p-2 relative cursor-pointer"
         title="Play video in full screen"
       >
         <video
@@ -42,7 +42,7 @@ export default function VideoPopUp({ url }: { url: string }) {
           }}
         />
         <div
-          className="size-8 aspect-square bg-black absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+          className="size-8 aspect-square bg-black absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 group-hover:scale-125 duration-150"
           style={{ clipPath: "polygon(80% 50%, 0 0, 0 100%)" }}
         ></div>
       </div>
